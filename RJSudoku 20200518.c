@@ -933,7 +933,7 @@ START:
                       S[j[a][y ? A : N]], S[j[a][y ? L : X]], S[j[a][y ? M : Z]], b[Y]);
                     if (y)
                       printf ("r%dc%d", ROW (w[K[0]][20] | w[K[1]][20] | w[K[2]][20]),
-	  				  COL (w[K[0]][20] | w[K[1]][20] | w[K[2]][20]));
+                        COL (w[K[0]][20] | w[K[1]][20] | w[K[2]][20]));
                     else
                       printf ("%s %s %s", S[K[0]], S[K[1]], S[K[2]]);
                     if (G[I].g[j[a][A]] ^ (G[I].g[j[a][A]] & Y))
