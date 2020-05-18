@@ -3912,7 +3912,7 @@ XYWT1Tf:
         }
       }
     }
-    for (a = G[I].p; a < q; ++a) 
+    for (a = G[I].p; a < q; ++a)
     {                        // Search WXYZ-Wing Type 2a, Type 2b, Type 3, Type 4a, Type 4b, Almost Locked Set move Type 2a, Type 2b and Type 2c Apex unsolved Cell positions wise
       if (B[G[I].g[r[a]]] > 4)
         continue;            // Skip for unsolved Cell values > four digits
