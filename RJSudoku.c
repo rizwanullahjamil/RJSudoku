@@ -472,15 +472,13 @@ START:
           return 0;          // Return for number of unsolved Cell positions not equal to number of unsolved Cell values
       }
       for (Y = 1; Y < 257; Y <<= 1)
-      {
+                             // Check Zero state digit wise
         if (Z = B[a = (G[I].g[l[y][0]] & Y ? 1 : 0) | (G[I].g[l[y][1]] & Y ? 2 : 0) |
           (G[I].g[l[y][2]] & Y ? 4 : 0) | (G[I].g[l[y][3]] & Y ? 8 : 0) |
           (G[I].g[l[y][4]] & Y ? 16 : 0) | (G[I].g[l[y][5]] & Y ? 32 : 0) |
           (G[I].g[l[y][6]] & Y ? 64 : 0) | (G[I].g[l[y][7]] & Y ? 128 : 0) |
           (G[I].g[l[y][8]] & Y ? 256 : 0)])
         {
-          if (!Z)
-            continue;
           int A[9];
 
           for (X = 0; x = a & -a; ++X, a -= x)
@@ -516,27 +514,24 @@ START:
               return 0;      // Return for number of unsolved Cell positions > total unsolved Cell values
           }
         }
-      }
     }
     for (a = G[I].p; a < q; ++a)
-    {                        // Search Hidden single Cell value unsolved Cell positions wise
-      Y = (((G[I].g[w[r[a]][0]] | G[I].g[w[r[a]][1]] | G[I].g[w[r[a]][2]] |
-          G[I].g[w[r[a]][3]] | G[I].g[w[r[a]][4]] | G[I].g[w[r[a]][5]] |
-          G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]]) ^ G[I].g[r[a]]) |
-          ((G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]] | G[I].g[w[r[a]][8]] |
-          G[I].g[w[r[a]][9]] | G[I].g[w[r[a]][10]] | G[I].g[w[r[a]][11]] |
-          G[I].g[w[r[a]][12]] | G[I].g[w[r[a]][13]]) ^ G[I].g[r[a]]) |
-          ((G[I].g[w[r[a]][12]] | G[I].g[w[r[a]][13]] | G[I].g[w[r[a]][14]] |
-          G[I].g[w[r[a]][15]] | G[I].g[w[r[a]][16]] | G[I].g[w[r[a]][17]] |
-          G[I].g[w[r[a]][18]] | G[I].g[w[r[a]][19]]) ^ G[I].g[r[a]])) & G[I].g[r[a]];
-                             // Assign Hidden single Cell value
-      if (!Y)
-        continue;            // Skip for no Hidden single Cell value found in unsolved Cell position
-      x = a;                 // Assign Hidden single Cell position
-      z = Y;                 // Assign Hidden single Cell value
-      y = B[G[I].g[r[a]]] > 1;
-      goto NHSCF;            // 1 Represent Hidden single Cell position
-    }
+                             // Search Hidden single Cell value unsolved Cell positions wise
+      if (Y = (((G[I].g[w[r[a]][0]] | G[I].g[w[r[a]][1]] | G[I].g[w[r[a]][2]] |
+        G[I].g[w[r[a]][3]] | G[I].g[w[r[a]][4]] | G[I].g[w[r[a]][5]] |
+        G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]]) ^ G[I].g[r[a]]) |
+        ((G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]] | G[I].g[w[r[a]][8]] |
+        G[I].g[w[r[a]][9]] | G[I].g[w[r[a]][10]] | G[I].g[w[r[a]][11]] |
+        G[I].g[w[r[a]][12]] | G[I].g[w[r[a]][13]]) ^ G[I].g[r[a]]) |
+        ((G[I].g[w[r[a]][12]] | G[I].g[w[r[a]][13]] | G[I].g[w[r[a]][14]] |
+        G[I].g[w[r[a]][15]] | G[I].g[w[r[a]][16]] | G[I].g[w[r[a]][17]] |
+        G[I].g[w[r[a]][18]] | G[I].g[w[r[a]][19]]) ^ G[I].g[r[a]])) & G[I].g[r[a]])
+      {                      // Check for Hidden single Cell value found in unsolved Cell position
+        x = a;               // Assign Hidden single Cell position
+        z = Y;               // Assign Hidden single Cell value
+        y = B[G[I].g[r[a]]] > 1;
+        goto NHSCF;          // 1 Represent Hidden single Cell position
+      }
     for (y = 0, z = 512, a = G[I].p; a < q; ++a)
                              // Search Naked single Cell value or Guess minimum Cell values unsolved Cell positions wise
       if (B[z] > B[G[I].g[r[a]]])
@@ -545,10 +540,8 @@ START:
           goto NHSCF;        // Naked single Cell value found in current unsolved Cell position
     for (; y < 27; ++y)      // Search Naked/Hidden Tuples Cell values Unit wise
     {
-      Y = !G[I].g[l[y][0]] + !G[I].g[l[y][1]] + !G[I].g[l[y][2]] + !G[I].g[l[y][3]] +
-      !G[I].g[l[y][4]] + !G[I].g[l[y][5]] + !G[I].g[l[y][6]] + !G[I].g[l[y][7]] + !G[I].g[l[y][8]];
-                             // Count Unit no unsolved Cell positions
-      if (Y > 6)
+      if ((Y = !G[I].g[l[y][0]] + !G[I].g[l[y][1]] + !G[I].g[l[y][2]] + !G[I].g[l[y][3]] +
+        !G[I].g[l[y][4]] + !G[I].g[l[y][5]] + !G[I].g[l[y][6]] + !G[I].g[l[y][7]] + !G[I].g[l[y][8]]) > 6)
         continue;            // Skip Unit for no unsolved Cell positions > six
       for (a = 0; a < 36; ++a)
       {                      // Search Naked/Hidden pair Cell values Unit 36 pair Cell positions wise
@@ -828,10 +821,10 @@ START:
           for (L = A + 1; L < W[32][y]; ++L)
           {                  // Search 2nd Cell position 54 mini-Lines away Line/Box wise
             if (!G[I].g[j[a][L]] || B[Y = (G[I].g[j[a][A]] | G[I].g[j[a][L]]) &
-            ~(G[I].g[j[a][W[26][y] + (A < W[27][y]) + (L < W[28][y])]] |
-            G[I].g[j[a][W[27][y] + (A < W[28][y]) + (L < W[29][y])]] |
-            G[I].g[j[a][W[28][y] + (A < W[29][y]) + (L < W[30][y])]] |
-            G[I].g[j[a][W[29][y] + (A < W[30][y]) + (L < W[31][y])]])] != 3)
+              ~(G[I].g[j[a][W[26][y] + (A < W[27][y]) + (L < W[28][y])]] |
+              G[I].g[j[a][W[27][y] + (A < W[28][y]) + (L < W[29][y])]] |
+              G[I].g[j[a][W[28][y] + (A < W[29][y]) + (L < W[30][y])]] |
+              G[I].g[j[a][W[29][y] + (A < W[30][y]) + (L < W[31][y])]])] != 3)
               continue;      // Skip for either 2nd Cell position not unsolved; or 1st and 2nd Cells values not three digits
             for (M = W[26][!y]; M < W[31][!y]; ++M)
             {                // Search 3rd Cell position 54 mini-Lines away Box/Line wise
@@ -1224,7 +1217,7 @@ START:
                 G[I].g[K[3]] &= ~Y;
               }
 #if RJ > 2
-              printf ("%d)%sSkyscraper: %ss %d %d Base Cells %d @ %s %s Cover Cells %d @ r%dc%d r%dc%d => -%d @",
+              printf ("%d)%sSkyscraper: %ss %d %d Base %d @ %s %s Cover %d @ r%dc%d r%dc%d => -%d @",
                 G[I].p, A[5] ? " Grouped " : " ", RCB, a - y + 1, Z - y + 1, b[Y], S[K[4]], S[K[5]],
                 b[Y], ROW ((K[6] + 1 ? w[K[6]][20] : 0) | (K[7] + 1 ? w[K[7]][20] : 0) |
                 (K[8] + 1 ? w[K[8]][20] : 0)), COL ((K[6] + 1 ? w[K[6]][20] : 0) |
@@ -1248,7 +1241,7 @@ START:
     {
       if (!(y = ~G[I].g[a] & (G[I].g[w[a][6]] | G[I].g[w[a][7]]) & (G[I].g[w[a][12]] | G[I].g[w[a][13]])))
         continue;            // Skip for either digit found in ERI Cell values; or not found in mini-Row and mini-Column Cell values
-      int K[6] = {-1,-1,-1},
+      int K[7] = { 0,-1,-1},
           L,
           M;
 
@@ -1267,7 +1260,6 @@ START:
           G[I].g[w[K[3]][12]] | G[I].g[w[K[3]][13]] | G[I].g[w[K[4]][6]] | G[I].g[w[K[4]][7]] |
           G[I].g[w[a][8]] | G[I].g[w[a][9]] | G[I].g[w[a][10]] | G[I].g[w[a][11]]) & ERI (K[5]) & Y)
         {                    // Check 2-String Kite+ERI Ring and Grouped 2-String Kite+ERI Ring
-          G[I].g[K[5]] &= ~Y;
           G[I].g[w[K[3]][12]] &= ~Y;
           G[I].g[w[K[3]][13]] &= ~Y;
           G[I].g[L] &= ~Y;
@@ -1282,91 +1274,100 @@ START:
           G[I].g[w[a][9]] &= ~Y;
           G[I].g[w[a][10]] &= ~Y;
           G[I].g[w[a][11]] &= ~Y;
+#if RJ > 2
+          K[0] = 1;
+#endif
         }
         else if ((G[I].g[w[w[K[3]][6]][12]] | G[I].g[w[w[K[3]][6]][13]]) & ERI (w[K[5]][6]) & Y)
         {                    // Check 2-String Kite+ERI and Grouped 2-String Kite+ERI
 #if RJ > 2
-          K[1] = 6;
-#endif
-          G[I].g[K[5]] &= ~Y;
+          G[I].g[K[1] = w[w[K[3]][K[6] = 6]][12]] &= ~Y;
+          G[I].g[K[2] = w[w[K[3]][6]][13]] &= ~Y;
+#else
           G[I].g[w[w[K[3]][6]][12]] &= ~Y;
           G[I].g[w[w[K[3]][6]][13]] &= ~Y;
+#endif
         }
         else if ((G[I].g[w[w[K[3]][7]][12]] | G[I].g[w[w[K[3]][7]][13]]) & ERI (w[K[5]][7]) & Y)
         {                    // Check 2-String Kite+ERI and Grouped 2-String Kite+ERI
 #if RJ > 2
-          K[1] = 7;
-#endif
-          G[I].g[K[5]] &= ~Y;
+          G[I].g[K[1] = w[w[K[3]][K[6] = 7]][12]] &= ~Y;
+          G[I].g[K[2] = w[w[K[3]][7]][13]] &= ~Y;
+#else
           G[I].g[w[w[K[3]][7]][12]] &= ~Y;
           G[I].g[w[w[K[3]][7]][13]] &= ~Y;
+#endif
         }
         else if ((G[I].g[w[w[K[4]][12]][6]] | G[I].g[w[w[K[4]][12]][7]]) & ERI (w[K[5]][12]) & Y)
         {                    // Check 2-String Kite+ERI and Grouped 2-String Kite+ERI
 #if RJ > 2
-          K[1] = 12;
-#endif
-          G[I].g[K[5]] &= ~Y;
+          G[I].g[K[1] = w[w[K[4]][K[6] = 12]][6]] &= ~Y;
+          G[I].g[K[2] = w[w[K[4]][12]][7]] &= ~Y;
+#else
           G[I].g[w[w[K[4]][12]][6]] &= ~Y;
           G[I].g[w[w[K[4]][12]][7]] &= ~Y;
+#endif
         }
         else if ((G[I].g[w[w[K[4]][13]][6]] | G[I].g[w[w[K[4]][13]][7]]) & ERI (w[K[5]][13]) & Y)
         {                    // Check 2-String Kite+ERI and Grouped 2-String Kite+ERI
 #if RJ > 2
-          K[1] = 13;
-#endif
-          G[I].g[K[5]] &= ~Y;
+          G[I].g[K[1] = w[w[K[4]][K[6] = 13]][6]] &= ~Y;
+          G[I].g[K[2] = w[w[K[4]][13]][7]] &= ~Y;
+#else
           G[I].g[w[w[K[4]][13]][6]] &= ~Y;
           G[I].g[w[w[K[4]][13]][7]] &= ~Y;
+#endif
         }
         else if (LB3 (L, w[L][6], w[L][7], 1) & G[I].g[w[K[5]][6]] & Y)
-        {                     // Check 2-String Kite+Box and Grouped 2-String Kite+Box
-          K[6] = G[I].g[K[5]];
-          G[I].g[K[5]] &= ~Y;
-          G[I].g[K[2] = w[K[5]][6]] -= Y;
-        }
-        else if (LB3 (L, w[L][7], w[L][6], 1) & G[I].g[w[K[5]][7]] & Y)
-        {                     // Check 2-String Kite+Box and Grouped 2-String Kite+Box
-          K[6] = G[I].g[K[5]];
-          G[I].g[K[5]] &= ~Y;
-          G[I].g[K[2] = w[K[5]][7]] -= Y;
-        }
-        else if (LB3 (M, w[M][12], w[M][13], 0) & G[I].g[w[K[5]][12]] & Y)
-        {                     // Check 2-String Kite+Box and Grouped 2-String Kite+Box
-          K[6] = G[I].g[K[5]];
-          G[I].g[K[5]] &= ~Y;
-          G[I].g[K[2] = w[K[5]][12]] -= Y;
-        }
-        else if (LB3 (M, w[M][13], w[M][12], 0) & G[I].g[w[K[5]][13]] & Y)
-        {                     // Check 2-String Kite+Box and Grouped 2-String Kite+Box
-          K[6] = G[I].g[K[5]];
-          G[I].g[K[5]] &= ~Y;
-          G[I].g[K[2] = w[K[5]][13]] -= Y;
-        }
-        else if (G[I].g[K[5]] & Y)
-                             // Check 2-String Kite and Grouped 2-String Kite
-          G[I].g[K[5]] -= Y; // Drop digit from removal Cell values
-        else
-          continue;
+                              // Check 2-String Kite+Box and Grouped 2-String Kite+Box
 #if RJ > 2
-        printf ("%d)%s2-String Kite%s SL Row %d between Cell %d @ ", G[I].p,
+          G[I].g[K[2] = w[K[5]][6]] -= Y;
+#else
+          G[I].g[w[K[5]][6]] -= Y;
+#endif
+        else if (LB3 (L, w[L][7], w[L][6], 1) & G[I].g[w[K[5]][7]] & Y)
+                              // Check 2-String Kite+Box and Grouped 2-String Kite+Box
+#if RJ > 2
+          G[I].g[K[2] = w[K[5]][7]] -= Y;
+#else
+          G[I].g[w[K[5]][7]] -= Y;
+#endif
+        else if (LB3 (M, w[M][12], w[M][13], 0) & G[I].g[w[K[5]][12]] & Y)
+                              // Check 2-String Kite+Box and Grouped 2-String Kite+Box
+#if RJ > 2
+          G[I].g[K[2] = w[K[5]][12]] -= Y;
+#else
+          G[I].g[w[K[5]][12]] -= Y;
+#endif
+        else if (LB3 (M, w[M][13], w[M][12], 0) & G[I].g[w[K[5]][13]] & Y)
+                              // Check 2-String Kite+Box and Grouped 2-String Kite+Box
+#if RJ > 2
+          G[I].g[K[2] = w[K[5]][13]] -= Y;
+#else
+          G[I].g[w[K[5]][13]] -= Y;
+#endif
+        else if (~G[I].g[K[5]] & Y)
+          continue;          // Skip 2-String Kite and Grouped 2-String Kite for digit not in removal Cell values
+        G[I].g[K[5]] &= ~Y;  // Drop 2-String Kite and Grouped 2-String Kite digit from removal Cell values
+#if RJ > 2
+        printf ("%d)%s2-String Kite%s SL Row %d between %d @ ", G[I].p,
           ((G[I].g[w[a][6]] & G[I].g[w[a][7]]) | (G[I].g[w[a][12]] & G[I].g[w[a][13]])) & Y ? " Grouped " : " ",
-          K[0] + 1 ? "+ERI Ring:" : (K[1] + 1 ? "+ERI:" : (K[2] + 1 ? "+Box:" : ":")),
+          K[0] ? "+ERI Ring:" : (K[1] + 1 ? "+ERI:" : (K[2] + 1 ? "+Box:" : ":")),
           ROW (w[a][20]), b[Y]);
         if (G[I].g[w[a][6]] & G[I].g[w[a][7]] & Y)
           printf ("r%dc%d", ROW (w[w[a][6]][20] | w[w[a][7]][20]),
             COL (w[w[a][6]][20] | w[w[a][7]][20]));
         else
           printf ("%s", S[w[a][G[I].g[w[a][6]] & Y ? 6 : 7]]);
-        printf (" and Cell %d @ %s Column %d between Cell %d @ ",
+        printf (" and %d @ %s Column %d between %d @ ",
           b[Y], S[K[3]], COL (w[a][20]), b[Y]);
         if (G[I].g[w[a][12]] & G[I].g[w[a][13]] & Y)
           printf ("r%dc%d", ROW (w[w[a][12]][20] | w[w[a][13]][20]),
             COL (w[w[a][12]][20] | w[w[a][13]][20]));
         else
           printf ("%s", S[w[a][G[I].g[w[a][12]] & Y ? 12 : 13]]);
-        printf (" and Cell %d @ %s\n", b[Y], S[K[4]]);
-        if (K[0] + 1)
+        printf (" and %d @ %s\n", b[Y], S[K[4]]);
+        if (K[0])
           printf ("ERI b%d%s => -%d @ r%dc%d r%dc%d r%dc%d\n",
             BOX (a), S[a], b[Y], ROW (w[w[K[3]][12]][20] | w[w[K[3]][13]][20] |
             w[w[a][8]][20] | w[w[a][9]][20] | w[w[a][10]][20] | w[w[a][11]][20]),
@@ -1380,11 +1381,11 @@ START:
             w[M][20] | w[w[M][6]][20] | w[w[M][7]][20]));
         else if (K[1] + 1)
           printf ("ERI b%d%s => -%d @ %s r%dc%d\n",
-            BOX (w[K[5]][K[1]]), S[w[K[5]][K[1]]], b[Y], S[K[5]],
-            ROW (w[K[2]][20] | w[K[6]][20]), COL (w[K[2]][20] | w[K[6]][20]));
+            BOX (w[K[5]][K[6]]), S[w[K[5]][K[6]]], b[Y], S[K[5]],
+            ROW (w[K[1]][20] | w[K[2]][20]), COL (w[K[1]][20] | w[K[2]][20]));
         else if (K[2] + 1)
-        printf ("Box %d => -%d @ r%dc%d\n", BOX (X), b[Y],
-          ROW (w[K[2]][20] | w[K[6]][20]), COL (w[K[2]][20] | w[K[6]][20]));
+          printf ("Box %d => -%d @ r%dc%d\n", BOX (X), b[Y],
+            ROW (w[K[2]][20] | w[K[5]][20]), COL (w[K[2]][20] | w[K[5]][20]));
         else
           printf ("=> -%d @ %s\n", b[Y], S[K[5]]);
 #endif
@@ -1436,7 +1437,7 @@ START:
                 G[I].g[w[K[6]][W[3][!y]]] &= ~K[1];
                 G[I].g[w[K[6]][W[4][!y]]] &= ~K[1];
 #if RJ > 2
-                printf ("%d) Dual Linked Empty Rectangle: ERI %d @ b%d%s and ERI %d @ b%d%s SL %s %d between Cell %d @ %s and Cell %d @ %s\n=> -%d @ r%dc%d r%dc%d\n",
+                printf ("%d) Dual Linked Empty Rectangle: ERI %d @ b%d%s and ERI %d @ b%d%s SL %s %d between %d @ %s and %d @ %s\n=> -%d @ r%dc%d r%dc%d\n",
                   G[I].p, b[K[1]], BOX (a), S[a], b[K[1]], BOX (K[7]), S[K[7]], R_C, RCN (K[2]),
                   b[K[1]], S[K[2]], b[K[1]], S[w[K[2]][W[1][y] + b[~K[3] & 63] - 1]],
                   b[K[1]], ROW (w[K[7]][20] | w[w[K[7]][K[5]]][20] |
@@ -1459,7 +1460,7 @@ START:
                              // Drop ERI SL digit from Line Cell position
               G[I].g[K[7]] -= K[1];
 #if RJ > 2
-              printf ("%d) Empty Rectangle: ERI %d @ b%d%s SL %s %d between Cell %d @ %s and Cell %d @ %s => -%d @ %s\n",
+              printf ("%d) Empty Rectangle: ERI %d @ b%d%s SL %s %d between %d @ %s and %d @ %s => -%d @ %s\n",
                 G[I].p, b[K[1]], BOX (a), S[a], R_C, RCN (K[2]), b[K[1]], S[K[2]],
                 b[K[1]], S[w[K[2]][W[1][y] + b[~K[3] & 63] - 1]], b[K[1]], S[K[7]]);
               if (!(G[I].g[w[K[7]][W[3][!y]]] & K[1]) + !(G[I].g[w[K[7]][W[4][!y]]] & K[1]) +
@@ -1468,7 +1469,7 @@ START:
                 !(G[I].g[w[K[7]][W[21][!y]]] & K[1]) + !(G[I].g[w[K[7]][W[22][!y]]] & K[1]) == 7)
               {              // Check one ERI digit found in 2nd Line Cell positions
                 G[I].g[K[2]] -= K[1];
-                printf ("%d) Empty Rectangle: ERI %d @ b%d%s SL %s %d between Cell %d @ %s and Cell %d @ %s => -%d @ %s\n",
+                printf ("%d) Empty Rectangle: ERI %d @ b%d%s SL %s %d between %d @ %s and %d @ %s => -%d @ %s\n",
                   G[I].p, b[K[1]], BOX (a), S[a], y ? "Row" : "Column",
                   y ? ROW (w[K[7]][20]) : COL (w[K[7]][20]), b[K[1]], S[K[7]],
                   b[K[1]], S[w[K[2]][W[1][y] + b[~K[3] & 63] - 1]], b[K[1]], S[K[2]]);
@@ -1592,7 +1593,7 @@ START:
             G[I].g[K[7]] &= ~K[2];
             G[I].g[K[8]] &= ~K[2];
 #if RJ > 2
-            printf ("%d) Grouped W-Wing Type 2 %s: %d @ %s %s SL %s %d between Cells %d @ r%dc%d and Cells %d @ r%dc%d\n=> -%d @ r%dc%d r%dc%d\n",
+            printf ("%d) Grouped W-Wing Type 2 %s: %d @ %s %s SL %s %d between %d @ r%dc%d and %d @ r%dc%d\n=> -%d @ r%dc%d r%dc%d\n",
               G[I].p, A[2][0] ? "Stack" : "Band", b[G[I].g[K[0]]], S[K[0]], S[K[1]],
               K[9] ? (A[2][0] ? "Column" : "Row") : "Box",
               N ? (A[2][0] ? COL (w[L][20]) : ROW (w[L][20])) : BOX (L), b[K[9]],
@@ -1625,7 +1626,7 @@ START:
                   G[I].g[K[3]] &= ~K[2];
                   G[I].g[K[4]] &= ~K[2];
 #if RJ > 2
-                  printf ("%d) Grouped W-Wing Type 1 Grid: %d @ %s %s SL %s %d between Cells %d @ r%dc%d and Cell %d @ %s\n=> -%d @ %s %s\n",
+                  printf ("%d) Grouped W-Wing Type 1 Grid: %d @ %s %s SL %s %d between %d @ r%dc%d and %d @ %s\n=> -%d @ %s %s\n",
                     G[I].p, b[G[I].g[K[0]]], S[K[0]], S[K[1]], K[6] ? "Column" : "Row",
                     K[6] ? COL (w[K[8]][20]) : ROW (w[K[8]][20]), b[N],
                     ROW (w[K[8]][20] | w[w[K[8]][W[3][K[6]]]][20] | w[w[K[8]][W[4][K[6]]]][20]),
@@ -1713,10 +1714,10 @@ START:
                 G[I].p, A[2][0] != A[2][1] ? "1 Grid" : A[2][0] ? "2 Stack" : "2 Band", b[G[I].g[K[0]]],
                 S[K[0]], S[K[1]], N ? (A[2][0] ? " Column " : " Row ") : " ");
               if (N)
-                printf ("%d between Cell %d @ ", A[2][0] ? COL (w[X][20]) : ROW (w[X][20]), b[K[9]]);
+                printf ("%d between %d @ ", A[2][0] ? COL (w[X][20]) : ROW (w[X][20]), b[K[9]]);
               else
                 printf ("between ERI %d @ b%d", b[K[9]], BOX (X));
-              printf ("%s and %s %d @ ", S[X], N ? "Cell" : "ERI", b[K[9]]);
+              printf ("%s and%s%d @ ", S[X], N ? " " : " ERI ", b[K[9]]);
               if (!N)
                 printf ("b%d", BOX (Z));
               printf ("%s\n=> -%d @ r%dc%d r%dc%d\n", S[Z], b[K[2]],
@@ -1733,8 +1734,8 @@ START:
     for (a = G[I].p; a < q; ++a)
     {                        // Search Strong Wing Type 1 and Strong Ring Type 1 Apex Cell unsolved Cell positions wise
       if (!(G[I].g[w[r[a]][0]] | G[I].g[w[r[a]][1]] | G[I].g[w[r[a]][2]] | G[I].g[w[r[a]][3]] |
-      G[I].g[w[r[a]][4]] | G[I].g[w[r[a]][5]]) || !(G[I].g[w[r[a]][14]] | G[I].g[w[r[a]][15]] |
-      G[I].g[w[r[a]][16]] | G[I].g[w[r[a]][17]] | G[I].g[w[r[a]][18]] | G[I].g[w[r[a]][19]]))
+        G[I].g[w[r[a]][4]] | G[I].g[w[r[a]][5]]) || !(G[I].g[w[r[a]][14]] | G[I].g[w[r[a]][15]] |
+        G[I].g[w[r[a]][16]] | G[I].g[w[r[a]][17]] | G[I].g[w[r[a]][18]] | G[I].g[w[r[a]][19]]))
         continue;            // Skip for no unsolved Cell position found in Apex either Row or Column
       int K[10] = {r[a], 0}; // Assign Apex Cell position
 
@@ -3625,11 +3626,11 @@ XYWT1Tf:
                     {        // Line 17, ERI 18
                       G[I].g[L] -= K[5];
 #if RJ > 2
-                      printf ("%d) XYZ-Wing Transport: %s %d @ r%dc%d %s SL %s %d between %s %d @ %s and %s %d @ %s\n=> -%d @ %s\n",
+                      printf ("%d) XYZ-Wing Transport: %s %d @ r%dc%d %s SL %s %d between%s%d @ %s and%s%d @ %s\n=> -%d @ %s\n",
                         G[I].p, k[0] ? R_C : "ERI", b[G[I].g[K[0]]], ROW (w[K[0]][20] | w[K[2]][20]),
                         COL (w[K[0]][20] | w[K[2]][20]), S[K[4]], k[0] ? R_C : "ERI",
-                        k[0] ? RCN (X) : BOX (X), k[29] ? "Cell" : "ERI", b[K[5]], S[X],
-                        k[0] ? "Cell" : "ERI", b[K[5]], S[Z], b[K[5]], S[L]);
+                        k[0] ? RCN (X) : BOX (X), k[29] ? " " : " ERI ", b[K[5]], S[X],
+                        k[0] ? " " : " ERI ", b[K[5]], S[Z], b[K[5]], S[L]);
 #endif
                       goto START;
                     }
