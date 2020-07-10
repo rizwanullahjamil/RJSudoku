@@ -538,6 +538,119 @@ START:
                              // Check least Cell values in current unsolved Cell position
         if (B[z = G[I].g[r[x = a]]] < 2)
           goto NHSCF;        // Naked single Cell value found in current unsolved Cell position
+    for (a = 0; a < 54; ++a) // Search Locked candidate for 54 mini-Lines 3 Cell positions wise
+      for (X = G[I].g[j[a][0]] | G[I].g[j[a][1]] | G[I].g[j[a][2]]; Y = X & -X; X -= Y)
+                             // Search Box-Line 3 Cell positions Locked candidate wise
+        if ((Z = (G[I].g[j[a][3]] | G[I].g[j[a][4]] | G[I].g[j[a][5]] |
+          G[I].g[j[a][6]] | G[I].g[j[a][7]] | G[I].g[j[a][8]]) & Y) !=
+                             // Check Locked candidate in either Line other Cell positions; or
+          ((G[I].g[j[a][9]] | G[I].g[j[a][10]] | G[I].g[j[a][11]] |
+          G[I].g[j[a][12]] | G[I].g[j[a][13]] | G[I].g[j[a][14]]) & Y))
+        {                    // Locked candidate in Box other Cell positions
+                             // Drop Locked candidate from Line/Box other Cell positions
+          G[I].g[j[a][Z ? 3 : 9]] &= ~Y;
+          G[I].g[j[a][Z ? 4 : 10]] &= ~Y;
+          G[I].g[j[a][Z ? 5 : 11]] &= ~Y;
+          G[I].g[j[a][Z ? 6 : 12]] &= ~Y;
+          G[I].g[j[a][Z ? 7 : 13]] &= ~Y;
+          G[I].g[j[a][Z ? 8 : 14]] &= ~Y;
+#if RJ > 2
+          printf ("%d) Locked candidate Type %sing): %d @ r%dc%d => -%d @ r%dc%d\n",
+            G[I].p, Z ? "1 (Point" : "2 (Claim", b[Y],
+            ROW (w[j[a][0]][20] | w[j[a][1]][20] | w[j[a][2]][20]),
+            COL (w[j[a][0]][20] | w[j[a][1]][20] | w[j[a][2]][20]), b[Y],
+            ROW (w[j[a][Z ? 3 : 9]][20] | w[j[a][Z ? 4 : 10]][20] | w[j[a][Z ? 5 : 11]][20] |
+            w[j[a][Z ? 6 : 12]][20] | w[j[a][Z ? 7 : 13]][20] | w[j[a][Z ? 8 : 14]][20]),
+            COL (w[j[a][Z ? 3 : 9]][20] | w[j[a][Z ? 4 : 10]][20] | w[j[a][Z ? 5 : 11]][20] |
+            w[j[a][Z ? 6 : 12]][20] | w[j[a][Z ? 7 : 13]][20] | w[j[a][Z ? 8 : 14]][20]));
+#endif
+          goto START;
+        }
+    for (a = 0; a < 54; ++a) // Search Locked pair and Locked triplet for 54 mini-Lines 3 Cell positions wise
+    {
+      if (((G[I].g[j[a][1]] && G[I].g[j[a][2]] &&
+        B[Y = G[I].g[j[a][1]] | G[I].g[j[a][2]]] == 2 && !(X = 0)) ||
+        (G[I].g[j[a][0]] && G[I].g[j[a][2]] &&
+        B[Y = G[I].g[j[a][0]] | G[I].g[j[a][2]]] == 2 && (X = 1)) ||
+        (G[I].g[j[a][0]] && G[I].g[j[a][1]] &&
+        B[Y = G[I].g[j[a][0]] | G[I].g[j[a][1]]] == 2 && (X = 2))) &&
+        ((G[I].g[j[a][X]] | G[I].g[j[a][3]] | G[I].g[j[a][4]] |
+        G[I].g[j[a][5]] | G[I].g[j[a][6]] | G[I].g[j[a][7]] | G[I].g[j[a][8]]) &
+        (G[I].g[j[a][9]] | G[I].g[j[a][10]] | G[I].g[j[a][11]] |
+        G[I].g[j[a][12]] | G[I].g[j[a][13]] | G[I].g[j[a][14]]) & Y))
+      {                      // Locked pair found
+        int k[13] = {G[I].g[j[a][X]], G[I].g[j[a][3]], G[I].g[j[a][4]],
+                    G[I].g[j[a][5]], G[I].g[j[a][6]], G[I].g[j[a][7]], G[I].g[j[a][8]],
+                    G[I].g[j[a][9]], G[I].g[j[a][10]], G[I].g[j[a][11]],
+                    G[I].g[j[a][12]], G[I].g[j[a][13]], G[I].g[j[a][14]]};
+                             // Backup and drop Locked pair Cell values from Units other Cell positions
+        G[I].g[j[a][X]] &= ~Y;
+        G[I].g[j[a][3]] &= ~Y;
+        G[I].g[j[a][4]] &= ~Y;
+        G[I].g[j[a][5]] &= ~Y;
+        G[I].g[j[a][6]] &= ~Y;
+        G[I].g[j[a][7]] &= ~Y;
+        G[I].g[j[a][8]] &= ~Y;
+        G[I].g[j[a][9]] &= ~Y;
+        G[I].g[j[a][10]] &= ~Y;
+        G[I].g[j[a][11]] &= ~Y;
+        G[I].g[j[a][12]] &= ~Y;
+        G[I].g[j[a][13]] &= ~Y;
+        G[I].g[j[a][14]] &= ~Y;
+#if RJ > 2
+        printf ("%d) Locked pair: %d @ r%dc%d => -%d @ r%dc%d r%dc%d\n",
+          G[I].p, b[Y], ROW (w[j[a][!X]][20] | w[j[a][X ? 3 - X : 2]][20]),
+          COL (w[j[a][!X]][20] | w[j[a][X ? 3 - X : 2]][20]), b[Y],
+          ROW (w[j[a][X]][20] | w[j[a][3]][20] | w[j[a][4]][20] |
+          w[j[a][5]][20] | w[j[a][6]][20] | w[j[a][7]][20] | w[j[a][8]][20]),
+          COL (w[j[a][X]][20] | w[j[a][3]][20] | w[j[a][4]][20] |
+          w[j[a][5]][20] | w[j[a][6]][20] | w[j[a][7]][20] | w[j[a][8]][20]),
+          ROW (w[j[a][9]][20] | w[j[a][10]][20] | w[j[a][11]][20] |
+          w[j[a][12]][20] | w[j[a][13]][20] | w[j[a][14]][20]),
+          COL (w[j[a][9]][20] | w[j[a][10]][20] | w[j[a][11]][20] |
+          w[j[a][12]][20] | w[j[a][13]][20] | w[j[a][14]][20]));
+#endif
+        goto START;
+      }
+      if (G[I].g[j[a][0]] && G[I].g[j[a][1]] && G[I].g[j[a][2]] &&
+        B[Y = G[I].g[j[a][0]] | G[I].g[j[a][1]] | G[I].g[j[a][2]]] == 3 &&
+        ((G[I].g[j[a][3]] | G[I].g[j[a][4]] | G[I].g[j[a][5]] |
+        G[I].g[j[a][6]] | G[I].g[j[a][7]] | G[I].g[j[a][8]]) &
+        (G[I].g[j[a][9]] | G[I].g[j[a][10]] | G[I].g[j[a][11]] |
+        G[I].g[j[a][12]] | G[I].g[j[a][13]] | G[I].g[j[a][14]]) & Y))
+      {                      // Locked triplet found
+        int k[12] = {G[I].g[j[a][3]], G[I].g[j[a][4]], G[I].g[j[a][5]], G[I].g[j[a][6]],
+                    G[I].g[j[a][7]], G[I].g[j[a][8]], G[I].g[j[a][9]], G[I].g[j[a][10]],
+                    G[I].g[j[a][11]], G[I].g[j[a][12]], G[I].g[j[a][13]], G[I].g[j[a][14]]};
+                             // Backup and drop Locked triplet Cell values from Units other Cell positions
+        G[I].g[j[a][3]] &= ~Y;
+        G[I].g[j[a][4]] &= ~Y;
+        G[I].g[j[a][5]] &= ~Y;
+        G[I].g[j[a][6]] &= ~Y;
+        G[I].g[j[a][7]] &= ~Y;
+        G[I].g[j[a][8]] &= ~Y;
+        G[I].g[j[a][9]] &= ~Y;
+        G[I].g[j[a][10]] &= ~Y;
+        G[I].g[j[a][11]] &= ~Y;
+        G[I].g[j[a][12]] &= ~Y;
+        G[I].g[j[a][13]] &= ~Y;
+        G[I].g[j[a][14]] &= ~Y;
+#if RJ > 2
+        printf ("%d) Locked triplet: %d @ r%dc%d => -%d @ r%dc%d r%dc%d\n",
+          G[I].p, b[Y], ROW (w[j[a][0]][20] | w[j[a][1]][20] | w[j[a][2]][20]),
+          COL (w[j[a][0]][20] | w[j[a][1]][20] | w[j[a][2]][20]), b[Y],
+          ROW (w[j[a][3]][20] | w[j[a][4]][20] | w[j[a][5]][20] |
+          w[j[a][6]][20] | w[j[a][7]][20] | w[j[a][8]][20]),
+          COL (w[j[a][3]][20] | w[j[a][4]][20] | w[j[a][5]][20] |
+          w[j[a][6]][20] | w[j[a][7]][20] | w[j[a][8]][20]),
+          ROW (w[j[a][9]][20] | w[j[a][10]][20] | w[j[a][11]][20] |
+          w[j[a][12]][20] | w[j[a][13]][20] | w[j[a][14]][20]),
+          COL (w[j[a][9]][20] | w[j[a][10]][20] | w[j[a][11]][20] |
+          w[j[a][12]][20] | w[j[a][13]][20] | w[j[a][14]][20]));
+#endif
+        goto START;
+      }
+    }
     for (; y < 27; ++y)      // Search Naked/Hidden Tuples Cell values Unit wise
     {
       if ((Y = !G[I].g[l[y][0]] + !G[I].g[l[y][1]] + !G[I].g[l[y][2]] + !G[I].g[l[y][3]] +
@@ -726,34 +839,6 @@ START:
         goto START;
       }
     }
-    for (a = 0; a < 54; ++a) // Search Locked candidate for 54 mini-Lines 3 Cell positions wise
-      for (Y = G[I].g[j[a][0]] | G[I].g[j[a][1]] | G[I].g[j[a][2]]; y = Y & -Y; Y -= y)
-                             // Search Box-Line 3 Cell positions Locked candidate wise
-        if ((Z = (G[I].g[j[a][3]] | G[I].g[j[a][4]] | G[I].g[j[a][5]] |
-          G[I].g[j[a][6]] | G[I].g[j[a][7]] | G[I].g[j[a][8]]) & y) !=
-                             // Check Locked candidate in either Line other Cell positions; or
-          ((G[I].g[j[a][9]] | G[I].g[j[a][10]] | G[I].g[j[a][11]] |
-          G[I].g[j[a][12]] | G[I].g[j[a][13]] | G[I].g[j[a][14]]) & y))
-        {                    // Locked candidate in Box other Cell positions
-                             // Drop Locked candidate from Line/Box other Cell positions
-          G[I].g[j[a][Z ? 3 : 9]] &= ~y;
-          G[I].g[j[a][Z ? 4 : 10]] &= ~y;
-          G[I].g[j[a][Z ? 5 : 11]] &= ~y;
-          G[I].g[j[a][Z ? 6 : 12]] &= ~y;
-          G[I].g[j[a][Z ? 7 : 13]] &= ~y;
-          G[I].g[j[a][Z ? 8 : 14]] &= ~y;
-#if RJ > 2
-          printf ("%d) Locked candidate Type %sing): %d @ r%dc%d => -%d @ r%dc%d\n",
-            G[I].p, Z ? "1 (Point" : "2 (Claim", b[y],
-            ROW (w[j[a][0]][20] | w[j[a][1]][20] | w[j[a][2]][20]),
-            COL (w[j[a][0]][20] | w[j[a][1]][20] | w[j[a][2]][20]), b[y],
-            ROW (w[j[a][Z ? 3 : 9]][20] | w[j[a][Z ? 4 : 10]][20] | w[j[a][Z ? 5 : 11]][20] |
-            w[j[a][Z ? 6 : 12]][20] | w[j[a][Z ? 7 : 13]][20] | w[j[a][Z ? 8 : 14]][20]),
-            COL (w[j[a][Z ? 3 : 9]][20] | w[j[a][Z ? 4 : 10]][20] | w[j[a][Z ? 5 : 11]][20] |
-            w[j[a][Z ? 6 : 12]][20] | w[j[a][Z ? 7 : 13]][20] | w[j[a][Z ? 8 : 14]][20]));
-#endif
-          goto START;
-        }
     for (a = 0; a < 54; ++a) // Search Almost Locked Pair, Triple and Quad 54 mini-Lines 3 Cell positions wise
     {
       if (!(G[I].g[j[a][0]] | G[I].g[j[a][1]] | G[I].g[j[a][2]]))
