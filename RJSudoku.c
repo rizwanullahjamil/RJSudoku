@@ -4279,35 +4279,34 @@ XYWT1Tf:
     for (X = -1, a = G[I].p; a < q; ++a)
       if (B[G[I].g[r[a]]] < 3)
         continue;            // Skip Bivalue Universal Grave for unsolved Cell values < three digits
-      else if (B[G[I].g[r[a]]] == 3 && X < 0)
-        X = r[a];            // Backup first unsolved Cell position having Trivalues
+      else if (B[G[I].g[r[a]]] > 2 && X < 0)
+        X = r[a];            // Backup first Guardian Cell position
       else
         break;
     if (a == q)              // All unsolved Cell positions checked
     {
-      if (X + 1)             // One Trivalue Cell position found
+      if (X + 1)             // One Guardian Cell position found
       {
-        for (Y = G[I].g[X]; y = Y & -Y; Y -= y)
-                             // For each digit in Trivalue Cell position
+        for (z = 0, Y = G[I].g[X]; y = Y & -Y; Y -= y)
+                             // For each digit in Guardian Cell position
           if ((G[I].g[w[X][0]] & y ? 1 : 0) + (G[I].g[w[X][1]] & y ? 1 : 0) +
             (G[I].g[w[X][2]] & y ? 1 : 0) + (G[I].g[w[X][3]] & y ? 1 : 0) +
             (G[I].g[w[X][4]] & y ? 1 : 0) + (G[I].g[w[X][5]] & y ? 1 : 0) +
-            (G[I].g[w[X][6]] & y ? 1 : 0) + (G[I].g[w[X][7]] & y ? 1 : 0) == 2 ||
+            (G[I].g[w[X][6]] & y ? 1 : 0) + (G[I].g[w[X][7]] & y ? 1 : 0) > 1 &&
             (G[I].g[w[X][6]] & y ? 1 : 0) + (G[I].g[w[X][7]] & y ? 1 : 0) +
             (G[I].g[w[X][8]] & y ? 1 : 0) + (G[I].g[w[X][9]] & y ? 1 : 0) +
             (G[I].g[w[X][10]] & y ? 1 : 0) + (G[I].g[w[X][11]] & y ? 1 : 0) +
-            (G[I].g[w[X][12]] & y ? 1 : 0) + (G[I].g[w[X][13]] & y ? 1 : 0) == 2 ||
+            (G[I].g[w[X][12]] & y ? 1 : 0) + (G[I].g[w[X][13]] & y ? 1 : 0) > 1 &&
             (G[I].g[w[X][12]] & y ? 1 : 0) + (G[I].g[w[X][13]] & y ? 1 : 0) +
             (G[I].g[w[X][14]] & y ? 1 : 0) + (G[I].g[w[X][15]] & y ? 1 : 0) +
             (G[I].g[w[X][16]] & y ? 1 : 0) + (G[I].g[w[X][17]] & y ? 1 : 0) +
-            (G[I].g[w[X][18]] & y ? 1 : 0) + (G[I].g[w[X][19]] & y ? 1 : 0) == 2)
-          {                  // Digit found Row, Box or Column wise in two Cell positions
+            (G[I].g[w[X][18]] & y ? 1 : 0) + (G[I].g[w[X][19]] & y ? 1 : 0) > 1)
+            z |= y;          // Digit found Row, Box or Column wise in > one Cell positions
 #if RJ > 2
-            printf ("%d) BUG+1: %d @ %s => -%d @ %s\n", G[I].p, b[y], S[X], b[G[I].g[X] - y], S[X]);
+          printf ("%d) BUG+%d: %d @ %s => -%d @ %s\n", G[I].p, B[z], b[z], S[X], b[G[I].g[X] - z], S[X]);
 #endif
-            G[I].g[X] = y;   // Remove BUG+1 other digits from Trivalue removal Cell values
-            goto START;
-          }
+          G[I].g[X] = z;   // Remove BUG+n non-Guardian candidates from removal Guardian Cell values
+          goto START;
       }
 #if RJ > 2
       else
