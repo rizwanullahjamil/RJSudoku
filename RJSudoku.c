@@ -681,7 +681,7 @@ START:
           G[I].g[l[y][h[a][7]]] &= ~K[0];
           G[I].g[l[y][h[a][8]]] &= ~K[0];
 #if RJ > 2
-          printf ("%d) Naked pair: %s %d %d @ %s %s => -%d @ %s %s %s %s %s %s %s\n",
+          printf ("%d) Naked pair: %s %d wise %d @ %s %s => -%d @ %s %s %s %s %s %s %s\n",
             G[I].p, RCB, LBN (l[y][h[a][0]]), b[K[0]], S[l[y][h[a][0]]], S[l[y][h[a][1]]],
             b[K[0]], S[l[y][h[a][2]]], S[l[y][h[a][3]]], S[l[y][h[a][4]]],
             S[l[y][h[a][5]]], S[l[y][h[a][6]]], S[l[y][h[a][7]]], S[l[y][h[a][8]]]);
@@ -691,7 +691,7 @@ START:
         if (B[K[0] &= K[0] ^ K[1]] != 2)
           continue;          // Skip for no Hidden pair Cell values found in Unit pair Cell positions
 #if RJ > 2
-        printf ("%d) Hidden pair: %s %d %d @ %s %s =>",
+        printf ("%d) Hidden pair: %s %d wise %d @ %s %s =>",
           G[I].p, RCB, LBN (l[y][h[a][0]]), b[K[0]], S[l[y][h[a][0]]], S[l[y][h[a][1]]]);
         if (G[I].g[l[y][h[a][0]]] ^ (G[I].g[l[y][h[a][0]]] & K[0]))
           printf (" -%d @ %s",
@@ -738,7 +738,7 @@ START:
           G[I].g[l[y][h[a][7]]] &= ~K[0];
           G[I].g[l[y][h[a][8]]] &= ~K[0];
 #if RJ > 2
-          printf ("%d) Naked triplet: %s %d %d @ %s %s %s => -%d @ %s %s %s %s %s %s\n",
+          printf ("%d) Naked triplet: %s %d wise %d @ %s %s %s => -%d @ %s %s %s %s %s %s\n",
             G[I].p, RCB, LBN (l[y][h[a][0]]), b[K[0]], S[l[y][h[a][0]]], S[l[y][h[a][1]]],
             S[l[y][h[a][2]]], b[K[0]], S[l[y][h[a][3]]], S[l[y][h[a][4]]],
             S[l[y][h[a][5]]], S[l[y][h[a][6]]], S[l[y][h[a][7]]], S[l[y][h[a][8]]]);
@@ -748,7 +748,7 @@ START:
         if (B[K[0] &= K[0] ^ K[1]] != 3)
           continue;          // Skip for no Hidden triplet Cell values found in Unit triplet Cell positions
 #if RJ > 2
-        printf ("%d) Hidden triplet: %s %d %d @ %s %s %s =>",
+        printf ("%d) Hidden triplet: %s %d wise %d @ %s %s %s =>",
           G[I].p, RCB, LBN (l[y][h[a][0]]), b[K[0]], S[l[y][h[a][0]]], S[l[y][h[a][1]]], S[l[y][h[a][2]]]);
         if (G[I].g[l[y][h[a][0]]] ^ (G[I].g[l[y][h[a][0]]] & K[0]))
           printf (" -%d @ %s",
@@ -805,7 +805,7 @@ START:
           G[I].g[l[y][h[a][7]]] &= ~K[0];
           G[I].g[l[y][h[a][8]]] &= ~K[0];
 #if RJ > 2
-          printf ("%d) Naked quad: %s %d %d @ %s %s %s %s => -%d @ %s %s %s %s %s\n",
+          printf ("%d) Naked quad: %s %d wise %d @ %s %s %s %s => -%d @ %s %s %s %s %s\n",
             G[I].p, RCB, LBN (l[y][h[a][0]]), b[K[0]], S[l[y][h[a][0]]], S[l[y][h[a][1]]],
             S[l[y][h[a][2]]], S[l[y][h[a][3]]], b[K[0]], S[l[y][h[a][4]]], S[l[y][h[a][5]]],
             S[l[y][h[a][6]]], S[l[y][h[a][7]]], S[l[y][h[a][8]]]);
@@ -815,7 +815,7 @@ START:
         if (B[K[0] &= K[0] ^ K[1]] != 4)
           continue;          // Skip for no Hidden quad Cell values found in Unit quad Cell positions
 #if RJ > 2
-        printf ("%d) Hidden quad: %s %d %d @ %s %s %s %s =>",
+        printf ("%d) Hidden quad: %s %d wise %d @ %s %s %s %s =>",
           G[I].p, RCB, LBN (l[y][h[a][0]]), b[K[0]], S[l[y][h[a][0]]], S[l[y][h[a][1]]], S[l[y][h[a][2]]], S[l[y][h[a][3]]]);
         if (G[I].g[l[y][h[a][0]]] ^ (G[I].g[l[y][h[a][0]]] & K[0]))
           printf (" -%d @ %s",
@@ -881,9 +881,9 @@ START:
               ROW (w[K[0]][20] | w[K[1]][20] | w[K[2]][20] | w[K[3]][20] | w[K[4]][20]),
               COL (w[K[0]][20] | w[K[1]][20] | w[K[2]][20] | w[K[3]][20] | w[K[4]][20]));
           else
-            printf ("r%dc%d r%dc%d", ROW (w[K[0]][20] | w[K[2]][20] | w[K[4]][20]),
-              COL (w[K[0]][20] | w[K[2]][20] | w[K[4]][20]),
-              ROW (w[K[1]][20] | w[K[3]][20]), COL (w[K[1]][20] | w[K[3]][20]));
+            printf ("r%dc%d r%dc%d", ROW (w[K[0]][20] | w[K[1]][20] | w[K[2]][20]),
+              COL (w[K[0]][20] | w[K[1]][20] | w[K[2]][20]),
+              ROW (w[K[3]][20] | w[K[4]][20]), COL (w[K[3]][20] | w[K[4]][20]));
           if (G[I].g[j[a][A]] ^ Y)
             printf (" => -%d @ %s", b[G[I].g[j[a][A]] ^ Y], S[j[a][A]]);
           printf ("\n");
@@ -1081,7 +1081,7 @@ START:
           if ((A[0] & A[1]) < 0)
             continue;        // Skip for no X-Wing value found in opposite Lines other Cell positions
 #if RJ > 2
-          printf ("%d) %s wise X-Wing: %d @ r%d%dc%d%d\n",
+          printf ("%d) X-Wing: %s wise %d @ r%d%dc%d%d\n",
             G[I].p, RCB, b[Y], y ? b[K[0]] : h[a][0] + 1, y ? b[K[1]] : h[a][1] + 1,
             y ? h[a][0] + 1 : b[K[0]], y ? h[a][1] + 1 : b[K[1]]);
 #endif
@@ -1120,7 +1120,7 @@ START:
           if ((A[0] & A[1] & A[2]) < 0)
             continue;        // Skip for no Sword Fish value found in opposite Lines other Cell positions
 #if RJ > 2
-          printf ("%d) %s wise Sword Fish: %d @ r%d%d%dc%d%d%d\n",
+          printf ("%d) Sword Fish: %s wise %d @ r%d%d%dc%d%d%d\n",
             G[I].p, RCB, b[Y], y ? b[K[0]] : h[a][0] + 1, y ? b[K[1]] : h[a][1] + 1,
             y ? b[K[2]] : h[a][2] + 1, y ? h[a][0] + 1 : b[K[0]],
             y ? h[a][1] + 1 : b[K[1]], y ? h[a][2] + 1 : b[K[2]]);
@@ -1164,7 +1164,7 @@ START:
           if ((A[0] & A[1] & A[2] & A[3]) < 0)
             continue;        // Skip for no Jelly Fish value found in opposite Lines other Cell positions
 #if RJ > 2
-          printf ("%d) %s wise Jelly Fish: %d @ r%d%d%d%dc%d%d%d%d\n",
+          printf ("%d) Jelly Fish: %s wise %d @ r%d%d%d%dc%d%d%d%d\n",
             G[I].p, RCB, b[Y], y ? b[K[0]] : h[a][0] + 1, y ? b[K[1]] : h[a][1] + 1,
             y ? b[K[2]] : h[a][2] + 1, y ? b[K[3]] : h[a][3] + 1, y ? h[a][0] + 1 : b[K[0]],
             y ? h[a][1] + 1 : b[K[1]], y ? h[a][2] + 1 : b[K[2]], y ? h[a][3] + 1 : b[K[3]]);
@@ -1302,7 +1302,7 @@ START:
                 G[I].g[K[3]] &= ~Y;
               }
 #if RJ > 2
-              printf ("%d)%sSkyscraper: %ss %d %d Base %d @ %s %s Cover %d @ r%dc%d r%dc%d => -%d @",
+              printf ("%d)%sSkyscraper: %ss %d %d wise Base %d @ %s %s Cover %d @ r%dc%d r%dc%d => -%d @",
                 G[I].p, A[5] ? " Grouped " : " ", RCB, a - y + 1, Z - y + 1, b[Y], S[K[4]], S[K[5]],
                 b[Y], ROW ((K[6] + 1 ? w[K[6]][20] : 0) | (K[7] + 1 ? w[K[7]][20] : 0) |
                 (K[8] + 1 ? w[K[8]][20] : 0)), COL ((K[6] + 1 ? w[K[6]][20] : 0) |
@@ -4340,7 +4340,7 @@ NHSCF:
     {
       printf (" from values %d", b[G[I].g[r[G[I].p]]]);
       if (y < 2)
-        printf (" in %s %d", Z & 255 ? (Z >> 12 ? "Box" : "Column") : "Row",
+        printf (" %s %d wise", Z & 255 ? (Z >> 12 ? "Box" : "Column") : "Row",
           Z & 255 ? (Z >> 12 ? BOX (r[G[I].p]) : COL (w[r[G[I].p]][20])) : ROW (w[r[G[I].p]][20]));
     }
     printf ("\n");
