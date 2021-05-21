@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#define RJ 5                 // 0 no debugging, 1 print solutions, 2 print puzzles, 3 print steps, 4 print steps possibilities in grid, 5 print puzzles in grid
+#define RJ 0                 // 0 no debugging, 1 print solutions, 2 print puzzles, 3 print steps, 4 print steps possibilities in grid, 5 print puzzles in grid
 
 #define ERI(A)          (G[I].g[w[A][6]] | G[I].g[w[A][7]]) & (G[I].g[w[A][12]] | G[I].g[w[A][13]]) & \
                         ~(G[I].g[w[A][8]] | G[I].g[w[A][9]] | G[I].g[w[A][10]] | G[I].g[w[A][11]])
@@ -1299,8 +1299,9 @@ START:
                 G[I].g[K[3]] &= ~Y;
               }
 #if RJ > 2
-              printf ("%d)%sSkyscraper: %ss %d %d wise Base %d @ %s %s Cover %d @ r%dc%d r%dc%d => -%d @",
-                G[I].p, A[5] ? " Grouped " : " ", RCB, a - y + 1, Z - y + 1, b[Y], S[K[4]], S[K[5]],
+              printf ("%d)%sSkyscraper: %ss %d %d wise Base %d @ r%dc%d Cover %d @ r%dc%d r%dc%d => -%d @",
+                G[I].p, A[5] ? " Grouped " : " ", RCB, a - y + 1, Z - y + 1, b[Y],
+                ROW (w[K[4]][20] | w[K[5]][20]), COL (w[K[4]][20] | w[K[5]][20]),
                 b[Y], ROW ((K[6] + 1 ? w[K[6]][20] : 0) | (K[7] + 1 ? w[K[7]][20] : 0) |
                 (K[8] + 1 ? w[K[8]][20] : 0)), COL ((K[6] + 1 ? w[K[6]][20] : 0) |
                 (K[7] + 1 ? w[K[7]][20] : 0) | (K[8] + 1 ? w[K[8]][20] : 0)),
