@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#define RJ 5                 // 0 no debugging, 1 print solutions, 2 print puzzles, 3 print steps, 4 print steps possibilities in grid, 5 print puzzles in grid
+#define RJ 0                 // 0 no debugging, 1 print solutions, 2 print puzzles, 3 print steps, 4 print steps possibilities in grid, 5 print puzzles in grid
 
 #define ERI(A)          (G[I].g[w[A][6]] | G[I].g[w[A][7]]) & (G[I].g[w[A][12]] | G[I].g[w[A][13]]) & \
                         ~(G[I].g[w[A][8]] | G[I].g[w[A][9]] | G[I].g[w[A][10]] | G[I].g[w[A][11]])
@@ -424,7 +424,7 @@ int solve ()
       y = 0,                 // 0 = Naked single, 1 = Hidden Single and 2 = Trial & Error
       z = 0;
 
-  while (1)
+  do
   {
 START:
 #if RJ > 3
@@ -4575,11 +4575,9 @@ NHSCF:
     printf ("\n");
 #endif
     G[I].g[r[G[I].p]] = 0;
-    if (G[I].p + 1 < q)      // Check either iteratively solve for next unsolved Cell position; or all Cell positions solved
-      ++G[I].p;
-    else
-      return 1;
   }
+  while (++G[I].p < q);      // Loop for next unsolved Cell position
+  return 1;
 }
 
 int check (int p, int q)
