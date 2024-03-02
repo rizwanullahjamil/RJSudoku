@@ -1196,7 +1196,7 @@ START:
             if ((G[I].g[w[X][W[3][N]]] & M) + (G[I].g[w[X][W[4][N]]] & M) +
               (G[I].g[A[0][N]] & M) + (G[I].g[w[A[0][N]][W[3][N]]] & M) +
               (G[I].g[w[A[0][N]][W[4][N]]] & M) + (G[I].g[A[1][N]] & M) +
-              (G[I].g[w[A[1][N]][W[3][N]]] & M) + (G[I].g[w[A[1][N]][W[4][N]]] & M) == 7)
+              (G[I].g[w[A[1][N]][W[3][N]]] & M) + (G[I].g[w[A[1][N]][W[4][N]]] & M) == 1)
             {                // M-Wing Type 1A, 1B, 4A, 4B, and M-Ring Type A
               if (G[I].g[w[X][W[3][N]]] & M)
                 Z = w[X][W[3][N]];
