@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#define RJ 0                 // 0 no debugging, 1 print solutions, 2 print puzzles, 3 print steps, 4 print steps possibilities in grid, 5 print puzzles in grid
+#define RJ 5                 // 0 no debugging, 1 print solutions, 2 print puzzles, 3 print steps, 4 print steps possibilities in grid, 5 print puzzles in grid
 
 #define ERI(A)          (G[I].g[w[A][6]] | G[I].g[w[A][7]]) & (G[I].g[w[A][12]] | G[I].g[w[A][13]]) & \
                         ~(G[I].g[w[A][8]] | G[I].g[w[A][9]] | G[I].g[w[A][10]] | G[I].g[w[A][11]])
@@ -578,11 +578,7 @@ START:
         (G[I].g[j[a][9]] | G[I].g[j[a][10]] | G[I].g[j[a][11]] |
         G[I].g[j[a][12]] | G[I].g[j[a][13]] | G[I].g[j[a][14]]) & Y))
       {                      // Locked pair found
-        int k[13] = {G[I].g[j[a][X]], G[I].g[j[a][3]], G[I].g[j[a][4]],
-                    G[I].g[j[a][5]], G[I].g[j[a][6]], G[I].g[j[a][7]], G[I].g[j[a][8]],
-                    G[I].g[j[a][9]], G[I].g[j[a][10]], G[I].g[j[a][11]],
-                    G[I].g[j[a][12]], G[I].g[j[a][13]], G[I].g[j[a][14]]};
-                             // Backup and drop Locked pair Cell values from Units other Cell positions
+                             // Drop Locked pair Cell values from Units other Cell positions
         G[I].g[j[a][X]] &= ~Y;
         G[I].g[j[a][3]] &= ~Y;
         G[I].g[j[a][4]] &= ~Y;
@@ -618,10 +614,7 @@ START:
         (G[I].g[j[a][9]] | G[I].g[j[a][10]] | G[I].g[j[a][11]] |
         G[I].g[j[a][12]] | G[I].g[j[a][13]] | G[I].g[j[a][14]]) & Y))
       {                      // Locked triplet found
-        int k[12] = {G[I].g[j[a][3]], G[I].g[j[a][4]], G[I].g[j[a][5]], G[I].g[j[a][6]],
-                    G[I].g[j[a][7]], G[I].g[j[a][8]], G[I].g[j[a][9]], G[I].g[j[a][10]],
-                    G[I].g[j[a][11]], G[I].g[j[a][12]], G[I].g[j[a][13]], G[I].g[j[a][14]]};
-                             // Backup and drop Locked triplet Cell values from Units other Cell positions
+                             // Drop Locked triplet Cell values from Units other Cell positions
         G[I].g[j[a][3]] &= ~Y;
         G[I].g[j[a][4]] &= ~Y;
         G[I].g[j[a][5]] &= ~Y;
@@ -1169,6 +1162,198 @@ START:
           goto START;
         }
       }
+    for (y = G[I].p; y < q; ++y)
+    {                        // Search M-Wings and M-Rings 1st Wing Cell position unsolved Cell positions wise
+      if (B[G[I].g[r[y]]] > 2)
+        continue;            // Skip M-Wings and M-Rings for 1st Wing Cell values > two digits
+      for (Y = G[I].p; Y < q; ++Y)
+      {                      // Search M-Wings and M-Rings 2nd Wing Cell position unsolved Cell positions wise
+        if (w[r[y]][20] & w[r[Y]][20] & 134217727 || B[G[I].g[r[y]] & G[I].g[r[Y]]] != 2)
+          continue;          // Skip M-Wings and M-Rings for either 1st and 2nd Wing Cell positions in Unit; or 1st and 2nd Wing Cells values not two common digits
+        int L = 0,
+            M,
+            N,
+            P;
+
+        if ((w[r[y]][20] & W[25][0]) != (w[r[Y]][20] & W[25][0]) &&
+          (w[r[y]][20] & W[25][1]) != (w[r[Y]][20] & W[25][1]))
+        {                    // Check for 1st and 2nd Wing Cell positions not Band and Stack wise
+          int A[2][2] = {{r[Y] - COL (w[r[Y]][20]) + COL (w[r[y]][20]),
+                        r[y] - COL (w[r[y]][20]) + COL (w[r[Y]][20])},
+                        {r[Y] + (COL (w[r[Y]][20]) < 4 ? (COL (w[r[y]][20]) < 7 ? 6 : 3) :
+                        (COL (w[r[Y]][20]) < 7 ? (COL (w[r[y]][20]) < 4 ? 3 : -3) :
+                        (COL (w[r[y]][20]) < 4 ? -3 : -6))),
+                        r[Y] + (r[Y] < 27 ? (r[y] < 54 ? 54 : 27) :
+                        (r[Y] < 54 ? (r[y] < 27 ? 27 : -27) : (r[y] < 27 ? -27 : -54)))}};
+
+          if (!(a = LN1 (r[Y], A[0][0], A[1][0], 0) & G[I].g[r[y]]) &&
+            (L = 1) && !(a = LN1 (X, A[0][1], A[1][1], 1) & G[I].g[r[y]]))
+            continue;        // Skip for no 1st digit SL found
+          for (M = G[I].g[r[y]] - a, N = 0; N < 2; ++N)
+          {                  // Search 1st Wing Cell values 2nd digit SL Line wise
+            int K[6] = {-1,-1,-1,-1},
+                k[15] = {0};
+            if (!(G[I].g[w[X][W[3][N]]] & M) + !(G[I].g[w[X][W[4][N]]] & M) +
+              !(G[I].g[A[0][N]] & M) + !(G[I].g[w[A[0][N]][W[3][N]]] & M) +
+              !(G[I].g[w[A[0][N]][W[4][N]]] & M) + !(G[I].g[A[1][N]] & M) +
+              !(G[I].g[w[A[1][N]][W[3][N]]] & M) + !(G[I].g[w[A[1][N]][W[4][N]]] & M) == 7)
+            {                // M-Wing Type 1A, 1B, 4A, 4B, and M-Ring Type A
+              if (G[I].g[w[X][W[3][N]]] & M)
+                Z = w[X][W[3][N]];
+              else if (G[I].g[w[X][W[4][N]]] & M)
+                Z = w[X][W[4][N]];
+              else if (G[I].g[A[0][N]] & M)
+                Z = A[0][N];
+              else if (G[I].g[w[A[0][N]][W[3][N]]] & M)
+                Z = w[A[0][N]][W[3][N]];
+              else if (G[I].g[w[A[0][N]][W[4][N]]] & M)
+                Z = w[A[0][N]][W[4][N]];
+              else if (G[I].g[A[1][N]] & M)
+                Z = A[1][N];
+              else if (G[I].g[w[A[1][N]][W[3][N]]] & M)
+                Z = w[A[1][N]][W[3][N]];
+              else
+                Z = w[A[1][N]][W[4][N]];
+              if (w[r[y]][20] & w[Z][20] & W[15][N])
+              {              // M-Ring Type A
+                k[0] = G[I].g[X];
+                k[1] = G[I].g[w[r[y]][W[3][!N]]];
+                k[2] = G[I].g[w[r[y]][W[4][!N]]];
+                k[3] = G[I].g[w[Z][W[3][!N]]];
+                k[4] = G[I].g[w[Z][W[4][!N]]];
+                K[0] = N ? r[y] - COL (w[r[y]][20]) + COL (w[A[1][0]][20]) :
+                       A[1][1] - COL (w[A[1][1]][20]) + COL (w[r[y]][20]);
+                k[5] = G[I].g[K[0]];
+                k[6] = G[I].g[w[K[0]][W[3][!N]]];
+                k[7] = G[I].g[w[K[0]][W[4][!N]]];
+                k[8] = G[I].g[w[r[y]][W[3][!L]]];
+                k[9] = G[I].g[w[r[y]][W[4][!L]]];
+                k[10] = G[I].g[w[A[0][L]][W[3][!L]]];
+                k[11] = G[I].g[w[A[0][L]][W[4][!L]]];
+                K[1] = L ? r[y] - COL (w[r[y]][20]) + COL (w[A[1][0]][20]) :
+                       A[1][1] - COL (w[A[1][1]][20]) + COL (w[r[y]][20]);
+                k[12] = G[I].g[K[1]];
+                k[13] = G[I].g[w[K[1]][W[3][!L]]];
+                k[14] = G[I].g[w[K[1]][W[4][!L]]];
+              }
+              else if ((w[r[y]][20] & W[25][N]) == (w[Z][20] & W[25][N]))
+              {              // (Check for 1st Wing Cell 2nd digit SL within 2nd Wing Cell Chute) M-Wing Type 4A and 4B
+                k[1] = G[I].g[K[1] = N ? Z - COL (w[Z][20]) + COL (w[r[y]][20]) :
+                       r[y] - COL (w[r[y]][20]) + COL (w[Z][20])];
+                k[2] = G[I].g[K[2] = w[K[1]][W[3][!N]]];
+                k[3] = G[I].g[K[3] = w[K[1]][W[4][!N]]];
+                k[4] = G[I].g[K[4] = w[A[0][N]][W[3][!N]]];
+                k[5] = G[I].g[K[5] = w[A[0][N]][W[4][!N]]];
+              }
+            }
+            else if (~(G[I].g[w[X][W[3][N]]] | G[I].g[w[X][W[4][N]]]) & M &&
+              (P = (G[I].g[Z = w[X][W[3][!N]]] | G[I].g[w[Z][W[3][N]]] | G[I].g[w[Z][W[4][N]]]) & M) !=
+              ((G[I].g[Z = w[X][W[4][!N]]] | G[I].g[w[Z][W[3][N]]] | G[I].g[w[Z][W[4][N]]]) & M))
+            {                // M-Wing Type 2A, Type 2B, Type 2C and Type 2D
+              if (P)
+                Z = w[X][W[3][!N]];
+              k[1] = G[I].g[K[1] = N ? r[y] - COL (w[r[y]][20]) + COL (w[Z][20]) :
+                Z - COL (w[Z][20]) + COL (w[r[y]][20])];
+              if (~(G[I].g[w[Z][W[3][N]]] | G[I].g[w[Z][W[4][N]]]) & M ||
+                (~(G[I].g[Z] | G[I].g[w[Z][W[3][N]]]) & M && (Z = w[Z][W[4][N]])) ||
+                (~(G[I].g[Z] | G[I].g[w[Z][W[4][N]]]) & M && (Z = w[Z][W[3][N]])))
+                k[2] = G[I].g[K[2] = N ? Z - COL (w[Z][20]) + COL (w[r[y]][20]) :
+                  r[y] - COL (w[r[y]][20]) + COL (w[Z][20])];
+            }
+            else if (LN3 (X, A[0][N], A[1][N], N) & M)
+            {                // M-Wing Type 3A and Type 3B
+              k[1] = G[I].g[K[1] = w[A[0][N]][W[3][!N]]];
+              k[2] = G[I].g[K[2] = w[A[0][N]][W[4][!N]]];
+            }
+            else
+              continue;
+            if ((~K[0] && B[k[0]] < 3) ||
+              (!((k[1] | k[2] | k[3] | k[4] | k[5] | k[6] | k[7]) & M) &&
+              !((k[8] | k[9] | k[10] | k[11] | k[12] | k[13] | k[14]) & a)))
+              continue;
+            if (~K[0])
+            {
+              G[I].g[X] = G[I].g[r[y]];
+              G[I].g[w[r[y]][W[3][!N]]] &= ~M;
+              G[I].g[w[r[y]][W[4][!N]]] &= ~M;
+              G[I].g[w[Z][W[3][!N]]] &= ~M;
+              G[I].g[w[Z][W[4][!N]]] &= ~M;
+              G[I].g[K[0]] &= ~M;
+              G[I].g[w[K[0]][W[3][!N]]] &= ~M;
+              G[I].g[w[K[0]][W[4][!N]]] &= ~M;
+              G[I].g[w[r[y]][W[3][!L]]] &= ~a;
+              G[I].g[w[r[y]][W[4][!L]]] &= ~a;
+              G[I].g[w[A[0][L]][W[3][!L]]] &= ~a;
+              G[I].g[w[A[0][L]][W[4][!L]]] &= ~a;
+              G[I].g[K[1]] &= ~a;
+              G[I].g[w[K[1]][W[3][!L]]] &= ~a;
+              G[I].g[w[K[1]][W[4][!L]]] &= ~a;
+            }
+            else
+            {
+              if (~K[1])
+              {
+                G[I].g[K[1]] &= ~M;
+                if (~K[2])
+                  G[I].g[K[2]] &= ~M;
+              }
+              if (~K[3])
+              {
+                G[I].g[K[3]] &= ~M;
+                G[I].g[K[4]] &= ~M;
+                G[I].g[K[5]] &= ~M;
+              }
+            }
+            P = r[y];
+#if RJ > 2
+            printf ("%d) M-%cing Type 1: %d @ %s %d @ %s SL %d @ r%dc%d SL %d @ %s r%dc%d => -",
+              G[I].p, ~K[0] ? 'R' : 'W', b[G[I].g[P]], S[P], b[G[I].g[X] | k[0]], S[X], b[a],
+              ROW (w[X][20] | w[A[0][L]][20]), COL (w[X][20] | w[A[0][L]][20]),
+              b[M], S[X], ROW (((G[I].g[Z] & M) ? w[Z][20] : 0) |
+              ((G[I].g[w[Z][W[3][N]]] & M) ? w[w[Z][W[3][N]]][20] : 0) |
+              ((G[I].g[w[Z][W[4][N]]] & M) ? w[w[Z][W[4][N]]][20] : 0)),
+              COL (((G[I].g[Z] & M) ? w[Z][20] : 0) |
+              ((G[I].g[w[Z][W[3][N]]] & M) ? w[w[Z][W[3][N]]][20] : 0) |
+              ((G[I].g[w[Z][W[4][N]]] & M) ? w[w[Z][W[4][N]]][20] : 0)));
+            if (~K[0])
+            {
+              if (k[0] - G[I].g[P])
+                printf ("%d @ %s => -", b[k[0] - G[I].g[P]], S[X]);
+              printf ("%d @ r%dc%d => -%d @ r%dc%d",
+                b[M], ROW (w[w[P][W[3][!N]]][20] | w[w[P][W[4][!N]]][20] |
+                w[w[Z][W[3][!N]]][20] | w[w[Z][W[4][!N]]][20] | w[K[0]][20] |
+                w[w[K[0]][W[3][!N]]][20] | w[w[K[0]][W[4][!N]]][20]),
+                COL (w[w[P][W[3][!N]]][20] | w[w[P][W[4][!N]]][20] |
+                w[w[Z][W[3][!N]]][20] | w[w[Z][W[4][!N]]][20] | w[K[0]][20] |
+                w[w[K[0]][W[3][!N]]][20] | w[w[K[0]][W[4][!N]]][20]), b[a],
+                ROW (w[w[P][W[3][!L]]][20] | w[w[P][W[4][!L]]][20] |
+                w[w[A[0][L]][W[3][!L]]][20] | w[w[A[0][L]][W[4][!L]]][20] |
+                w[K[1]][20] | w[w[K[1]][W[3][!L]]][20] | w[w[K[1]][W[4][!L]]][20]),
+                COL (w[w[P][W[3][!L]]][20] | w[w[P][W[4][!L]]][20] |
+                w[w[A[0][L]][W[3][!L]]][20] | w[w[A[0][L]][W[4][!L]]][20] |
+                w[K[1]][20] | w[w[K[1]][W[3][!L]]][20] | w[w[K[1]][W[4][!L]]][20]));
+            }
+            else
+            {
+              printf ("%d @", b[M]);
+              if (~K[3])
+                printf (" r%dc%d r%dc%d", ROW (w[K[1]][20] | w[K[2]][20] | w[K[3]][20]),
+                  COL (w[K[1]][20] | w[K[2]][20] | w[K[3]][20]),
+                  ROW (w[K[4]][20] | w[K[5]][20]), COL (w[K[4]][20] | w[K[5]][20]));
+              else if (~K[1])
+              {
+                printf (" %s", S[K[1]]);
+                if (~K[2])
+                  printf (" %s", S[K[2]]);
+              }
+            }
+            printf ("\n");
+#endif
+            goto START;
+          }
+        }
+      }
+    }
     for (y = 0; y < 10; y += 9)
                              // Search Skyscraper and Grouped Skyscraper Line wise
       for (Y = 1; Y < 257; Y <<= 1)
