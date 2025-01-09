@@ -6523,10 +6523,10 @@ XYWT1Tf:
               printf (" %s", S[Z]);
 #endif
             }
-        }
 #if RJ > 2
           printf ("\n");
 #endif
+        }
       }
     }
     if (!z)
