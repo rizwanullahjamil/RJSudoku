@@ -2445,11 +2445,11 @@ START:
     {
       if ((Y = !G[I].g[l[y][0]] + !G[I].g[l[y][1]] + !G[I].g[l[y][2]] + !G[I].g[l[y][3]] +
         !G[I].g[l[y][4]] + !G[I].g[l[y][5]] + !G[I].g[l[y][6]] + !G[I].g[l[y][7]] + !G[I].g[l[y][8]]) > 6)
-        continue;            // Skip Unit for no unsolved Cell positions > six
+        continue;            // Skip Unit for unsolved Cell positions <= six
       for (a = 0; a < 36; ++a)
       {                      // Search Naked/Hidden pair Cell values Unit 36 pair Cell positions wise
         if (!G[I].g[l[y][h[a][0]]] || !G[I].g[l[y][h[a][1]]])
-        {                    // Skip for no unsolved Cell positions found
+        {                    // Skip for unsolved Cell positions not found
           if (!G[I].g[l[y][h[a][0]]])
             a += 7 - h[a][0];
           continue;
@@ -2461,7 +2461,7 @@ START:
         if (B[K[0]] == 2)    // Check Naked pair Cell values in Unit pair Cell positions
         {
           if (!(K[0] & K[1]))
-            continue;        // Skip for no Naked pair Cell values found in Unit other Cell positions
+            continue;        // Skip for Naked pair Cell values not found in Unit other Cell positions
                              // Drop Naked pair Cell values from Unit other Cell positions
           G[I].g[l[y][h[a][2]]] &= ~K[0];
           G[I].g[l[y][h[a][3]]] &= ~K[0];
@@ -2479,7 +2479,7 @@ START:
           goto START;
         }
         if (B[K[0] &= K[0] ^ K[1]] != 2)
-          continue;          // Skip for no Hidden pair Cell values found in Unit pair Cell positions
+          continue;          // Skip for Hidden pair Cell values not found in Unit pair Cell positions
 #if RJ > 2
         printf ("%d) Hidden pair: %s %d wise %d @ %s %s =>",
           G[I].p, RCB, LBN (l[y][h[a][0]]), b[K[0]], S[l[y][h[a][0]]], S[l[y][h[a][1]]]);
@@ -2497,11 +2497,11 @@ START:
         goto START;
       }
       if (Y > 4)
-        continue;            // Skip Unit for no unsolved Cell positions > four
+        continue;            // Skip Unit for unsolved Cell positions <= four
       for (; a < 120; ++a)   // Search Naked/Hidden triplet Cell values Unit 84 triplet Cell positions wise
       {
         if (!G[I].g[l[y][h[a][0]]] || !G[I].g[l[y][h[a][1]]] || !G[I].g[l[y][h[a][2]]])
-        {                    // Skip for no unsolved Cell positions found
+        {                    // Skip for unsolved Cell positions not found
           if (!G[I].g[l[y][h[a][0]]])
           {
             int A[7] = {27,20,14, 9, 5, 2};
@@ -2519,7 +2519,7 @@ START:
         if (B[K[0]] == 3)    // Check Naked triplet Cell values in Unit triplet Cell positions
         {
           if (!(K[0] & K[1]))
-            continue;        // Skip for no Naked triplet Cell values found in Unit other Cell positions
+            continue;        // Skip for Naked triplet Cell values not found in Unit other Cell positions
                              // Drop Naked triplet Cell values from Unit other Cell positions
           G[I].g[l[y][h[a][3]]] &= ~K[0];
           G[I].g[l[y][h[a][4]]] &= ~K[0];
@@ -2536,7 +2536,7 @@ START:
           goto START;
         }
         if (B[K[0] &= K[0] ^ K[1]] != 3)
-          continue;          // Skip for no Hidden triplet Cell values found in Unit triplet Cell positions
+          continue;          // Skip for Hidden triplet Cell values not found in Unit triplet Cell positions
 #if RJ > 2
         printf ("%d) Hidden triplet: %s %d wise %d @ %s %s %s =>",
           G[I].p, RCB, LBN (l[y][h[a][0]]), b[K[0]], S[l[y][h[a][0]]], S[l[y][h[a][1]]], S[l[y][h[a][2]]]);
@@ -2563,7 +2563,7 @@ START:
       {
         if (!G[I].g[l[y][h[a][0]]] || !G[I].g[l[y][h[a][1]]] ||
           !G[I].g[l[y][h[a][2]]] || !G[I].g[l[y][h[a][3]]])
-        {                    // Skip for no unsolved Cell positions found
+        {                    // Skip for unsolved Cell positions not found
           if (!G[I].g[l[y][h[a][0]]])
           {
             int A[6] = {55,34,19, 9, 3};
@@ -2587,7 +2587,7 @@ START:
         if (B[K[0]] == 4)    // Check Naked quad Cell values in Unit quad Cell positions
         {
           if (!(K[0] & K[1]))
-            continue;        // Skip for no Naked quad Cell values found in Unit other Cell positions
+            continue;        // Skip for Naked quad Cell values not found in Unit other Cell positions
                              // Drop Naked quad Cell values from Unit other Cell positions
           G[I].g[l[y][h[a][4]]] &= ~K[0];
           G[I].g[l[y][h[a][5]]] &= ~K[0];
@@ -2603,7 +2603,7 @@ START:
           goto START;
         }
         if (B[K[0] &= K[0] ^ K[1]] != 4)
-          continue;          // Skip for no Hidden quad Cell values found in Unit quad Cell positions
+          continue;          // Skip for Hidden quad Cell values not found in Unit quad Cell positions
 #if RJ > 2
         printf ("%d) Hidden quad: %s %d wise %d @ %s %s %s %s =>",
           G[I].p, RCB, LBN (l[y][h[a][0]]), b[K[0]], S[l[y][h[a][0]]], S[l[y][h[a][1]]], S[l[y][h[a][2]]], S[l[y][h[a][3]]]);
@@ -2632,7 +2632,7 @@ START:
     for (a = 0; a < 54; ++a) // Search Almost Locked candidates (pair, triple and quad) 54 mini-Lines 3 Cell positions wise
     {
       if (!(G[I].g[j[a][0]] | G[I].g[j[a][1]] | G[I].g[j[a][2]]))
-        continue;            // Skip for no unsolved Cell position found in mini-Line
+        continue;            // Skip for unsolved Cell position not found in mini-Line
       int A,
           L,
           M,
@@ -2658,7 +2658,7 @@ START:
             G[I].g[K[3] = j[a][W[29][!y] + (Z < W[30][!y])]] |
             G[I].g[K[4] = j[a][W[30][!y] + (Z < W[31][!y])]]) & Y) &&
             B[G[I].g[j[a][A]]] < 3))
-            continue;        // No Almost Locked Pair values found in removal Cell positions
+            continue;        // Almost Locked Pair values not found in removal Cell positions
 #if RJ > 2
           printf ("%d) Almost Locked Pair: Box %d %s %d wise %d @ r%dc%d %s %s\n=> -%d @ ",
             G[I].p, BOX (j[a][y ? A : Z]), a < 27 ? "Row" : "Column",
@@ -2686,7 +2686,7 @@ START:
           goto START;
         }
         if (!G[I].g[j[a][0]] + !G[I].g[j[a][1]] + !G[I].g[j[a][2]] > 1)
-          continue;          // Skip Almost Locked Triple for no unsolved Cell position > 1 in mini-Line
+          continue;          // Skip Almost Locked Triple for unsolved Cell position <= 1 in mini-Line
         for (A = W[26][y]; A < W[31][y]; ++A)
         {                    // Search 1st Cell position 54 mini-Lines away Line/Box wise
           if (!G[I].g[j[a][A]])
@@ -2712,7 +2712,7 @@ START:
                   G[I].g[K[2] = j[a][W[28][!y] + (M < W[29][!y]) + (N < W[30][!y])]] |
                   G[I].g[K[3] = j[a][W[29][!y] + (M < W[30][!y]) + (N < W[31][!y])]]) & Y) &&
                   B[G[I].g[j[a][A]] | G[I].g[j[a][L]]] < 4))
-                  continue;  // No Almost Locked Triple values found in removal Cell positions
+                  continue;  // Almost Locked Triple values not found in removal Cell positions
 #if RJ > 2
                 printf ("%d) Almost Locked Triple: Box %d %s %d wise %d @ r%dc%d r%dc%d %s %s\n=> -%d @ ",
                   G[I].p, BOX (j[a][y ? A : M]), a < 27 ? "Row" : "Column",
@@ -2769,7 +2769,7 @@ START:
                 G[I].g[j[a][W[28][y] + (A < W[29][y]) + (L < W[30][y]) + (M < W[31][y])]])] != 4 ||
                              // Skip for either 3rd Cell position not unsolved; or 1st, 2nd and 3rd Cells values not four digits; or
                 !(G[I].g[j[a][A]] & Y) || !(G[I].g[j[a][L]] & Y) || !(G[I].g[j[a][M]] & Y))
-                continue;    // No Almost Locked Quad values in either 1st or 2nd or 3rd Cells positions
+                continue;    // Almost Locked Quad values in either 1st or 2nd or 3rd Cells positions not found
               for (N = W[26][!y]; N < W[30][!y]; ++N)
               {              // Search 4th Cell position 54 mini-Lines away Box/Line wise
                 if (!G[I].g[j[a][N]] || B[G[I].g[j[a][N]]] > 4)
@@ -2786,7 +2786,7 @@ START:
                       G[I].g[K[1] = j[a][W[27][!y] + (N < W[28][!y]) + (X < W[29][!y]) + (Z < W[30][!y])]] |
                       G[I].g[K[2] = j[a][W[28][!y] + (N < W[29][!y]) + (X < W[30][!y]) + (Z < W[31][!y])]]) & Y) &&
                       B[G[I].g[j[a][A]] | G[I].g[j[a][L]] | G[I].g[j[a][M]]] < 5))
-                             // No Almost Locked Quad values found in removal Cell positions
+                             // Almost Locked Quad values not found in removal Cell positions
                       continue;
 #if RJ > 2
                     printf ("%d) Almost Locked Quad: Box %d %s %d wise %d @ r%dc%d r%dc%d %s %s %s\n=> -%d @ ",
@@ -2845,7 +2845,7 @@ START:
         for (a = 0; a < 36; ++a)
         {                    // Search X-Wing value for Line 36 pair Cell positions
           if (B[X = k[h[a][0]]] != 2 || X != k[h[a][1]])
-          {                  // Skip for no X-Wing value found in Lines pair Cell positions
+          {                  // Skip for X-Wing value not found in Lines pair Cell positions
             if (B[X] != 2)
               a += 7 - h[a][0];
             continue;
@@ -2856,7 +2856,7 @@ START:
           {                  // Search opposite Line other Cell positions for X-Wing value
             if (~(k[h[a][2]] | k[h[a][3]] | k[h[a][4]] | k[h[a][5]] | k[h[a][6]] |
               k[h[a][7]] | k[h[a][8]]) & K[Z])
-              continue;      // Skip for no X-Wing value found in opposite Line other Cell positions
+              continue;      // Skip for X-Wing value not found in opposite Line other Cell positions
             A[Z] = b[K[Z]] - y + 8;
             G[I].g[l[A[Z]][h[a][2]]] &= ~Y;
             G[I].g[l[A[Z]][h[a][3]]] &= ~Y;
@@ -2867,7 +2867,7 @@ START:
             G[I].g[l[A[Z]][h[a][8]]] &= ~Y;
           }                  // Drop X-Wing value from opposite Line other Cell positions
           if ((A[0] & A[1]) < 0)
-            continue;        // Skip for no X-Wing value found in opposite Lines other Cell positions
+            continue;        // Skip for X-Wing value not found in opposite Lines other Cell positions
 #if RJ > 2
           printf ("%d) X-Wing: %s wise %d @ r%d%dc%d%d\n",
             G[I].p, RCB, b[Y], y ? b[K[0]] : h[a][0] + 1, y ? b[K[1]] : h[a][1] + 1,
@@ -2879,7 +2879,7 @@ START:
         {
           if (!k[h[a][0]] || !k[h[a][1]] || !k[h[a][2]] ||
             B[X = k[h[a][0]] | k[h[a][1]] | k[h[a][2]]] != 3)
-          {                  // Skip for either no unsolved Cell positions; or no Sord Fish value found in Lines triplet Cell positions
+          {                  // Skip for either unsolved Cell positions; or Sord Fish value not found in Lines triplet Cell positions
             if (!k[h[a][0]] || B[k[h[a][0]]] > 3)
             {
               int A[7] = {27,20,14, 9, 5, 2};
@@ -2896,7 +2896,7 @@ START:
           {                  // Search opposite Line other Cell positions for Sword Fish value
             if (~(k[h[a][3]] | k[h[a][4]] | k[h[a][5]] | k[h[a][6]] | k[h[a][7]] |
               k[h[a][8]]) & K[Z])
-              continue;      // Skip for no Sword Fish value found in opposite Line other Cell positions
+              continue;      // Skip for Sword Fish value not found in opposite Line other Cell positions
             A[Z] = b[K[Z]] - y + 8;
             G[I].g[l[A[Z]][h[a][3]]] &= ~Y;
             G[I].g[l[A[Z]][h[a][4]]] &= ~Y;
@@ -2906,7 +2906,7 @@ START:
             G[I].g[l[A[Z]][h[a][8]]] &= ~Y;
           }                  // Drop Sword Fish value from opposite Line other Cell positions
           if ((A[0] & A[1] & A[2]) < 0)
-            continue;        // Skip for no Sword Fish value found in opposite Lines other Cell positions
+            continue;        // Skip for Sword Fish value not found in opposite Lines other Cell positions
 #if RJ > 2
           printf ("%d) Sword Fish: %s wise %d @ r%d%d%dc%d%d%d\n",
             G[I].p, RCB, b[Y], y ? b[K[0]] : h[a][0] + 1, y ? b[K[1]] : h[a][1] + 1,
@@ -2919,7 +2919,7 @@ START:
         {
           if (!k[h[a][0]] || !k[h[a][1]] || !k[h[a][2]] || !k[h[a][3]] ||
             B[X = k[h[a][0]] | k[h[a][1]] | k[h[a][2]] | k[h[a][3]]] != 4)
-          {                  // Skip for either no unsolved Cell positions; or no Jelly Fish value found in Line quad Cell positions
+          {                  // Skip for either unsolved Cell positions; or Jelly Fish value not found in Line quad Cell positions
             if (!k[h[a][0]] || B[k[h[a][0]]] > 4)
             {
               int A[6] = {55,34,19, 9, 3};
@@ -2941,7 +2941,7 @@ START:
           for (Z = -1; K[++Z] = X & -X; X -= K[Z])
           {                  // Search opposite Line other Cell positions for Jelly Fish value
             if (~(k[h[a][4]] | k[h[a][5]] | k[h[a][6]] | k[h[a][7]] | k[h[a][8]]) & K[Z])
-              continue;      // Skip for no Jelly Fish value found in opposite Line other Cell positions
+              continue;      // Skip for Jelly Fish value not found in opposite Line other Cell positions
             A[Z] = b[K[Z]] - y + 8;
             G[I].g[l[A[Z]][h[a][4]]] &= ~Y;
             G[I].g[l[A[Z]][h[a][5]]] &= ~Y;
@@ -2950,7 +2950,7 @@ START:
             G[I].g[l[A[Z]][h[a][8]]] &= ~Y;
           }                  // Drop Jelly Fish value from opposite Line other Cell positions
           if ((A[0] & A[1] & A[2] & A[3]) < 0)
-            continue;        // Skip for no Jelly Fish value found in opposite Lines other Cell positions
+            continue;        // Skip for Jelly Fish value not found in opposite Lines other Cell positions
 #if RJ > 2
           printf ("%d) Jelly Fish: %s wise %d @ r%d%d%d%dc%d%d%d%d\n",
             G[I].p, RCB, b[Y], y ? b[K[0]] : h[a][0] + 1, y ? b[K[1]] : h[a][1] + 1,
@@ -2986,7 +2986,7 @@ START:
 
           if (!(a = LN1 (r[Y], A[0][0], A[1][0], 0) & G[I].g[r[y]]) &&
             (L = 1) && !(a = LN1 (X, A[0][1], A[1][1], 1) & G[I].g[r[y]]))
-            continue;        // Skip for no 1st digit SL found
+            continue;        // Skip for 1st digit SL not found
           for (M = G[I].g[r[y]] - a, N = 0; N < 2; ++N)
           {                  // Search 1st Wing Cell values 2nd digit SL Line wise
             int K[6] = {-1,-1,-1,-1},
@@ -3173,7 +3173,7 @@ START:
             A[A[0]] = A[2] = 2;
           }
           if (!A[0])
-            continue;        // Skip for no 1st SL Cell positions found
+            continue;        // Skip for 1st SL Cell positions not found
           if ((A[6] = !(G[I].g[l[a][6]] & Y) + !(G[I].g[l[a][7]] & Y) + !(G[I].g[l[a][8]] & Y)) == 2)
           {                  // Found 1st SL one Cover Cell position
             if (A[1])
@@ -3187,7 +3187,7 @@ START:
             A[1] = A[2] = 4;
           }
           if (!A[1])
-            continue;        // Skip for no 1st SL Base and Cover Cell positions found
+            continue;        // Skip for 1st SL Base and Cover Cell positions not found
           for (Z = y + (a < y + 3 ? 3 : 6); Z < y + 9; ++Z)
           {                  // Search 2nd SL within 2nd and 3rd Chutes
             A[3] = A[4] = 0;
@@ -3195,43 +3195,43 @@ START:
             if ((A[6] = !(G[I].g[l[Z][0]] & Y) + !(G[I].g[l[Z][1]] & Y) + !(G[I].g[l[Z][2]] & Y)) == 2)
             {                // Found 2nd SL Base Cell position
               if (~A[0] & 1)
-                continue;    // Skip for no 1st SL Cell positions found in 1st mini-Line
+                continue;    // Skip for 1st SL Cell positions not found in 1st mini-Line
               A[3] = 1;
             }
             else if (A[6] < 2)
             {                // Found 2nd SL Grouped Cover Cell positions
               if (A[5] || ~A[0] & 1)
-                continue;    // Skip for either Grouped SL Cell positions already found; or no 1st SL Cell position found in 1st mini-Line
+                continue;    // Skip for either Grouped SL Cell positions already found; or 1st SL Cell position not found in 1st mini-Line
               A[3] = A[5] = 1;
             }
             if ((A[6] = !(G[I].g[l[Z][3]] & Y) + !(G[I].g[l[Z][4]] & Y) + !(G[I].g[l[Z][5]] & Y)) == 2)
             {                // Found 2nd SL either one Cover or Base Cell position
               if (~(A[0] | A[1]) & 2)
-                continue;    // Skip for no 1st SL Cell positions found in 2nd mini-Line
+                continue;    // Skip for 1st SL Cell positions not found in 2nd mini-Line
               A[3 + A[3]] = 2;
             }
             else if (A[6] < 2)
             {                // Found 2nd SL Grouped Cover Cell positions
               if (A[5] || ~(A[0] | A[1]) & 2)
-                continue;    // Skip for either Grouped Cover Cell positions already found; or no 1st SL Cell positions found in 2nd mini-Line
+                continue;    // Skip for either Grouped Cover Cell positions already found; or 1st SL Cell positions not found in 2nd mini-Line
               A[3 + A[3]] = A[5] = 2;
             }
             if (!A[3])
-              continue;      // Skip for no 2nd SL Cell positions found
+              continue;      // Skip for 2nd SL Cell positions not found
             if ((A[6] = !(G[I].g[l[Z][6]] & Y) + !(G[I].g[l[Z][7]] & Y) + !(G[I].g[l[Z][8]] & Y)) == 2)
             {                // Found 2nd SL either one Cover or Base Cell position
               if (A[4] || ~A[1] & 4)
-                continue;    // Skip for either 2nd SL Base and Cover Cell positions already found; or no 1st SL Cover Cell positions found in 3rd mini-Line
+                continue;    // Skip for either 2nd SL Base and Cover Cell positions already found; or 1st SL Cover Cell positions not found in 3rd mini-Line
               A[4] = 4;
             }
             else if (A[6] < 2)
             {                // Found 2nd SL Grouped Cover Cell positions
               if (A[4] || A[5] || ~(A[0] | A[1]) & 4)
-                continue;    // Skip for either 2nd SL Base and Cover Cell positions already found; or Grouped Cover Cell positions already found; or no 1st SL Cover Cell positions found in 3rd mini-Line
+                continue;    // Skip for either 2nd SL Base and Cover Cell positions already found; or Grouped Cover Cell positions already found; or 1st SL Cover Cell positions not found in 3rd mini-Line
               A[4] = A[5] = 4;
             }
             if (!A[4])
-              continue;      // Skip for no 2nd SL Base and Cover Cell positions found
+              continue;      // Skip for 2nd SL Base and Cover Cell positions not found
             A[6] = 0;        // Base Cell positions
             if ((A[0] & 1) && (!(G[I].g[l[a][0]] & Y) | (!(G[I].g[l[a][1]] & Y) << 1) | (!(G[I].g[l[a][2]] & Y) << 2)) ==
             (!(G[I].g[l[Z][0]] & Y) | (!(G[I].g[l[Z][1]] & Y) << 1) | (!(G[I].g[l[Z][2]] & Y) << 2)))
@@ -3319,7 +3319,7 @@ START:
           B[Z = !(G[I].g[w[a][14]] & Y) | (!(G[I].g[w[a][15]] & Y) << 1) |
           (!(G[I].g[w[a][16]] & Y) << 2) | (!(G[I].g[w[a][17]] & Y) << 3) |
           (!(G[I].g[w[a][18]] & Y) << 4) | (!(G[I].g[w[a][19]] & Y) << 5)] != 5)
-          continue;          // Skip for no digit found in either five Row Cells values; or five Column Cells values; or no removal Cell position found
+          continue;          // Skip for digit not found in either five Row Cells values; or five Column Cells values; or removal Cell position not found
         K[5] = (K[3] = w[a][b[~X & 63] - 1]) - a + (K[4] = w[a][13 + b[~Z & 63]]);
         if ((G[I].g[L = w[K[3]][b[~Z & 63] > 3 ? 14 : 17]] | G[I].g[w[L][12]] | G[I].g[w[L][13]] |
           G[I].g[M = w[K[4]][b[~X & 63] > 3 ? 0 : 3]] | G[I].g[w[M][6]] | G[I].g[w[M][7]] |
@@ -3473,7 +3473,7 @@ START:
               B[K[3] = !(G[I].g[w[K[2]][W[1][y]]] & K[1]) | (!(G[I].g[w[K[2]][W[18][y]]] & K[1]) << 1) |
               (!(G[I].g[w[K[2]][W[19][y]]] & K[1]) << 2) | (!(G[I].g[w[K[2]][W[20][y]]] & K[1]) << 3) |
               (!(G[I].g[w[K[2]][W[21][y]]] & K[1]) << 4) | (!(G[I].g[w[K[2]][W[22][y]]] & K[1]) << 5)] == 5)
-            {                // No ERI digit found in six Line Cell positions
+            {                // ERI digit not found in six Line Cell positions
               K[4] = W[b[~K[3] & 63] < 4 ? 5 : 1][y];
               K[5] = W[Y < W[5][!y] ? 5 : 1][!y];
               K[6] = w[K[2]][W[1][y] + b[~K[3] & 63] - 1];
@@ -3522,7 +3522,7 @@ START:
                 goto START;
               }
               if (!(G[I].g[K[7]] & K[1]))
-                continue;    // Skip for no Empty Rectangle digit found in removal Cell position
+                continue;    // Skip for Empty Rectangle digit not found in removal Cell position
                              // Drop ERI SL digit from Line Cell position
               G[I].g[K[7]] -= K[1];
 #if RJ > 2
@@ -3544,12 +3544,12 @@ START:
               goto START;
             }
             if (!(ERI (K[2]) & K[1]))
-              continue;      // Skip for no ERI digit found in SL 1st ERI Cell position
+              continue;      // Skip for ERI digit not found in SL 1st ERI Cell position
             for (K[3] = W[1][y]; K[3] < W[2][y]; ++K[3])
               if (ERI (w[K[2]][K[3]]) & K[1])
                 break;       // Check ERI digit found in SL 2nd ERI Cell position
             if (K[3] == W[2][y])
-              continue;      // Skip for no ERI digit found in SL 2nd ERI Cell position
+              continue;      // Skip for ERI digit not found in SL 2nd ERI Cell position
             K[4] = w[K[2]][K[3]];
             K[5] = W[Y < W[5][!y] ? 5 : 1][!y];
             K[6] = W[K[3] < W[5][y] ? 5 : 1][y];
@@ -3595,7 +3595,7 @@ START:
               goto START;
             }
             if (!(G[I].g[K[7]] & K[1]))
-              continue;      // Skip for no Grouped Empty Rectangle digit found in removal Cell position
+              continue;      // Skip for Grouped Empty Rectangle digit not found in removal Cell position
                              // Drop ERI SL digit from Line Cell position
             G[I].g[K[7]] -= K[1];
 #if RJ > 2
@@ -3802,7 +3802,7 @@ START:
       if (!(G[I].g[w[r[a]][0]] | G[I].g[w[r[a]][1]] | G[I].g[w[r[a]][2]] | G[I].g[w[r[a]][3]] |
         G[I].g[w[r[a]][4]] | G[I].g[w[r[a]][5]]) || !(G[I].g[w[r[a]][14]] | G[I].g[w[r[a]][15]] |
         G[I].g[w[r[a]][16]] | G[I].g[w[r[a]][17]] | G[I].g[w[r[a]][18]] | G[I].g[w[r[a]][19]]))
-        continue;            // Skip for no unsolved Cell position found in Apex either Row or Column
+        continue;            // Skip for unsolved Cell position not found in Apex either Row or Column
       int K[10] = {r[a]};    // Assign Apex Cell position
 
       for (; K[1] < 6; ++K[1])
@@ -3811,22 +3811,22 @@ START:
                              // Skip for either 1st Wing Cell position not unsolved; or
           ~(G[I].g[w[K[0]][6]] | G[I].g[w[K[0]][7]] | G[I].g[w[K[2]][6]] | G[I].g[w[K[2]][7]] |
           G[I].g[Y = w[K[0]][X = K[1] < 3 ? 3 : 0]] | G[I].g[w[Y][6]] | G[I].g[w[Y][7]])))
-          continue;          // No conjugate pair digit found in Apex and 1st Wing Cells values
+          continue;          // Conjugate pair digit not found in Apex and 1st Wing Cells values
         for (K[3] = 14; K[3] < 20; ++K[3])
         {                    // Search 2nd Wing Cell position Column wise
           if (!G[I].g[K[4] = w[K[0]][K[3]]] || !(K[7] = G[I].g[K[0]] & G[I].g[K[4]] &
                              // Skip for either 2nd Wing Cell position not unsolved; or
             ~(G[I].g[w[K[0]][12]] | G[I].g[w[K[0]][13]] | G[I].g[w[K[4]][12]] | G[I].g[w[K[4]][13]] |
             G[I].g[Y = w[K[0]][Z = K[3] < 17 ? 17 : 14]] | G[I].g[w[Y][12]] | G[I].g[w[Y][13]])) ||
-                             // No conjugate pair digit found in Apex and 2nd Wing Cells values; or
+                             // Conjugate pair digit not found in Apex and 2nd Wing Cells values; or
             (K[6] & K[7]) || !G[I].g[K[5] = w[K[4]][K[1]]] || !(K[8] = G[I].g[K[2]] & G[I].g[K[5]] &
                              // Conjugate pair digit in Apex and 1st Wing Cells values same as Apex and 2nd Wing Cells values; or removal Cell not unsolved; or
             ~(G[I].g[w[K[2]][12]] | G[I].g[w[K[2]][13]] | G[I].g[w[K[5]][12]] | G[I].g[w[K[5]][13]] |
             G[I].g[Y = w[K[2]][Z]] | G[I].g[w[Y][12]] | G[I].g[w[Y][13]])) ||
-                             // No conjugate pair digit found in 1st Wing and removal Cells values; or
+                             // Conjugate pair digit not found in 1st Wing and removal Cells values; or
             !(K[9] = G[I].g[K[4]] & G[I].g[K[5]] & ~(G[I].g[w[K[4]][6]] | G[I].g[w[K[4]][7]] | G[I].g[w[K[5]][6]] |
             G[I].g[w[K[5]][7]] | G[I].g[Y = w[K[4]][X]] | G[I].g[w[Y][6]] | G[I].g[w[Y][7]])))
-            continue;        // No conjugate pair digit found in 2nd Wing and removal Cells values
+            continue;        // Conjugate pair digit not found in 2nd Wing and removal Cells values
           if (Y = K[8] & K[9])
           {                  // Check Strong Wing Type 1 for conjugate pair digit in 1st Wing and removal Cells values same as 2nd Wing and removal Cells values
 #if RJ > 2
@@ -3847,7 +3847,7 @@ START:
             ((K[6] | K[7]) & K[8]) || ((K[6] | K[7] | K[8]) & K[9]) ||
                              //  Conjugate pair digit in 1st Wing and removal Cells values same; or conjugate pair digit in 2nd Wing and removal Cells values same; or
             (B[G[I].g[K[0]]] | B[G[I].g[K[2]]] | B[G[I].g[K[4]]] | B[G[I].g[K[5]]]) < 3)
-            continue;        // No removal Cell values
+            continue;        // Removal Cell values not found
 #if RJ > 2
           printf ("%d) Strong Ring Type 1: SL %d @ r%dc%d %d @ r%dc%d %d @ r%dc%d %d @ r%dc%d\n=>",
             G[I].p, b[K[6]], ROW (w[K[0]][20] | w[K[2]][20]), COL (w[K[0]][20] | w[K[2]][20]),
@@ -3883,7 +3883,7 @@ START:
           G[I].g[w[K[0]][W[20][y]]] | G[I].g[w[K[0]][W[21][y]]] | G[I].g[w[K[0]][W[22][y]]]) ||
           !(G[I].g[w[K[0]][W[6][y]]] | G[I].g[w[K[0]][W[7][y]]] | G[I].g[w[K[0]][W[8][y]]] |
           G[I].g[w[K[0]][W[9][y]]] | G[I].g[w[K[0]][W[10][y]]] | G[I].g[w[K[0]][W[11][y]]]))
-          continue;          // Skip for no unsolved Cell position found in Apex either Line or Box
+          continue;          // Skip for unsolved Cell position not found in Apex either Line or Box
         for (K[1] = W[1][y]; K[1] < W[2][y]; ++K[1])
         {                    // Search 1st Wing Cell position Line wise
           if (!G[I].g[K[2] = w[K[0]][K[1]]] || !(K[6] = (G[I].g[K[0]] & G[I].g[K[2]] &
@@ -3891,7 +3891,7 @@ START:
             ~(G[I].g[w[K[0]][W[3][y]]] | G[I].g[w[K[0]][W[4][y]]] | G[I].g[w[K[2]][W[3][y]]] |
             G[I].g[w[K[2]][W[4][y]]] | G[I].g[Y = w[K[0]][K[11] = W[K[1] < W[5][y] ? 5 : 1][y]]] |
             G[I].g[w[Y][W[3][y]]] | G[I].g[w[Y][W[4][y]]]))))
-            continue;        // No conjugate pair digit found in Apex and 1st Wing Cells values
+            continue;        // Conjugate pair digit not found in Apex and 1st Wing Cells values
           for (K[3] = W[6][y]; K[3] < W[0][y]; ++K[3])
           {                  // Search 2nd Wing Cell position Box wise but not in 1st Wing Line
             if (!G[I].g[K[4] = w[K[0]][K[3]]] || !(K[7] = (G[I].g[K[0]] & G[I].g[K[4]] &
@@ -3899,7 +3899,7 @@ START:
               ~(G[I].g[w[K[0]][W[3][y]]] | G[I].g[w[K[0]][W[4][y]]] | G[I].g[w[K[4]][W[3][y]]] |
               G[I].g[w[K[4]][W[4][y]]] | G[I].g[Y = w[K[0]][Z = W[K[3] == W[6][y] || K[3] == W[7][y] ||
               K[3] == W[8][y] ? 4 : 3][!y]]] | G[I].g[w[Y][W[3][y]]] | G[I].g[w[Y][W[4][y]]]))) ||
-              (K[6] & K[7])) // No Conjugate pair digit found in Apex and 2nd Wing Cells values; or
+              (K[6] & K[7])) // Conjugate pair digit not found in Apex and 2nd Wing Cells values; or
               continue;      // Conjugate pair digit in Apex and 1st Wing Cells values same as Apex and 2nd Wing Cells values
             for (X = K[10] = W[K[1] < W[5][y] ? 1 : 5][y]; X < K[10] + 3; ++X)
             {                // Search removal Cell position 1st Wing Line and 2nd Wing Box intersection wise
@@ -3908,10 +3908,10 @@ START:
                 ~(G[I].g[w[K[2]][W[3][y]]] | G[I].g[w[K[2]][W[4][y]]] | G[I].g[w[K[5]][W[3][y]]] |
                 G[I].g[w[K[5]][W[4][y]]] | G[I].g[Y = w[K[2]][Z]] | G[I].g[w[Y][W[3][y]]] |
                 G[I].g[w[Y][W[4][y]]])) || !(K[9] = G[I].g[K[4]] & G[I].g[K[5]] & ~(G[I].g[w[K[4]][W[3][y]]] |
-                             // No conjugate pair digit found in 1st Wing and removal Cells values; or
+                             // Conjugate pair digit not found in 1st Wing and removal Cells values; or
                 G[I].g[w[K[4]][W[4][y]]] | G[I].g[w[K[5]][W[3][y]]] | G[I].g[w[K[5]][W[4][y]]] |
                 G[I].g[Y = w[K[4]][K[11]]] | G[I].g[w[Y][W[3][y]]] | G[I].g[w[Y][W[4][y]]])))
-                continue;    // No conjugate pair digit found in 2nd Wing and removal Cells values
+                continue;    // Conjugate pair digit not found in 2nd Wing and removal Cells values
               if (Y = K[8] & K[9])
               {              // Check Strong Wing Type 2 for conjugate pair digit in 1st Wing and removal Cells values same as 2nd Wing and removal Cells values
 #if RJ > 2
@@ -3932,7 +3932,7 @@ START:
                 ((K[6] | K[7]) & K[8]) || ((K[6] | K[7] | K[8]) & K[9]) ||
                              // Conjugate pair digit in 1st Wing and removal Cells values same; or conjugate pair digit in 2nd Wing and removal Cells values same; or
                 (B[G[I].g[K[0]]] | B[G[I].g[K[2]]] | B[G[I].g[K[4]]] | B[G[I].g[K[5]]]) < 3)
-                continue;    // No removal Cell values
+                continue;    // Removal Cell values not found
 #if RJ > 2
               printf ("%d) Strong Ring Type 2: SL %d @ r%dc%d %d @ %s %s %d @ %s %s %d @ r%dc%d\n=>",
               G[I].p, b[K[6]], ROW (w[K[0]][20] | w[K[2]][20]),
@@ -3968,7 +3968,7 @@ START:
         G[I].g[w[r[a]][3]] | G[I].g[w[r[a]][4]] | G[I].g[w[r[a]][5]]) ||
         !(G[I].g[w[r[a]][14]] | G[I].g[w[r[a]][15]] | G[I].g[w[r[a]][16]] |
         G[I].g[w[r[a]][17]] | G[I].g[w[r[a]][18]] | G[I].g[w[r[a]][19]]))
-        continue;            // No unsolved Cell position found in Apex either Row or Column
+        continue;            // Unsolved Cell position not found in Apex either Row or Column
       int K[9] = {r[a]};     // Assign Apex Cell position
 
       for (; K[1] < 6; ++K[1])
@@ -5132,13 +5132,13 @@ XYWT1Tf:
             }
           }
           if (B[G[I].g[K[0]]] < 3 || !(G[I].g[K[6]] & K[5]))
-            continue;        // Skip XYZ-Hybrid for either Apex Cell values < three digits; or no Wing Cells common value in Hybrid Cell values
+            continue;        // Skip XYZ-Hybrid for either Apex Cell values < three digits; or Wing Cells common value not found in Hybrid Cell values
           if (k[0] = (G[I].g[w[K[0]][6]] | G[I].g[w[K[0]][7]] | G[I].g[w[K[2]][6]] | G[I].g[w[K[2]][7]] |
             G[I].g[w[K[0]][K[7]]] | G[I].g[w[K[0]][K[7] + 1]] | G[I].g[w[K[0]][K[7] + 2]]) &
                              // Check Wing Cells common value in Apex and 1st Wing Cells Row removal Cells values; and
             ~(G[I].g[w[K[2]][12]] | G[I].g[w[K[2]][13]] | G[I].g[w[K[6]][12]] | G[I].g[w[K[6]][13]] |
             G[I].g[w[K[2]][K[8]]] | G[I].g[w[K[2]][K[8] + 1]] | G[I].g[w[K[2]][K[8] + 2]]) & K[5])
-          {                  // No Wing Cells common value in 1st Wing and Hybrid Cells Column other Cells values
+          {                  // Wing Cells common value not found in 1st Wing and Hybrid Cells Column other Cells values
                              // Drop Wing Cells common value from XYZ-Hybrid Row wise removal Cells values
             G[I].g[w[K[0]][6]] &= ~K[5];
             G[I].g[w[K[0]][7]] &= ~K[5];
@@ -5153,7 +5153,7 @@ XYWT1Tf:
                              // Check Wing Cells common value in Apex and 2nd Wing Cells Column removal Cells values; and
             ~(G[I].g[w[K[4]][6]] | G[I].g[w[K[4]][7]] | G[I].g[w[K[6]][6]] | G[I].g[w[K[6]][7]] |
             G[I].g[w[K[4]][K[7]]] | G[I].g[w[K[4]][K[7] + 1]] | G[I].g[w[K[4]][K[7] + 2]]) & K[5])
-          {                  // No Wing Cells common value in 2nd Wing and Hybrid Cells Row other Cells values
+          {                  // Wing Cells common value not found in 2nd Wing and Hybrid Cells Row other Cells values
                              // Drop Wing Cells common value from XYZ-Hybrid Column wise removal Cells values
             G[I].g[w[K[0]][12]] &= ~K[5];
             G[I].g[w[K[0]][13]] &= ~K[5];
@@ -5164,7 +5164,7 @@ XYWT1Tf:
             G[I].g[w[K[0]][K[8] + 2]] &= ~K[5];
           }
           if (!k[0] && !k[1])
-            continue;        // Skip for no XYZ-Hybrid found
+            continue;        // Skip for XYZ-Hybrid not found
 #if RJ > 2
           printf ("%d)%sXYZ-Hybrid: %d @ r%dc%d %s %s Hybrid %d @ %s => -%d @",
             G[I].p, k[0] && k[1] ? " Dual " : " ", b[G[I].g[K[2]] | G[I].g[K[4]]],
@@ -5201,7 +5201,7 @@ XYWT1Tf:
           G[I].g[w[K[0]][W[20][y]]] | G[I].g[w[K[0]][W[21][y]]] | G[I].g[w[K[0]][W[22][y]]]) ||
           !(G[I].g[w[K[0]][W[6][y]]] | G[I].g[w[K[0]][W[7][y]]] | G[I].g[w[K[0]][W[8][y]]] |
           G[I].g[w[K[0]][W[9][y]]] | G[I].g[w[K[0]][W[10][y]]] | G[I].g[w[K[0]][W[11][y]]]))
-          continue;          // Skip for no unsolved Cell position found in Apex either Line or Box
+          continue;          // Skip for unsolved Cell position not found in Apex either Line or Box
         for (K[1] = W[1][y]; K[1] < W[2][y]; ++K[1])
         {                    // Search 1st Wing Cell position Line wise
           if (B[G[I].g[K[2] = w[K[0]][K[1]]]] != 2 || B[G[I].g[K[0]] | G[I].g[K[2]]] != 3)
@@ -5222,7 +5222,7 @@ XYWT1Tf:
                 if (B[G[I].g[K[5] = w[K[4]][Y]]] != 2 || B[G[I].g[K[2]] | G[I].g[K[5]]] != 3 ||
                              // Skip for either 3rd Wing Cell values not two digits; or 1st and 3rd Wing Cells values not three digits; or
                   B[G[I].g[K[4]] | G[I].g[K[5]]] != 3 || (G[I].g[K[0]] & G[I].g[K[5]]) ||
-                             // 2nd and 3rd Wing Cells values not three digits; or no common digits in Apex and 3rd Wing Cells values; or
+                             // 2nd and 3rd Wing Cells values not three digits; or common digits not found in Apex and 3rd Wing Cells values; or
                   !(((G[I].g[w[K[0]][W[3][y]]] | G[I].g[w[K[0]][W[4][y]]] |
                   G[I].g[w[K[2]][W[3][y]]] | G[I].g[w[K[2]][W[4][y]]] |
                   G[I].g[w[K[0]][K[7]]] | G[I].g[w[K[0]][K[7] + 1]] |
@@ -5245,7 +5245,7 @@ XYWT1Tf:
                   G[I].g[w[K[2]][W[18][!y]]] | G[I].g[w[K[2]][W[19][!y]]] |
                   G[I].g[w[K[2]][W[20][!y]]] | G[I].g[w[K[2]][W[21][!y]]] |
                   G[I].g[w[K[2]][W[22][!y]]] : 0)) & G[I].g[K[2]] & G[I].g[K[5]])))
-                  continue;  // No XY-Ring Type 2 removal Cell values found
+                  continue;  // XY-Ring Type 2 removal Cell values not found
                              // Drop XY-Ring Type 2 Wing Cells common values from removal Cell values
                 G[I].g[w[K[0]][W[3][y]]] &= ~G[I].g[K[0]];
                 G[I].g[w[K[0]][W[4][y]]] &= ~G[I].g[K[0]];
@@ -5771,7 +5771,7 @@ XYWT1Tf:
                 k[1] = 1;
               }
               if (!k[0] && !k[1])
-                continue;    // Skip for no XYZ-Wing Hybrid found
+                continue;    // Skip for XYZ-Wing Hybrid not found
 #if RJ > 2
               printf ("%d)%sXYZ-Wing Hybrid: %d @ r%dc%d %s%s%s Hybrid %d @ r%dc%d => -%d @",
                 G[I].p, k[0] & k[1] ? " Dual " : " ", b[G[I].g[K[2]] | G[I].g[K[4]]],
@@ -5811,7 +5811,7 @@ XYWT1Tf:
         G[I].g[w[r[a]][3]] | G[I].g[w[r[a]][4]] | G[I].g[w[r[a]][5]]) ||
         !(G[I].g[w[r[a]][14]] | G[I].g[w[r[a]][15]] | G[I].g[w[r[a]][16]] |
         G[I].g[w[r[a]][17]] | G[I].g[w[r[a]][18]] | G[I].g[w[r[a]][19]]))
-        continue;            // No unsolved Cell position found in either Apex Row or Column
+        continue;            // Unsolved Cell position not found in either Apex Row or Column
       int K[9] = {r[a]};     // Assign Apex Cell position
 
       for (; K[1] < 8; ++K[1])
@@ -5855,7 +5855,7 @@ XYWT1Tf:
                 k[4] = G[I].g[w[K[0]][W[4][k[5]]]];
               }
               if ((k[0] | k[1] | k[2] | k[3] | k[4]) & K[7])
-              {              // Check no Wing Cells common value in WXYZ-Wing Type 1 removal Cell values
+              {              // Check Wing Cells common value not found in WXYZ-Wing Type 1 removal Cell values
                 if (k[5] + 1)
                 {            // Drop Wing Cells common value from WXYZ-Wing Type 1 removal Cell positions
                   G[I].g[w[K[0]][W[3][k[5]]]] &= ~K[7];
@@ -5931,7 +5931,7 @@ XYWT1Tf:
           for (Y = 0; Y < 2; ++Y)
           {                  // Search Almost Locked Set move Type 1b 3rd Wing Cell position Line wise
             if (B[G[I].g[K[0]] | G[I].g[K[2 << Y]]] != 3 || B[G[I].g[K[0]] & G[I].g[K[4 >> Y]]] != 1)
-              continue;      // Skip for either Apex and 1st (or 2nd) Wing Cells values not three digits; or no one common digit in Apex and 2nd (or 1st) Wing Cells values
+              continue;      // Skip for either Apex and 1st (or 2nd) Wing Cells values not three digits; or one common digit not found in Apex and 2nd (or 1st) Wing Cells values
             for (K[5] = W[23][Y]; K[5] < W[24][Y]; ++K[5])
             {                // Search 3rd Wing Cell position 1st (or 2nd) Wing Box+Line wise
               if (w[K[6] = w[K[4 >> Y]][K[5]]][20] & w[K[2 << Y]][20] & W[15][Y] ||
@@ -5939,7 +5939,7 @@ XYWT1Tf:
                 B[G[I].g[K[6]]] != 2 || B[G[I].g[K[0]] | G[I].g[K[6]]] != 4 ||
                              // 3rd Wing Cell values not two digits; or Apex and 3rd Wing Cells values not four digits; or
                 B[G[I].g[K[2]] & G[I].g[K[6]]] != 1 || B[G[I].g[K[4]] & G[I].g[K[6]]] != 1)
-                continue;    // No one common digit in 1st and 3rd Wing Cells values; or no one common digit in 2nd and 3rd Wing Cells values
+                continue;    // One common digit not found in 1st and 3rd Wing Cells values; or One common digit not found in 2nd and 3rd Wing Cells values
               int k[3] = {K[2 << Y] - COL (w[K[2 << Y]][20]) + COL (w[K[6]][20]),
                           K[6] - COL (w[K[6]][20]) + COL (w[K[2 << Y]][20]),
                           (w[K[2 << Y]][20] & W[25][Y]) == (w[K[6]][20] & W[25][Y])};
@@ -5993,7 +5993,7 @@ XYWT1Tf:
           G[I].g[w[K[0]][W[9][y]]] | G[I].g[w[K[0]][W[10][y]]] | G[I].g[w[K[0]][W[11][y]]]) ||
           !(G[I].g[w[K[0]][W[1][y]]] | G[I].g[w[K[0]][W[18][y]]] | G[I].g[w[K[0]][W[19][y]]] |
           G[I].g[w[K[0]][W[20][y]]] | G[I].g[w[K[0]][W[21][y]]] | G[I].g[w[K[0]][W[22][y]]]))
-          continue;          // Skip for no unsolved Cell position found in either Apex Box or Line
+          continue;          // Skip for unsolved Cell position not found in either Apex Box or Line
         for (K[1] = W[6][y]; K[1] < W[0][y]; ++K[1])
         {                    // Search 1st Wing Cell position Box wise
           if (!G[I].g[K[2] = w[K[0]][K[1]]] || B[G[I].g[K[0]] | G[I].g[K[2]]] > 4)
@@ -6011,19 +6011,19 @@ XYWT1Tf:
                   B[G[I].g[K[0]] | G[I].g[K[2]] | G[I].g[K[4]] | G[I].g[K[6]]] != 4 ||
                              // Apex and Wings Cells values not four digits; or
                   !(G[I].g[K[0]] & G[I].g[K[4 >> Y]]) ||
-                             // No common value in Apex and 1st (or 2nd) Wing Cells values; or
+                             // Common value not found in Apex and 1st (or 2nd) Wing Cells values; or
                   !(G[I].g[K[0]] & (G[I].g[K[2 << Y]] | G[I].g[K[6]])) ||
-                             // No common value in Apex and 2nd (or 1st) or 3rd Wings Cells values; or
+                             // Common value not found in Apex and 2nd (or 1st) or 3rd Wings Cells values; or
                   B[K[7] = G[I].g[K[4 >> Y]] & (G[I].g[K[2 << Y]] | G[I].g[K[6]])] != 1)
                   continue;  // Wing Cells common value not one digit
                 int A[2] = {-1};
 
                 if ((~G[I].g[K[0]] & K[7]) &&
-                             // Check no Wing Cells common value in Apex Cell values; and
+                             // Check Wing Cells common value not found in Apex Cell values; and
                   (K[6] == w[K[2 << Y]][W[3][y]] || K[6] == w[K[2 << Y]][W[4][y]] ||
                              // 3rd Wing Cell position within 1st (or 2nd) Wing Cell position mini-Line; or
                   (G[I].g[K[2 << Y]] & K[7]) != (G[I].g[K[6]] & K[7])))
-                {            // No Wing Cells common value in both 1st (or 2nd) Wing Cell values and 3rd Wing Cell values
+                {            // Wing Cells common value not found in both 1st (or 2nd) Wing Cell values and 3rd Wing Cell values
                   A[0] = K[G[I].g[K[2]] & G[I].g[K[4 >> Y]] & (G[I].g[K[2 << Y]] | G[I].g[K[6]]) ? 2 : 6];
                   A[1] = W[K[G[I].g[K[4]] & G[I].g[K[4 >> Y]] & (G[I].g[K[2 << Y]] | G[I].g[K[6]]) ? 3 : 5] < W[5][y] ? 1 : 5][y];
                 }            // Backup WXYZ-Wing Type 2a more removal Cell positions
@@ -6065,9 +6065,9 @@ XYWT1Tf:
                 !G[I].g[K[6]] || B[G[I].g[K[0]] | G[I].g[K[2]] | G[I].g[K[4]] | G[I].g[K[6]]] != 4 ||
                              // 2nd Apex Cell position not unsolved; or Apex Cells values and Wing Cells values not four digits; or
                 !((G[I].g[K[0]] | G[I].g[K[6]]) & G[I].g[K[2]]) ||
-                             // No common digit in Apex Cells and 1st Wing Cell values; or
+                             // Common digit not found in Apex Cells and 1st Wing Cell values; or
                 !((G[I].g[K[0]] | G[I].g[K[6]]) & G[I].g[K[4]]))
-                continue;    // No common value in Apex Cells and 2nd Wing Cell values
+                continue;    // Common value not found in Apex Cells and 2nd Wing Cell values
               if (B[K[7] = G[I].g[K[2]] & G[I].g[K[4]]] == 1)
               {              // Check WXYZ-Wing Type 4a and Type 4b for Wing Cells common value one digit
                 Z = -1;
@@ -6105,7 +6105,7 @@ XYWT1Tf:
                 X = W[K[3] < W[5][y] ? 5 : 1][y];
 
                 if (!(G[I].g[K[2]] & G[I].g[K[4]]) &&
-                             // Check WXYZ-Wing Type 5 for no common digit in Wing Cells values; and
+                             // Check WXYZ-Wing Type 5 for common digit not found in Wing Cells values; and
                   ((G[I].g[K[7] = w[K[0]][W[7 - K[5]][y]]] |
                   G[I].g[w[K[2]][W[3][y]]] | G[I].g[w[K[2]][W[4][y]]] |
                   G[I].g[w[K[0]][W[Z = K[1] == W[6][y] || K[1] == W[7][y] || K[1] == W[8][y] ? 9 : 6][y]]] |
@@ -6342,40 +6342,40 @@ XYWT1Tf:
 #endif
     }
     for (Y = 1; Y < 257; Y <<= 1)
-    {                        // Search single-digit Pattern Overlay Method (or Templating) digit wise
-      int k[81] = {0},       // Count clue, solved and unsolved Cell position in Template digit wise
+    {                        // Search univalue Pattern Overlay Method (or Templating) digit wise
+      int k[81] = {0},       // Count Template Cell positions digit wise
           A;
 
       for (y = a = 0; a < 9; ++a)
-      {                      // Search digit in clue, solved and unsolved 1st Row Cell position wise
+      {                      // Search digit in Cell values 1st Row Cell position wise
         if (~(G[I].s[a] | G[I].g[a]) & Y)
-          continue;          // Skip for digit not found in clue, solved or unsolved 1st Row Cell position
+          continue;          // Skip for digit not found in 1st Row Cell values
         for (A = (w[a][20] >> 27) & 3, X = 0; X < 5184; ++X)
-        {                    // Search Pattern Overlay Method Template wise
+        {                    // Search single-digit Pattern Overlay Method Template wise
           for (Z = 0; Z < 8; ++Z)
                              // Search Template Cell position Row wise
             if (~(G[I].s[R[a][Z][(P[A][X] >> T[0][Z]) & 7]] |
               G[I].g[R[a][Z][(P[A][X] >> T[0][Z]) & 7]]) & Y)
-              break;         // Digit not found in Template Cell position Row wise
+              break;         // Digit not found in Template Cell values Row wise
             if (Z < 8)
-              X += T[1][Z];  // Digit not found in Template Cell position
-            else             // Count Digit in Template
+              X += T[1][Z];  // Skip for digit not found in Template Cell values
+            else             // Found possible Template
               for (++k[a], ++y, Z = 0; Z < 8; ++Z)
                 ++k[R[a][Z][(P[A][X] >> T[0][Z]) & 7]];
-        }
+        }                    // Count Template Cell positions
       }
       if (!y)
-        continue;            // Skip for no Template found
+        continue;            // Skip for Template not found
       for (X = 0; X < 81; ++X)
         if ((G[I].g[X] & Y) && !k[X])
-          break;             // Found unsolved Cell position not in Template
+          break;             // Found unsolved Cell position not in Templates
       for (Z = 0; Z < 81; ++Z)
         if ((G[I].g[Z] & Y) && k[Z] == y)
           break;             // Found unsolved Cell position in all Templates
       if (X < 81 || Z < 81)
       {
 #if RJ > 2
-        printf ("%d) POM: Digit %d in", G[I].p, b[Y]);
+        printf ("%d) univalue POM: %d in", G[I].p, b[Y]);
         for (a = 0; a < 81; a += 9)
           printf (" r%dc%d", ROW (w[a][20]), b[((G[I].s[a] | G[I].g[a]) & Y ? 1 : 0) |
             ((G[I].s[a + 1] | G[I].g[a + 1]) & Y ? 2 : 0) |
@@ -6393,7 +6393,7 @@ XYWT1Tf:
           printf ("\nDigit %d not in %d Template%s=> -%d @",
             b[Y], y, y > 1 ? "s " : " ", b[Y]);
 #endif
-          for (x = -1; X < 81; ++X)
+          for (z = 0; X < 81; ++X)
             if ((G[I].g[X] & Y) && !k[X])
             {
               G[I].g[X] &= ~Y;
@@ -6408,7 +6408,7 @@ XYWT1Tf:
           printf ("\nDigit %d in all %d Template%s=> %d @",
             b[Y], y, y > 1 ? "s " : " ", b[Y]);
 #endif
-          for (x = -1; Z < 81; ++Z)
+          for (z = 0; Z < 81; ++Z)
             if ((G[I].g[Z] & Y) && k[Z] == y)
             {
               G[I].g[Z] = Y;
@@ -6422,7 +6422,114 @@ XYWT1Tf:
 #endif
       }
     }
-    if (x < 0)
+    if (!z)
+      goto START;
+    for (Y = 1; Y < 257; Y <<= 1)
+    {                        // Search bivalue Pattern Overlay Method (or Templating) first-digit wise
+      for (a = 1; a < 257; a <<= 1)
+      {                      // Search bivalue Pattern Overlay Method (or Templating) second-digit wise
+        int k[81] = {0},     // Count Template Cell positions first-digit wise
+            A,
+            L,
+            M,
+            N,
+            Q;
+
+        if (Y == a)
+          continue;          // Skip for first-digit = second-digit
+        for (y = L = 0; L < 9; ++L)
+        {                    // Search first-digit in 1st Row Cell values
+          if (~(G[I].s[L] | G[I].g[L]) & Y)
+            continue;        // Skip for first-digit not found in 1st Row Cell values
+          for (A = (w[L][20] >> 27) & 3, X = 0; X < 5184; ++X)
+          {                  // Search first-digit Pattern Overlay Method Template wise
+            for (Z = 0; Z < 8; ++Z)
+                             // Search first-digit in Template Cell values Row wise
+              if (~(G[I].s[R[L][Z][(P[A][X] >> T[0][Z]) & 7]] |
+                G[I].g[R[L][Z][(P[A][X] >> T[0][Z]) & 7]]) & Y)
+                break;       // First-digit not found in Template Cell values Row wise
+            if (Z < 8)
+            {
+              X += T[1][Z];
+              continue;      // Skip for first-digit not found in Template Cell values
+            }
+            for (M = 0; M < 9; ++M)
+            {                // Search second-digit in 1st Row Cell values wise
+              if (L == M || (~(G[I].s[M] | G[I].g[M]) & a))
+                continue;    // Skip for either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in 1st Row Cell values
+              for (N = (w[M][20] >> 27) & 3, Q = 0; Q < 5184; ++Q)
+              {              // Search second-digit Pattern Overlay Method Template wise
+                for (Z = 0; Z < 8; ++Z)
+                             // Search second-digit Template Cell values Row wise
+                  if (R[L][Z][(P[A][X] >> T[0][Z]) & 7] == R[M][Z][(P[N][Q] >> T[0][Z]) & 7] ||
+                    (~(G[I].s[R[M][Z][(P[N][Q] >> T[0][Z]) & 7]] |
+                    G[I].g[R[M][Z][(P[N][Q] >> T[0][Z]) & 7]]) & a))
+                    break;   // Either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in Template Cell values Row wise
+                if (Z < 8)
+                {
+                  Q += T[1][Z];
+                  continue;  // Skip for either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in Template Cell values
+                }
+                else
+                {            // Found second-digit possible Template
+                  for (++k[L], ++y, Z = 0; Z < 8; ++Z)
+                    ++k[R[L][Z][(P[A][X] >> T[0][Z]) & 7]];
+                    break;   // Count first-digit Template Cell positions
+                }
+              }
+              if (Z > 7)
+                break;       // Found second-digit possible Template
+            }
+          }
+        }
+        if (!y)
+          continue;          // Skip for first-digit Template not found
+        for (Z = 0; Z < 81; ++Z)
+          if ((G[I].g[Z] & Y) && !k[Z])
+            break;           // Found unsolved Cell position not in Templates
+        if (Z < 81)
+        {
+#if RJ > 2
+          printf ("%d) bivalue POM: %d in", G[I].p, b[Y]);
+          for (N = 0; N < 81; N += 9)
+            printf (" r%dc%d", ROW (w[N][20]), b[((G[I].s[N] | G[I].g[N]) & Y ? 1 : 0) |
+              ((G[I].s[N + 1] | G[I].g[N + 1]) & Y ? 2 : 0) |
+              ((G[I].s[N + 2] | G[I].g[N + 2]) & Y ? 4 : 0) |
+              ((G[I].s[N + 3] | G[I].g[N + 3]) & Y ? 8 : 0) |
+              ((G[I].s[N + 4] | G[I].g[N + 4]) & Y ? 16 : 0) |
+              ((G[I].s[N + 5] | G[I].g[N + 5]) & Y ? 32 : 0) |
+              ((G[I].s[N + 6] | G[I].g[N + 6]) & Y ? 64 : 0) |
+              ((G[I].s[N + 7] | G[I].g[N + 7]) & Y ? 128 : 0) |
+              ((G[I].s[N + 8] | G[I].g[N + 8]) & Y ? 256 : 0)]);
+          printf ("\nSecond-digit POM: %d in", b[a]);
+          for (N = 0; N < 81; N += 9)
+            printf (" r%dc%d", ROW (w[N][20]), b[((G[I].s[N] | G[I].g[N]) & a ? 1 : 0) |
+              ((G[I].s[N + 1] | G[I].g[N + 1]) & a ? 2 : 0) |
+              ((G[I].s[N + 2] | G[I].g[N + 2]) & a ? 4 : 0) |
+              ((G[I].s[N + 3] | G[I].g[N + 3]) & a ? 8 : 0) |
+              ((G[I].s[N + 4] | G[I].g[N + 4]) & a ? 16 : 0) |
+              ((G[I].s[N + 5] | G[I].g[N + 5]) & a ? 32 : 0) |
+              ((G[I].s[N + 6] | G[I].g[N + 6]) & a ? 64 : 0) |
+              ((G[I].s[N + 7] | G[I].g[N + 7]) & a ? 128 : 0) |
+              ((G[I].s[N + 8] | G[I].g[N + 8]) & a ? 256 : 0)]);
+            printf ("\nDigit %d not in %d Template%s=> -%d @",
+              b[Y], y, y > 1 ? "s " : " ", b[Y]);
+#endif
+          for (z = 0; Z < 81; ++Z)
+            if ((G[I].g[Z] & Y) && !k[Z])
+            {
+              G[I].g[Z] &= ~Y;
+#if RJ > 2
+              printf (" %s", S[Z]);
+#endif
+            }
+        }
+#if RJ > 2
+          printf ("\n");
+#endif
+      }
+    }
+    if (!z)
       goto START;
     y = 2;                   // 2 Represent Guess
     if (++n[3] > n[4])
@@ -6485,7 +6592,7 @@ int invalid (void)
     {
       for (a = 1; a < 257; a <<= 1)
         G[0].g[p] |= check (p, a);// Check constraint and assign Cell value for unsolved Cell position digit wise
-      if (!G[0].g[p])        // Check no Cell value assigned
+      if (!G[0].g[p])        // Check Cell value not assigned
         return 1;
 #if RJ
       n[8] += B[G[0].g[p]];  // Number of possibilities
