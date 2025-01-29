@@ -6103,7 +6103,6 @@ XYWT1Tf:
               else
               {
                 X = W[K[3] < W[5][y] ? 5 : 1][y];
-
                 if (!(G[I].g[K[2]] & G[I].g[K[4]]) &&
                              // Check WXYZ-Wing Type 5 for common digit not found in Wing Cells values; and
                   ((G[I].g[K[7] = w[K[0]][W[7 - K[5]][y]]] |
@@ -6304,9 +6303,9 @@ XYWT1Tf:
       }
     }
     for (X = -1, a = G[I].p; a < q; ++a)
-                             // Search Bivalue Universal Grave Type 1 unsolved Cell position wise
+                             // Search Double-digit Universal Grave Type 1 unsolved Cell position wise
       if (B[G[I].g[r[a]]] < 3)
-        continue;            // Skip Bivalue Universal Grave for unsolved Cell values < three digits
+        continue;            // Skip Double-digit Universal Grave for unsolved Cell values < three digits
       else if (B[G[I].g[r[a]]] > 2 && X < 0)
         X = r[a];            // Backup first Guardian Cell position
       else
@@ -6329,7 +6328,7 @@ XYWT1Tf:
             (G[I].g[w[X][14]] & y ? 1 : 0) + (G[I].g[w[X][15]] & y ? 1 : 0) +
             (G[I].g[w[X][16]] & y ? 1 : 0) + (G[I].g[w[X][17]] & y ? 1 : 0) +
             (G[I].g[w[X][18]] & y ? 1 : 0) + (G[I].g[w[X][19]] & y ? 1 : 0) > 1)
-            z |= y;          // Digit found Row, Box or Column wise in > one Cell positions
+            z |= y;          // Found digit in > one Cell positions Unit wise
 #if RJ > 2
           printf ("%d) BUG+%d: %d @ %s => -%d @ %s\n", G[I].p, B[z], b[z], S[X], b[G[I].g[X] - z], S[X]);
 #endif
@@ -6342,7 +6341,7 @@ XYWT1Tf:
 #endif
     }
     for (Y = 1; Y < 257; Y <<= 1)
-    {                        // Search univalue Pattern Overlay Method (or Templating) digit wise
+    {                        // Search Single-digit Pattern Overlay Method (or Templating) digit wise
       int k[81] = {0},       // Count Template Cell positions digit wise
           A;
 
@@ -6375,7 +6374,7 @@ XYWT1Tf:
       if (X < 81 || Z < 81)
       {
 #if RJ > 2
-        printf ("%d) univalue POM: %d in", G[I].p, b[Y]);
+        printf ("%d) Single-digit POM: %d in", G[I].p, b[Y]);
         for (a = 0; a < 81; a += 9)
           printf (" r%dc%d", ROW (w[a][20]), b[((G[I].s[a] | G[I].g[a]) & Y ? 1 : 0) |
             ((G[I].s[a + 1] | G[I].g[a + 1]) & Y ? 2 : 0) |
@@ -6425,9 +6424,9 @@ XYWT1Tf:
     if (!z)
       goto START;
     for (Y = 1; Y < 257; Y <<= 1)
-    {                        // Search bivalue Pattern Overlay Method (or Templating) first-digit wise
+                             // Search Double-digit Pattern Overlay Method (or Templating) first-digit wise
       for (a = 1; a < 257; a <<= 1)
-      {                      // Search bivalue Pattern Overlay Method (or Templating) second-digit wise
+      {                      // Search Double-digit Pattern Overlay Method (or Templating) second-digit wise
         int k[81] = {0},     // Count Template Cell positions first-digit wise
             A,
             L,
@@ -6471,26 +6470,29 @@ XYWT1Tf:
                   continue;  // Skip for either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in Template Cell values
                 }
                 else
-                {            // Found second-digit possible Template
-                  for (++k[L], ++y, Z = 0; Z < 8; ++Z)
-                    ++k[R[L][Z][(P[A][X] >> T[0][Z]) & 7]];
-                    break;   // Count first-digit Template Cell positions
-                }
+                  break;     // Found second-digit possible Template
               }
               if (Z > 7)
+              {              // Count first-digit Template Cell positions
+                for (++k[L], ++y, Z = 0; Z < 8; ++Z)
+                  ++k[R[L][Z][(P[A][X] >> T[0][Z]) & 7]];
                 break;       // Found second-digit possible Template
+              }
             }
           }
         }
         if (!y)
           continue;          // Skip for first-digit Template not found
-        for (Z = 0; Z < 81; ++Z)
-          if ((G[I].g[Z] & Y) && !k[Z])
+        for (X = 0; X < 81; ++X)
+          if ((G[I].g[X] & Y) && !k[X])
             break;           // Found unsolved Cell position not in Templates
-        if (Z < 81)
+        for (Z = 0; Z < 81; ++Z)
+          if ((G[I].g[Z] & Y) && k[Z] == y)
+            break;           // Found unsolved Cell position in all Templates
+        if (X < 81 || Z < 81)
         {
 #if RJ > 2
-          printf ("%d) bivalue POM: %d in", G[I].p, b[Y]);
+          printf ("%d) Double-digit POM: %d in", G[I].p, b[Y]);
           for (N = 0; N < 81; N += 9)
             printf (" r%dc%d", ROW (w[N][20]), b[((G[I].s[N] | G[I].g[N]) & Y ? 1 : 0) |
               ((G[I].s[N + 1] | G[I].g[N + 1]) & Y ? 2 : 0) |
@@ -6501,7 +6503,7 @@ XYWT1Tf:
               ((G[I].s[N + 6] | G[I].g[N + 6]) & Y ? 64 : 0) |
               ((G[I].s[N + 7] | G[I].g[N + 7]) & Y ? 128 : 0) |
               ((G[I].s[N + 8] | G[I].g[N + 8]) & Y ? 256 : 0)]);
-          printf ("\nSecond-digit POM: %d in", b[a]);
+          printf ("\nand POM: %d in", b[a]);
           for (N = 0; N < 81; N += 9)
             printf (" r%dc%d", ROW (w[N][20]), b[((G[I].s[N] | G[I].g[N]) & a ? 1 : 0) |
               ((G[I].s[N + 1] | G[I].g[N + 1]) & a ? 2 : 0) |
@@ -6512,23 +6514,42 @@ XYWT1Tf:
               ((G[I].s[N + 6] | G[I].g[N + 6]) & a ? 64 : 0) |
               ((G[I].s[N + 7] | G[I].g[N + 7]) & a ? 128 : 0) |
               ((G[I].s[N + 8] | G[I].g[N + 8]) & a ? 256 : 0)]);
+#endif
+          if (X < 81)
+          {
+#if RJ > 2
             printf ("\nDigit %d not in %d Template%s=> -%d @",
               b[Y], y, y > 1 ? "s " : " ", b[Y]);
 #endif
-          for (z = 0; Z < 81; ++Z)
-            if ((G[I].g[Z] & Y) && !k[Z])
-            {
-              G[I].g[Z] &= ~Y;
+            for (z = 0; X < 81; ++X)
+              if ((G[I].g[X] & Y) && !k[X])
+              {
+                G[I].g[X] &= ~Y;
 #if RJ > 2
-              printf (" %s", S[Z]);
+                printf (" %s", S[X]);
 #endif
-            }
+              }
+          }
+          if (Z < 81)
+          {
+#if RJ > 2
+            printf ("\nDigit %d in all %d Template%s=> %d @",
+              b[Y], y, y > 1 ? "s " : " ", b[Y]);
+#endif
+            for (z = 0; Z < 81; ++Z)
+              if ((G[I].g[Z] & Y) && k[Z] == y)
+              {
+                G[I].g[Z] = Y;
+#if RJ > 2
+                printf (" %s", S[Z]);
+#endif
+              }
+          }
 #if RJ > 2
           printf ("\n");
 #endif
         }
       }
-    }
     if (!z)
       goto START;
     y = 2;                   // 2 Represent Guess
