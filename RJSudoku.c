@@ -6303,9 +6303,9 @@ XYWT1Tf:
       }
     }
     for (X = -1, a = G[I].p; a < q; ++a)
-                             // Search Double-digit Universal Grave Type 1 unsolved Cell position wise
+                             // Search Bivalue Universal Grave Type 1 unsolved Cell position wise
       if (B[G[I].g[r[a]]] < 3)
-        continue;            // Skip Double-digit Universal Grave for unsolved Cell values < three digits
+        continue;            // Skip Bivalue Universal Grave for unsolved Cell values < three digits
       else if (B[G[I].g[r[a]]] > 2 && X < 0)
         X = r[a];            // Backup first Guardian Cell position
       else
@@ -6487,7 +6487,7 @@ XYWT1Tf:
           if ((G[I].g[X] & Y) && !k[X])
             break;           // Found unsolved Cell position not in Templates
         for (Z = 0; Z < 81; ++Z)
-          if ((G[I].g[Z] & Y) && k[Z] == y)
+          if ((G[I].g[Z] & Y) && B[G[I].g[Z]] > 1 && k[Z] == y)
             break;           // Found unsolved Cell position in all Templates
         if (X < 81 || Z < 81)
         {
@@ -6537,7 +6537,7 @@ XYWT1Tf:
               b[Y], y, y > 1 ? "s " : " ", b[Y]);
 #endif
             for (z = 0; Z < 81; ++Z)
-              if ((G[I].g[Z] & Y) && k[Z] == y)
+              if ((G[I].g[Z] & Y) && B[G[I].g[Z]] > 1 && k[Z] == y)
               {
                 G[I].g[Z] = Y;
 #if RJ > 2
