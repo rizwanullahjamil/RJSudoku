@@ -2371,24 +2371,29 @@ START:
         (G[I].g[j[a][0]] && G[I].g[j[a][2]] &&
         B[Y = G[I].g[j[a][0]] | G[I].g[j[a][2]]] == 2 && (X = 1)) ||
         (G[I].g[j[a][0]] && G[I].g[j[a][1]] &&
-        B[Y = G[I].g[j[a][0]] | G[I].g[j[a][1]]] == 2 && (X = 2))) &&
-        ((G[I].g[j[a][X]] | G[I].g[j[a][3]] | G[I].g[j[a][4]] |
+        B[Y = G[I].g[j[a][0]] | G[I].g[j[a][1]]] == 2 && (X = 2)) ||
+        (G[I].g[j[a][0]] && G[I].g[j[a][1]] && G[I].g[j[a][2]] &&
+        B[Y = G[I].g[j[a][0]] | G[I].g[j[a][1]] | G[I].g[j[a][2]]] == 3 && (X = 3))) &&
+        (((X < 3 ? G[I].g[j[a][X]] : 0) | G[I].g[j[a][3]] | G[I].g[j[a][4]] |
         G[I].g[j[a][5]] | G[I].g[j[a][6]] | G[I].g[j[a][7]] | G[I].g[j[a][8]]) &
         (G[I].g[j[a][9]] | G[I].g[j[a][10]] | G[I].g[j[a][11]] |
         G[I].g[j[a][12]] | G[I].g[j[a][13]] | G[I].g[j[a][14]]) & Y))
-      {                      // Locked pair found
+      {                      // Locked set found
 #if RJ > 2
-        printf ("%d) Locked pair: %d @ r%dc%d => -%d @ r%dc%d",
-          G[I].p, b[Y], ROW (w[j[a][!X]][20] | w[j[a][X ? 3 - X : 2]][20]),
-          COL (w[j[a][!X]][20] | w[j[a][X ? 3 - X : 2]][20]), b[Y],
-          ROW ((G[I].g[j[a][X]] & Y ? w[j[a][X]][20] : 0) |
+        printf ("%d) Locked %s: %d @ r%dc%d => -%d @ r%dc%d",
+          G[I].p, X < 3 ? "pair" : "triple", b[Y],
+          ROW ((X < 3 ? 0 : w[j[a][1]][20]) | w[j[a][!X]][20] |
+            w[j[a][X && X < 3 ? 3 - X : 2]][20]),
+          COL ((X < 3 ? 0 : w[j[a][1]][20]) | w[j[a][!X]][20] |
+            w[j[a][X && X < 3 ? 3 - X : 2]][20]), b[Y],
+          ROW ((X < 3 && G[I].g[j[a][X]] & Y ? w[j[a][X]][20] : 0) |
             (G[I].g[j[a][3]] & Y ? w[j[a][3]][20] : 0) |
             (G[I].g[j[a][4]] & Y ? w[j[a][4]][20] : 0) |
             (G[I].g[j[a][5]] & Y ? w[j[a][5]][20] : 0) |
             (G[I].g[j[a][6]] & Y ? w[j[a][6]][20] : 0) |
             (G[I].g[j[a][7]] & Y ? w[j[a][7]][20] : 0) |
             (G[I].g[j[a][8]] & Y ? w[j[a][8]][20] : 0)),
-          COL ((G[I].g[j[a][X]] & Y ? w[j[a][X]][20] : 0) |
+          COL ((X < 3 && G[I].g[j[a][X]] & Y ? w[j[a][X]][20] : 0) |
             (G[I].g[j[a][3]] & Y ? w[j[a][3]][20] : 0) |
             (G[I].g[j[a][4]] & Y ? w[j[a][4]][20] : 0) |
             (G[I].g[j[a][5]] & Y ? w[j[a][5]][20] : 0) |
@@ -2413,64 +2418,9 @@ START:
               (G[I].g[j[a][14]] & Y ? w[j[a][14]][20] : 0)));
         printf ("\n");
 #endif
-                             // Drop Locked pair Cell values from Units other Cell positions
-        G[I].g[j[a][X]] &= ~Y;
-        G[I].g[j[a][3]] &= ~Y;
-        G[I].g[j[a][4]] &= ~Y;
-        G[I].g[j[a][5]] &= ~Y;
-        G[I].g[j[a][6]] &= ~Y;
-        G[I].g[j[a][7]] &= ~Y;
-        G[I].g[j[a][8]] &= ~Y;
-        G[I].g[j[a][9]] &= ~Y;
-        G[I].g[j[a][10]] &= ~Y;
-        G[I].g[j[a][11]] &= ~Y;
-        G[I].g[j[a][12]] &= ~Y;
-        G[I].g[j[a][13]] &= ~Y;
-        G[I].g[j[a][14]] &= ~Y;
-        goto START;
-      }
-      if (G[I].g[j[a][0]] && G[I].g[j[a][1]] && G[I].g[j[a][2]] &&
-        B[Y = G[I].g[j[a][0]] | G[I].g[j[a][1]] | G[I].g[j[a][2]]] == 3 &&
-        ((G[I].g[j[a][3]] | G[I].g[j[a][4]] | G[I].g[j[a][5]] |
-        G[I].g[j[a][6]] | G[I].g[j[a][7]] | G[I].g[j[a][8]]) &
-        (G[I].g[j[a][9]] | G[I].g[j[a][10]] | G[I].g[j[a][11]] |
-        G[I].g[j[a][12]] | G[I].g[j[a][13]] | G[I].g[j[a][14]]) & Y))
-      {                      // Locked triple found
-#if RJ > 2
-        printf ("%d) Locked triple: %d @ r%dc%d => -%d @ r%dc%d",
-          G[I].p, b[Y], ROW (w[j[a][0]][20] | w[j[a][1]][20] | w[j[a][2]][20]),
-          COL (w[j[a][0]][20] | w[j[a][1]][20] | w[j[a][2]][20]), b[Y],
-          ROW ((G[I].g[j[a][3]] & Y ? w[j[a][3]][20] : 0) |
-            (G[I].g[j[a][4]] & Y ? w[j[a][4]][20] : 0) |
-            (G[I].g[j[a][5]] & Y ? w[j[a][5]][20] : 0) |
-            (G[I].g[j[a][6]] & Y ? w[j[a][6]][20] : 0) |
-            (G[I].g[j[a][7]] & Y ? w[j[a][7]][20] : 0) |
-            (G[I].g[j[a][8]] & Y ? w[j[a][8]][20] : 0)),
-          COL ((G[I].g[j[a][3]] & Y ? w[j[a][3]][20] : 0) |
-            (G[I].g[j[a][4]] & Y ? w[j[a][4]][20] : 0) |
-            (G[I].g[j[a][5]] & Y ? w[j[a][5]][20] : 0) |
-            (G[I].g[j[a][6]] & Y ? w[j[a][6]][20] : 0) |
-            (G[I].g[j[a][7]] & Y ? w[j[a][7]][20] : 0) |
-            (G[I].g[j[a][8]] & Y ? w[j[a][8]][20] : 0)));
-        if ((G[I].g[j[a][9]] | G[I].g[j[a][10]] | G[I].g[j[a][11]]) & Y)
-          printf (" r%dc%d",
-            ROW ((G[I].g[j[a][9]] & Y ? w[j[a][9]][20] : 0) |
-              (G[I].g[j[a][10]] & Y ? w[j[a][10]][20] : 0) |
-              (G[I].g[j[a][11]] & Y ? w[j[a][11]][20] : 0)),
-            COL ((G[I].g[j[a][9]] & Y ? w[j[a][9]][20] : 0) |
-              (G[I].g[j[a][10]] & Y ? w[j[a][10]][20] : 0) |
-              (G[I].g[j[a][11]] & Y ? w[j[a][11]][20] : 0)));
-        if ((G[I].g[j[a][12]] | G[I].g[j[a][13]] | G[I].g[j[a][14]]) & Y)
-          printf (" r%dc%d",
-            ROW ((G[I].g[j[a][12]] & Y ? w[j[a][12]][20] : 0) |
-              (G[I].g[j[a][13]] & Y ? w[j[a][13]][20] : 0) |
-              (G[I].g[j[a][14]] & Y ? w[j[a][14]][20] : 0)),
-            COL ((G[I].g[j[a][12]] & Y ? w[j[a][12]][20] : 0) |
-              (G[I].g[j[a][13]] & Y ? w[j[a][13]][20] : 0) |
-              (G[I].g[j[a][14]] & Y ? w[j[a][14]][20] : 0)));
-        printf ("\n");
-#endif
-                             // Drop Locked triple Cell values from Units other Cell positions
+                             // Drop Locked set Cell values from Units other Cell positions
+        if (X < 3)
+          G[I].g[j[a][X]] &= ~Y;
         G[I].g[j[a][3]] &= ~Y;
         G[I].g[j[a][4]] &= ~Y;
         G[I].g[j[a][5]] &= ~Y;
