@@ -4450,11 +4450,6 @@ START:
               k[12] = w[K[4]][13];
               k[13] = w[r[a]][12];
               k[14] = w[r[a]][13];
-#if RJ > 2
-              k[18] = N ? 8 : 10;
-              A[0][0] = X;
-              A[1][0] = Z;
-#endif
               if (N)
               {              // Line Ring 41
                 k[3] = w[Z][12];
@@ -4470,9 +4465,14 @@ START:
                 k[7] = w[L][6];
                 k[9] = w[L][7];
               }
+#if RJ > 2
+              k[18] = N ? 8 : 10;
+              A[0][0] = X;
+              A[1][0] = Z;
+#endif
               goto XYWT1Tf;
             }
-            else if (((N = LN1 (w[r[a]][K[7] + y], w[K[4]][K[7] + y], w[X][K[8]], 1) & K[5]) ||
+            if (((N = LN1 (w[r[a]][K[7] + y], w[K[4]][K[7] + y], w[X][K[8]], 1) & K[5]) ||
               (ERI (X) & ERI (Z) & K[5])) && (((G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]] |
               G[I].g[w[K[4]][6]] | G[I].g[w[K[4]][7]] | (N ? G[I].g[w[X][6]] |
               G[I].g[w[X][7]] | G[I].g[w[Z][6]] | G[I].g[w[Z][7]] : G[I].g[X] |
@@ -4496,11 +4496,6 @@ START:
               k[12] = w[K[2]][7];
               k[13] = w[r[a]][6];
               k[14] = w[r[a]][7];
-#if RJ > 2
-              k[18] = N ? 8 : 10;
-              A[0][0] = X;
-              A[1][0] = Z;
-#endif
               if (N)
               {              // Line Ring 42
                 k[3] = w[Z][6];
@@ -4516,6 +4511,11 @@ START:
                 k[7] = w[L][12];
                 k[9] = w[L][13];
               }
+#if RJ > 2
+              k[18] = N ? 8 : 10;
+              A[0][0] = X;
+              A[1][0] = Z;
+#endif
               goto XYWT1Tf;
             }
           }
@@ -4598,18 +4598,32 @@ START:
               }
 #if RJ > 2
               k[18] = 2;
-              A[0][0] = w[K[0] ? K[6] : r[a]][L];
-              A[0][1] = A[0][2] = A[1][0] = A[1][1] = A[1][2] = -1;
+              A[0][0] = w[K[0] ? r[a] : K[6]][L];
 #endif
               goto XYWT1Tf;
             }
-            if ((N = LB3 (w[r[a]][12 | y], w[K[2]][12 | y], w[X][K[7]], 0) & K[5]) ||
-              LB3 (w[r[a]][K[7]], w[X][13 ^ y], w[X][12 | y], 0) & K[5])
-            {                // Box 51, Line 55, 67, Reduced Line Ring 59, 63
+            if (LB3 (w[r[a]][K[7]], w[X][13 ^ y], w[X][12 | y], 0) &
+              G[I].g[L = w[r[a]][13 ^ y]] & K[5] ||
+              LB3 (w[r[a]][K[8]], w[X][7 ^ y], w[X][6 | y], 1) &
+              G[I].g[L = w[r[a]][7 ^ y]] & K[5] ||
+              (K[0] && (LB3 (w[K[4]][K[7]], w[X][13 ^ y], w[X][12 | y], 0) &
+              G[I].g[L = w[K[6]][13 ^ y]] & K[5] ||
+              LB3 (w[K[2]][K[8]], w[X][7 ^ y], w[X][6 | y], 1) &
+              G[I].g[L = w[K[6]][7 ^ y]] & K[5])))
+            {                // Box 51, 52, 53, 54
+              k[0] = L;
+#if RJ > 2
+              k[18] = 1;
+              A[0][0] = Z;
+              A[1][0] = X;
+#endif
+              goto XYWT1Tf;
+            }
+            if (LB3 (w[r[a]][12 | y], w[K[2]][12 | y], w[X][K[7]], 0) & K[5])
+            {                // Line 55, 67, Reduced Line Ring 59, 63
               if (G[I].g[w[r[a]][13 ^ y]] & K[5])
                 k[0] = w[r[a]][13 ^ y];
 #if RJ > 2
-              k[18] = !N;
               A[0][0] = X;
               A[0][1] = w[X][6];
               A[0][2] = w[X][7];
@@ -4617,64 +4631,61 @@ START:
               A[1][1] = w[Z][6];
               A[1][2] = w[Z][7];
 #endif
-              if (N)
-              {
-                if ((~(G[I].g[w[X][6]] | G[I].g[w[X][7]]) & K[5]) &&
-                  (((G[I].g[L = w[r[a]][K[8]]] | G[I].g[w[L][12]] | G[I].g[w[L][13]] |
-                  G[I].g[w[K[4]][12]] | G[I].g[w[K[4]][13]] | G[I].g[w[K[2]][6]] |
-                  G[I].g[w[K[2]][7]] | G[I].g[M = w[K[2]][13 ^ y]] | G[I].g[w[M][6]] |
-                  G[I].g[w[M][7]] | ((G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5] ? 0 :
-                  G[I].g[Y = w[K[2]][K[8]]] | G[I].g[w[Y][12]] | G[I].g[w[Y][13]] |
-                  G[I].g[K[6]] | G[I].g[w[K[6]][12]] | G[I].g[w[K[6]][13]])) & K[5]) ||
-                  ((G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]] | G[I].g[w[K[2]][6]] |
-                  G[I].g[w[K[2]][7]] | G[I].g[Y = w[r[a]][K[7]]] | G[I].g[w[Y][6]] |
-                  G[I].g[w[Y][7]]) & (G[I].g[K[2]] ^ K[5])) ||
-                  ((G[I].g[w[r[a]][12]] | G[I].g[w[r[a]][13]] | G[I].g[w[K[4]][12]] |
-                  G[I].g[w[K[4]][13]] | G[I].g[Y = w[r[a]][K[8]]] | G[I].g[w[Y][12]] |
-                  G[I].g[w[Y][13]]) & (G[I].g[K[4]] ^ K[5]))))
-                {            // Reduced Line Ring 59, 63
-                  k[1] = L;
-                  k[2] = w[L][12];
-                  k[3] = w[L][13];
-                  k[5] = w[K[2]][6];
-                  k[10] = w[K[2]][7];
-                  k[11] = M;
-                  k[12] = w[M][6];
-                  k[13] = w[M][7];
-                  k[14] = w[K[4]][12];
-                  k[6] = w[K[4]][13];
+              if ((~(G[I].g[w[X][6]] | G[I].g[w[X][7]]) & K[5]) &&
+                (((G[I].g[L = w[r[a]][K[8]]] | G[I].g[w[L][12]] | G[I].g[w[L][13]] |
+                G[I].g[w[K[4]][12]] | G[I].g[w[K[4]][13]] | G[I].g[w[K[2]][6]] |
+                G[I].g[w[K[2]][7]] | G[I].g[M = w[K[2]][13 ^ y]] | G[I].g[w[M][6]] |
+                G[I].g[w[M][7]] | ((G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5] ? 0 :
+                G[I].g[Y = w[K[2]][K[8]]] | G[I].g[w[Y][12]] | G[I].g[w[Y][13]] |
+                G[I].g[K[6]] | G[I].g[w[K[6]][12]] | G[I].g[w[K[6]][13]])) & K[5]) ||
+                ((G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]] | G[I].g[w[K[2]][6]] |
+                G[I].g[w[K[2]][7]] | G[I].g[Y = w[r[a]][K[7]]] | G[I].g[w[Y][6]] |
+                G[I].g[w[Y][7]]) & (G[I].g[K[2]] ^ K[5])) ||
+                ((G[I].g[w[r[a]][12]] | G[I].g[w[r[a]][13]] | G[I].g[w[K[4]][12]] |
+                G[I].g[w[K[4]][13]] | G[I].g[Y = w[r[a]][K[8]]] | G[I].g[w[Y][12]] |
+                G[I].g[w[Y][13]]) & (G[I].g[K[4]] ^ K[5]))))
+              {              // Reduced Line Ring 59, 63
+                k[1] = L;
+                k[2] = w[L][12];
+                k[3] = w[L][13];
+                k[5] = w[K[2]][6];
+                k[10] = w[K[2]][7];
+                k[11] = M;
+                k[12] = w[M][6];
+                k[13] = w[M][7];
+                k[14] = w[K[4]][12];
+                k[6] = w[K[4]][13];
 #if RJ > 2
-                  k[18] = 12;
-                  A[0][1] = -1;
+                k[18] = 12;
+                A[0][1] = A[0][2] = -1;
 #endif
-                  if (~(G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5])
-                  {          // Reduced Line Ring 63
-                    k[7] = w[K[2]][K[8]];
-                    k[8] = w[k[7]][12];
-                    k[15] = w[k[7]][13];
-                    k[16] = w[K[6]][12];
-                    k[17] = w[K[6]][13];
-                    if (!K[0])
-                      k[9] = K[6];
+                if (~(G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5])
+                {            // Reduced Line Ring 63
+                  k[7] = w[K[2]][K[8]];
+                  k[8] = w[k[7]][12];
+                  k[15] = w[k[7]][13];
+                  k[16] = w[K[6]][12];
+                  k[17] = w[K[6]][13];
+                  if (!K[0])
+                    k[9] = K[6];
 #if RJ > 2
-                    A[1][1] = -1;
-#endif
-                  }
-                }
-                else if (K[0] && (~G[I].g[X] & K[5]) &&
-                  (((G[I].g[Y = w[K[4]][L = 6]] | G[I].g[w[Y][12]] | G[I].g[w[Y][13]]) &
-                  ~G[I].g[w[X][7]] & K[5]) ||
-                  ((G[I].g[Y = w[K[4]][L = 7]] | G[I].g[w[Y][12]] | G[I].g[w[Y][13]]) &
-                  ~G[I].g[w[X][6]] & K[5])))
-                {            // Line 67
-                  k[1] = Y;
-                  k[2] = w[Y][12];
-                  k[3] = w[Y][13];
-#if RJ > 2
-                  A[0][0] = w[X][L];
-                  A[0][1] = -1;
+                  A[1][1] = A[1][2] = -1;
 #endif
                 }
+              }
+              else if (K[0] && (~G[I].g[X] & K[5]) &&
+                (((G[I].g[Y = w[K[4]][L = 6]] | G[I].g[w[Y][12]] | G[I].g[w[Y][13]]) &
+                ~G[I].g[w[X][7]] & K[5]) ||
+                ((G[I].g[Y = w[K[4]][L = 7]] | G[I].g[w[Y][12]] | G[I].g[w[Y][13]]) &
+                ~G[I].g[w[X][6]] & K[5])))
+              {              // Line 67
+                k[1] = Y;
+                k[2] = w[Y][12];
+                k[3] = w[Y][13];
+#if RJ > 2
+                A[0][0] = w[X][L];
+                A[0][1] = A[0][2] = -1;
+#endif
               }
             }
             else if (K[0] &&
@@ -4686,7 +4697,6 @@ START:
               k[0] = w[K[4]][L];
 #if RJ > 2
               A[0][0] = w[w[r[a]][12 | y]][L];
-              A[0][1] = -1;
               A[1][0] = X;
               A[1][1] = w[X][6];
               A[1][2] = w[X][7];
@@ -4700,7 +4710,6 @@ START:
               k[2] = w[Y][7];
 #if RJ > 2
               A[0][0] = Z;
-              A[0][1] = -1;
               A[1][0] = X;
               A[1][1] = w[X][6];
               A[1][2] = w[X][7];
@@ -4708,13 +4717,11 @@ START:
             }
             if (~(k[0] & k[1]))
               goto XYWT1Tf;
-            if ((N = LB3 (w[r[a]][6 | y], w[K[4]][6 | y], w[X][K[8]], 1) & K[5]) ||
-              LB3 (w[r[a]][K[8]], w[X][7 ^ y], w[X][6 | y], 1) & K[5])
-            {                // Box 52, Line 56, 68, Reduced Line Ring 60, 64
+            if (LB3 (w[r[a]][6 | y], w[K[4]][6 | y], w[X][K[8]], 1) & K[5])
+            {                // Line 56, 68, Reduced Line Ring 60, 64
               if (G[I].g[w[r[a]][7 ^ y]] & K[5])
                 k[0] = w[r[a]][7 ^ y];
 #if RJ > 2
-              k[18] = !N;
               A[0][0] = X;
               A[0][1] = w[X][12];
               A[0][2] = w[X][13];
@@ -4722,64 +4729,61 @@ START:
               A[1][1] = w[Z][12];
               A[1][2] = w[Z][13];
 #endif
-              if (N)
-              {
-                if ((~(G[I].g[w[X][12]] | G[I].g[w[X][13]]) & K[5]) &&
-                  (((G[I].g[L = w[r[a]][K[7]]] | G[I].g[w[L][6]] | G[I].g[w[L][7]] |
-                  G[I].g[w[K[2]][6]] | G[I].g[w[K[2]][7]] | G[I].g[w[K[4]][12]] |
-                  G[I].g[w[K[4]][13]] | G[I].g[M = w[K[4]][7 ^ y]] | G[I].g[w[M][12]] |
-                  G[I].g[w[M][13]] | ((G[I].g[w[Z][12]] | G[I].g[w[Z][13]]) & K[5] ? 0 :
-                  G[I].g[Y = w[K[4]][K[7]]] | G[I].g[w[Y][6]] | G[I].g[w[Y][7]] |
-                  G[I].g[K[6]] | G[I].g[w[K[6]][6]] | G[I].g[w[K[6]][7]])) & K[5]) ||
-                  ((G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]] | G[I].g[w[K[2]][6]] |
-                  G[I].g[w[K[2]][7]] | G[I].g[Y = w[r[a]][K[7]]] | G[I].g[w[Y][6]] |
-                  G[I].g[w[Y][7]]) & (G[I].g[K[2]] ^ K[5])) ||
-                  ((G[I].g[w[r[a]][12]] | G[I].g[w[r[a]][13]] | G[I].g[w[K[4]][12]] |
-                  G[I].g[w[K[4]][13]] | G[I].g[Y = w[r[a]][K[8]]] | G[I].g[w[Y][12]] |
-                  G[I].g[w[Y][13]]) & (G[I].g[K[4]] ^ K[5]))))
-                {            // Reduced Line Ring 60, 64
-                  k[1] = L;
-                  k[2] = w[L][6];
-                  k[3] = w[L][7];
-                  k[5] = w[K[2]][6];
-                  k[10] = w[K[2]][7];
-                  k[11] = M;
-                  k[12] = w[M][12];
-                  k[13] = w[M][13];
-                  k[14] = w[K[4]][12];
-                  k[6] = w[K[4]][13];
+              if ((~(G[I].g[w[X][12]] | G[I].g[w[X][13]]) & K[5]) &&
+                (((G[I].g[L = w[r[a]][K[7]]] | G[I].g[w[L][6]] | G[I].g[w[L][7]] |
+                G[I].g[w[K[2]][6]] | G[I].g[w[K[2]][7]] | G[I].g[w[K[4]][12]] |
+                G[I].g[w[K[4]][13]] | G[I].g[M = w[K[4]][7 ^ y]] | G[I].g[w[M][12]] |
+                G[I].g[w[M][13]] | ((G[I].g[w[Z][12]] | G[I].g[w[Z][13]]) & K[5] ? 0 :
+                G[I].g[Y = w[K[4]][K[7]]] | G[I].g[w[Y][6]] | G[I].g[w[Y][7]] |
+                G[I].g[K[6]] | G[I].g[w[K[6]][6]] | G[I].g[w[K[6]][7]])) & K[5]) ||
+                ((G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]] | G[I].g[w[K[2]][6]] |
+                G[I].g[w[K[2]][7]] | G[I].g[Y = w[r[a]][K[7]]] | G[I].g[w[Y][6]] |
+                G[I].g[w[Y][7]]) & (G[I].g[K[2]] ^ K[5])) ||
+                ((G[I].g[w[r[a]][12]] | G[I].g[w[r[a]][13]] | G[I].g[w[K[4]][12]] |
+                G[I].g[w[K[4]][13]] | G[I].g[Y = w[r[a]][K[8]]] | G[I].g[w[Y][12]] |
+                G[I].g[w[Y][13]]) & (G[I].g[K[4]] ^ K[5]))))
+              {              // Reduced Line Ring 60, 64
+                k[1] = L;
+                k[2] = w[L][6];
+                k[3] = w[L][7];
+                k[5] = w[K[2]][6];
+                k[10] = w[K[2]][7];
+                k[11] = M;
+                k[12] = w[M][12];
+                k[13] = w[M][13];
+                k[14] = w[K[4]][12];
+                k[6] = w[K[4]][13];
 #if RJ > 2
-                  k[18] = 12;
-                  A[0][1] = -1;
+                k[18] = 12;
+                A[0][1] = A[0][2] = -1;
 #endif
-                  if (~(G[I].g[w[Z][12]] | G[I].g[w[Z][13]]) & K[5])
-                  {          // Reduced Line Ring 64
-                    k[7] = w[K[4]][K[7]];
-                    k[8] = w[k[7]][6];
-                    k[15] = w[k[7]][7];
-                    k[16] = w[K[6]][6];
-                    k[17] = w[K[6]][7];
-                    if (!K[0])
-                      k[9] = K[6];
+                if (~(G[I].g[w[Z][12]] | G[I].g[w[Z][13]]) & K[5])
+                {            // Reduced Line Ring 64
+                  k[7] = w[K[4]][K[7]];
+                  k[8] = w[k[7]][6];
+                  k[15] = w[k[7]][7];
+                  k[16] = w[K[6]][6];
+                  k[17] = w[K[6]][7];
+                  if (!K[0])
+                    k[9] = K[6];
 #if RJ > 2
-                    A[1][1] = -1;
-#endif
-                  }
-                }
-                else if (K[0] && (~G[I].g[X] & K[5]) &&
-                  (((G[I].g[Y = w[K[2]][L = 12]] | G[I].g[w[Y][6]] | G[I].g[w[Y][7]]) &
-                  ~G[I].g[w[X][13]] & K[5]) ||
-                  ((G[I].g[Y = w[K[2]][L = 13]] | G[I].g[w[Y][6]] | G[I].g[w[Y][7]]) &
-                  ~G[I].g[w[X][12]] & K[5])))
-                {            // Line 68
-                  k[1] = Y;
-                  k[2] = w[Y][6];
-                  k[3] = w[Y][7];
-#if RJ > 2
-                  A[0][0] = w[X][L];
-                  A[0][1] = -1;
+                  A[1][1] = A[1][2] = -1;
 #endif
                 }
+              }
+              else if (K[0] && (~G[I].g[X] & K[5]) &&
+                (((G[I].g[Y = w[K[2]][L = 12]] | G[I].g[w[Y][6]] | G[I].g[w[Y][7]]) &
+                ~G[I].g[w[X][13]] & K[5]) ||
+                ((G[I].g[Y = w[K[2]][L = 13]] | G[I].g[w[Y][6]] | G[I].g[w[Y][7]]) &
+                ~G[I].g[w[X][12]] & K[5])))
+              {              // Line 68
+                k[1] = Y;
+                k[2] = w[Y][6];
+                k[3] = w[Y][7];
+#if RJ > 2
+                A[0][0] = w[X][L];
+                A[0][1] = A[0][2] = -1;
+#endif
               }
             }
             else if (K[0] &&
@@ -4791,7 +4795,6 @@ START:
               k[0] = w[K[2]][L];
 #if RJ > 2
               A[0][0] = w[w[r[a]][6 | y]][L];
-              A[0][1] = -1;
               A[1][0] = X;
               A[1][1] = w[X][12];
               A[1][2] = w[X][13];
@@ -4805,7 +4808,6 @@ START:
               k[2] = w[Y][13];
 #if RJ > 2
               A[0][0] = Z;
-              A[0][1] = -1;
               A[1][0] = X;
               A[1][1] = w[X][12];
               A[1][2] = w[X][13];
@@ -4813,9 +4815,8 @@ START:
             }
             if (~(k[0] & k[1]))
               goto XYWT1Tf;
-            if ((N = LB3 (w[K[6]][12 | y], w[K[4]][12 | y], w[Z][K[7]], 0) & K[5]) ||
-              (K[0] && LB3 (w[K[4]][K[7]], w[X][13 ^ y], w[X][12 | y], 0) & K[5]))
-            {                // Box 53, Line 57, 69, 69a, Reduced Line Ring 61, 65
+            if (LB3 (w[K[6]][12 | y], w[K[4]][12 | y], w[Z][K[7]], 0) & K[5])
+            {                // Line 57, 69, Reduced Line 69a, Reduced Line Ring 61, 65
               if (K[0])
               {
                 if (G[I].g[w[K[6]][13 ^ y]] & K[5])
@@ -4828,7 +4829,6 @@ START:
                 k[4] = K[6];
               }
 #if RJ > 2
-              k[18] = !N;
               A[0][0] = X;
               A[0][1] = w[X][6];
               A[0][2] = w[X][7];
@@ -4839,76 +4839,74 @@ START:
                 A[1][2] = w[Z][7];
               }
 #endif
-              if (N)
-              {
-                if ((~(G[I].g[w[X][6]] | G[I].g[w[X][7]]) & K[5]) &&
-                  (((G[I].g[L = w[K[2]][K[8]]] | G[I].g[w[L][12]] | G[I].g[w[L][13]] |
-                  G[I].g[w[K[2]][12]] | G[I].g[w[K[2]][13]] | G[I].g[M = w[K[4]][13 ^ y]] |
-                  (K[0] ? G[I].g[w[M][6]] | G[I].g[w[M][7]] | G[I].g[w[K[4]][6]] |
-                  G[I].g[w[K[4]][7]] : G[I].g[K[6]]) | G[I].g[N = w[K[6]][13 ^ y]] |
-                  ((G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5] ? 0 :
-                  G[I].g[Y = w[r[a]][K[8]]] | G[I].g[w[Y][12]] | G[I].g[w[Y][13]] |
-                  G[I].g[w[r[a]][12]] | G[I].g[w[r[a]][13]])) & K[5]) ||
-                  ((G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]] | G[I].g[w[K[2]][6]] |
-                  G[I].g[w[K[2]][7]] | G[I].g[Y = w[r[a]][K[7]]] | G[I].g[w[Y][6]] |
-                  G[I].g[w[Y][7]]) & (G[I].g[K[2]] ^ K[5])) ||
-                  ((G[I].g[w[K[4]][12]] | G[I].g[w[K[4]][13]] | G[I].g[w[r[a]][12]] |
-                  G[I].g[w[r[a]][13]] | G[I].g[Y = w[r[a]][K[8]]] | G[I].g[w[Y][12]] |
-                  G[I].g[w[Y][13]]) & (G[I].g[K[4]] ^ K[5]))))
-                {            // Reduced Line Ring 61, 65
-                  if (K[0] || (~(G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5]))
+              if ((~(G[I].g[w[X][6]] | G[I].g[w[X][7]]) & K[5]) &&
+                (((G[I].g[L = w[K[2]][K[8]]] | G[I].g[w[L][12]] | G[I].g[w[L][13]] |
+                G[I].g[w[K[2]][12]] | G[I].g[w[K[2]][13]] | G[I].g[M = w[K[4]][13 ^ y]] |
+                (K[0] ? G[I].g[w[M][6]] | G[I].g[w[M][7]] | G[I].g[w[K[4]][6]] |
+                G[I].g[w[K[4]][7]] : G[I].g[K[6]]) | G[I].g[N = w[K[6]][13 ^ y]] |
+                ((G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5] ? 0 :
+                G[I].g[Y = w[r[a]][K[8]]] | G[I].g[w[Y][12]] | G[I].g[w[Y][13]] |
+                G[I].g[w[r[a]][12]] | G[I].g[w[r[a]][13]])) & K[5]) ||
+                ((G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]] | G[I].g[w[K[2]][6]] |
+                G[I].g[w[K[2]][7]] | G[I].g[Y = w[r[a]][K[7]]] | G[I].g[w[Y][6]] |
+                G[I].g[w[Y][7]]) & (G[I].g[K[2]] ^ K[5])) ||
+                ((G[I].g[w[K[4]][12]] | G[I].g[w[K[4]][13]] | G[I].g[w[r[a]][12]] |
+                G[I].g[w[r[a]][13]] | G[I].g[Y = w[r[a]][K[8]]] | G[I].g[w[Y][12]] |
+                G[I].g[w[Y][13]]) & (G[I].g[K[4]] ^ K[5]))))
+              {              // Reduced Line Ring 61, 65
+                if (K[0] || (~(G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5]))
+                {
+                  if (K[0])
                   {
-                    if (K[0])
-                    {
-                      k[1] = w[M][6];
-                      k[2] = w[M][7];
-                      k[3] = w[K[4]][6];
-                      k[4] = w[K[4]][7];
-                    }
-                    k[5] = M;
-                    k[10] = N;
-                    k[11] = L;
-                    k[12] = w[L][12];
-                    k[13] = w[L][13];
-                    k[14] = w[K[2]][12];
-                    k[6] = w[K[2]][13];
-#if RJ > 2
-                    k[18] = 12;
-                    A[0][1] = -1;
-#endif
+                    k[1] = w[M][6];
+                    k[2] = w[M][7];
+                    k[3] = w[K[4]][6];
+                    k[4] = w[K[4]][7];
                   }
-                  if (~(G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5])
-                  {          // Reduced Line Ring 65
-                    k[7] = w[r[a]][K[8]];
-                    k[8] = w[k[7]][12];
-                    k[15] = w[k[7]][13];
-                    k[16] = w[r[a]][12];
-                    k[17] = w[r[a]][13];
+                  k[5] = M;
+                  k[10] = N;
+                  k[11] = L;
+                  k[12] = w[L][12];
+                  k[13] = w[L][13];
+                  k[14] = w[K[2]][12];
+                  k[6] = w[K[2]][13];
 #if RJ > 2
-                    k[18] = 12;
-                    A[1][1] = -1;
-#endif
-                  }
-                }
-                else if ((~G[I].g[X] & K[5]) &&
-                  ((~G[I].g[w[X][7]] & (G[I].g[Y = w[K[2]][L = 6]] |
-                  (K[0] || (~(G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5]) ?
-                  G[I].g[w[Y][12]] | G[I].g[w[Y][13]] : 0)) & K[5]) ||
-                  (~G[I].g[w[X][6]] & (G[I].g[Y = w[K[2]][L = 7]] |
-                  (K[0] || (~(G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5]) ?
-                  G[I].g[w[Y][12]] | G[I].g[w[Y][13]] : 0)) & K[5])))
-                {            // Line 69, 69a
-                  k[1] = Y;
-                  if (K[0] || (~(G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5]))
-                  {
-                    k[2] = w[Y][12];
-                    k[3] = w[Y][13];
-                  }
-#if RJ > 2
-                  A[0][0] = w[X][L];
-                  A[0][1] = -1;
+                  k[18] = 12;
+                  A[0][1] = A[0][2] = -1;
 #endif
                 }
+                if (~(G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5])
+                {            // Reduced Line Ring 65
+                  k[7] = w[r[a]][K[8]];
+                  k[8] = w[k[7]][12];
+                  k[15] = w[k[7]][13];
+                  k[16] = w[r[a]][12];
+                  k[17] = w[r[a]][13];
+#if RJ > 2
+                  k[18] = 12;
+                  A[1][1] = A[1][2] = -1;
+#endif
+                }
+              }
+              else if ((~G[I].g[X] & K[5]) &&
+                ((~G[I].g[w[X][7]] & (G[I].g[Y = w[K[2]][L = 6]] |
+                (K[0] || (~(G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5]) ?
+                G[I].g[w[Y][12]] | G[I].g[w[Y][13]] : 0)) & K[5]) ||
+                (~G[I].g[w[X][6]] & (G[I].g[Y = w[K[2]][L = 7]] |
+                (K[0] || (~(G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5]) ?
+                G[I].g[w[Y][12]] | G[I].g[w[Y][13]] : 0)) & K[5])))
+              {              // Line 69, Reduced Line 69a
+                k[1] = Y;
+                if (K[0] || (~(G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5]))
+                {
+                  k[2] = w[Y][12];
+                  k[3] = w[Y][13];
+                }
+#if RJ > 2
+                k[18] = !K[0] && (~(G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5]) ? 4 : 0;
+                A[0][0] = w[X][L];
+                A[0][1] = A[0][2] = -1;
+#endif
               }
             }
             else if ((LB3 (w[K[4]][12 | y], w[X][K[7]], w[K[6]][12 | y], 0) & K[5]) &&
@@ -4919,7 +4917,6 @@ START:
               k[0] = w[r[a]][L];
 #if RJ > 2
               A[0][0] = w[X][L];
-              A[0][1] = -1;
               A[1][0] = X;
               A[1][1] = w[X][6];
               A[1][2] = w[X][7];
@@ -4934,7 +4931,6 @@ START:
               k[2] = w[Y][7];
 #if RJ > 2
               A[0][0] = X;
-              A[0][1] = -1;
               A[1][0] = Z;
               A[1][1] = w[Z][6];
               A[1][2] = w[Z][7];
@@ -4942,9 +4938,8 @@ START:
             }
             if (~(k[0] & k[1]))
               goto XYWT1Tf;
-            if ((N = LB3 (w[K[6]][6 | y], w[K[2]][6 | y], w[Z][K[8]], 1) & K[5]) ||
-              (K[0] && LB3 (w[K[2]][K[8]], w[X][7 ^ y], w[X][6 | y], 1) & K[5]))
-            {                // Box 54, Line 58, 70, 70a, Reduced Line Ring 62, 66
+            if (LB3 (w[K[6]][6 | y], w[K[2]][6 | y], w[Z][K[8]], 1) & K[5])
+            {                // Line 58, 70, Reduced Line 70a, Reduced Line Ring 62, 66
               if (K[0])
               {
                 if (G[I].g[w[K[6]][7 ^ y]] & K[5])
@@ -4957,7 +4952,6 @@ START:
                 k[4] = K[6];
               }
 #if RJ > 2
-              k[18] = !N;
               A[0][0] = X;
               A[0][1] = w[X][12];
               A[0][2] = w[X][13];
@@ -4968,76 +4962,74 @@ START:
                 A[1][2] = w[Z][13];
               }
 #endif
-              if (N)
-              {
-                if ((~(G[I].g[w[X][12]] | G[I].g[w[X][13]]) & K[5]) &&
-                  (((G[I].g[L = w[K[4]][K[7]]] | G[I].g[w[L][6]] | G[I].g[w[L][7]] |
-                  G[I].g[w[K[4]][6]] | G[I].g[w[K[4]][7]] | G[I].g[M = w[K[2]][7 ^ y]] |
-                  G[I].g[N = w[K[6]][7 ^ y]] | (K[0] ? G[I].g[w[M][12]] | G[I].g[w[M][13]] |
-                  G[I].g[w[K[2]][12]] | G[I].g[w[K[2]][13]] : G[I].g[K[6]]) |
-                  ((G[I].g[w[Z][12]] | G[I].g[w[Z][13]]) & K[5] ? 0 :
-                  G[I].g[Y = w[r[a]][K[7]]] | G[I].g[w[Y][6]] | G[I].g[w[Y][7]] |
-                  G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]])) & K[5]) ||
-                  ((G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]] | G[I].g[w[K[2]][6]] |
-                  G[I].g[w[K[2]][7]] | G[I].g[Y = w[r[a]][K[7]]] | G[I].g[w[Y][6]] |
-                  G[I].g[w[Y][7]]) & (G[I].g[K[2]] ^ K[5])) ||
-                  ((G[I].g[w[K[4]][12]] | G[I].g[w[K[4]][13]] | G[I].g[w[r[a]][12]] |
-                  G[I].g[w[r[a]][13]] | G[I].g[Y = w[r[a]][K[8]]] | G[I].g[w[Y][12]] |
-                  G[I].g[w[Y][13]]) & (G[I].g[K[4]] ^ K[5]))))
-                {            // Reduced Line Ring 62, 66
-                  if (K[0] || (~(G[I].g[w[Z][12]] | G[I].g[w[Z][13]]) & K[5]))
+              if ((~(G[I].g[w[X][12]] | G[I].g[w[X][13]]) & K[5]) &&
+                (((G[I].g[L = w[K[4]][K[7]]] | G[I].g[w[L][6]] | G[I].g[w[L][7]] |
+                G[I].g[w[K[4]][6]] | G[I].g[w[K[4]][7]] | G[I].g[M = w[K[2]][7 ^ y]] |
+                G[I].g[N = w[K[6]][7 ^ y]] | (K[0] ? G[I].g[w[M][12]] | G[I].g[w[M][13]] |
+                G[I].g[w[K[2]][12]] | G[I].g[w[K[2]][13]] : G[I].g[K[6]]) |
+                ((G[I].g[w[Z][12]] | G[I].g[w[Z][13]]) & K[5] ? 0 :
+                G[I].g[Y = w[r[a]][K[7]]] | G[I].g[w[Y][6]] | G[I].g[w[Y][7]] |
+                G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]])) & K[5]) ||
+                ((G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]] | G[I].g[w[K[2]][6]] |
+                G[I].g[w[K[2]][7]] | G[I].g[Y = w[r[a]][K[7]]] | G[I].g[w[Y][6]] |
+                G[I].g[w[Y][7]]) & (G[I].g[K[2]] ^ K[5])) ||
+                ((G[I].g[w[K[4]][12]] | G[I].g[w[K[4]][13]] | G[I].g[w[r[a]][12]] |
+                G[I].g[w[r[a]][13]] | G[I].g[Y = w[r[a]][K[8]]] | G[I].g[w[Y][12]] |
+                G[I].g[w[Y][13]]) & (G[I].g[K[4]] ^ K[5]))))
+              {              // Reduced Line Ring 62, 66
+                if (K[0] || (~(G[I].g[w[Z][12]] | G[I].g[w[Z][13]]) & K[5]))
+                {
+                  if (K[0])
                   {
-                    if (K[0])
-                    {
-                      k[1] = w[M][12];
-                      k[2] = w[M][13];
-                      k[3] = w[K[2]][12];
-                      k[4] = w[K[2]][13];
-                    }
-                    k[5] = M;
-                    k[10] = N;
-                    k[11] = L;
-                    k[12] = w[L][6];
-                    k[13] = w[L][7];
-                    k[14] = w[K[4]][6];
-                    k[6] = w[K[4]][7];
-#if RJ > 2
-                    k[18] = 12;
-                    A[0][1] = -1;
-#endif
+                    k[1] = w[M][12];
+                    k[2] = w[M][13];
+                    k[3] = w[K[2]][12];
+                    k[4] = w[K[2]][13];
                   }
-                  if (~(G[I].g[w[Z][12]] | G[I].g[w[Z][13]]) & K[5])
-                  {          // Reduced Line Ring 66
-                    k[7] = w[r[a]][K[7]];
-                    k[8] = w[k[7]][6];
-                    k[15] = w[k[7]][7];
-                    k[16] = w[r[a]][6];
-                    k[17] = w[r[a]][7];
+                  k[5] = M;
+                  k[10] = N;
+                  k[11] = L;
+                  k[12] = w[L][6];
+                  k[13] = w[L][7];
+                  k[14] = w[K[4]][6];
+                  k[6] = w[K[4]][7];
 #if RJ > 2
-                    k[18] = 12;
-                    A[1][1] = -1;
-#endif
-                  }
-                }
-                else if ((~G[I].g[X] & K[5]) &&
-                  ((~G[I].g[w[X][13]] & (G[I].g[Y = w[K[4]][L = 12]] |
-                  (K[0] || (~(G[I].g[w[Z][12]] | G[I].g[w[Z][13]]) & K[5]) ?
-                  G[I].g[w[Y][6]] | G[I].g[w[Y][7]] : 0)) & K[5]) ||
-                  (~G[I].g[w[X][12]] & (G[I].g[Y = w[K[4]][L = 13]] |
-                  (K[0] || (~(G[I].g[w[Z][12]] | G[I].g[w[Z][13]]) & K[5]) ?
-                  G[I].g[w[Y][6]] | G[I].g[w[Y][7]] : 0)) & K[5])))
-                {            // Line 70, 70a
-                  k[1] = Y;
-                  if (K[0] || (~(G[I].g[w[Z][12]] | G[I].g[w[Z][13]]) & K[5]))
-                  {
-                    k[2] = w[Y][6];
-                    k[3] = w[Y][7];
-                  }
-#if RJ > 2
-                  A[0][0] = w[X][L];
-                  A[0][1] = -1;
+                  k[18] = 12;
+                  A[0][1] = A[0][2] = -1;
 #endif
                 }
+                if (~(G[I].g[w[Z][12]] | G[I].g[w[Z][13]]) & K[5])
+                {            // Reduced Line Ring 66
+                  k[7] = w[r[a]][K[7]];
+                  k[8] = w[k[7]][6];
+                  k[15] = w[k[7]][7];
+                  k[16] = w[r[a]][6];
+                  k[17] = w[r[a]][7];
+#if RJ > 2
+                  k[18] = 12;
+                  A[1][1] = A[1][2] = -1;
+#endif
+                }
+              }
+              else if ((~G[I].g[X] & K[5]) &&
+                ((~G[I].g[w[X][13]] & (G[I].g[Y = w[K[4]][L = 12]] |
+                (K[0] || (~(G[I].g[w[Z][12]] | G[I].g[w[Z][13]]) & K[5]) ?
+                G[I].g[w[Y][6]] | G[I].g[w[Y][7]] : 0)) & K[5]) ||
+                (~G[I].g[w[X][12]] & (G[I].g[Y = w[K[4]][L = 13]] |
+                (K[0] || (~(G[I].g[w[Z][12]] | G[I].g[w[Z][13]]) & K[5]) ?
+                G[I].g[w[Y][6]] | G[I].g[w[Y][7]] : 0)) & K[5])))
+              {              // Line 70, Reduced Line 70a
+                k[1] = Y;
+                if (K[0] || (~(G[I].g[w[Z][12]] | G[I].g[w[Z][13]]) & K[5]))
+                {
+                  k[2] = w[Y][6];
+                  k[3] = w[Y][7];
+                }
+#if RJ > 2
+                k[18] = !K[0] && (~(G[I].g[w[Z][6]] | G[I].g[w[Z][7]]) & K[5]) ? 4 : 0;
+                A[0][0] = w[X][L];
+                A[0][1] = A[0][2] = -1;
+#endif
               }
             }
             else if ((LB3 (w[K[2]][6 | y], w[X][K[8]], w[K[6]][6 | y], 1) & K[5]) &&
@@ -5048,7 +5040,6 @@ START:
               k[0] = w[r[a]][L];
 #if RJ > 2
               A[0][0] = w[X][L];
-              A[0][1] = -1;
               A[1][0] = X;
               A[1][1] = w[X][12];
               A[1][2] = w[X][13];
@@ -5063,7 +5054,6 @@ START:
               k[2] = w[Y][13];
 #if RJ > 2
               A[0][0] = X;
-              A[0][1] = -1;
               A[1][0] = Z;
               A[1][1] = w[Z][12];
               A[1][2] = w[Z][13];
@@ -5271,8 +5261,9 @@ XYWT1Tf:
     {                        // Search XY-Ring Type 2, XY-Wing Type 2, XY-Wing Type 2 Transport, XYZ-Wing and XYZ-Wing Transport Apex unsolved Cell positions wise
       if (B[G[I].g[r[a]]] > 3)
         continue;            // Skip for unsolved Cell values > three digits
-      int K[9] = {r[a]};
-                             // Assign Apex Cell position
+      int K[9] = {r[a]},     // Assign Apex Cell position
+          Q = B[G[I].g[r[a]]] < 3;
+
       for (y = 0; y < 2; ++y)// Search Wing Cells position Chute wise
       {
         if (!(G[I].g[w[r[a]][W[1][y]]] | G[I].g[w[r[a]][W[18][y]]] |
@@ -5295,7 +5286,7 @@ XYWT1Tf:
             K[8] = W[K[3] == W[6][y] || K[3] == W[7][y] || K[3] == W[8][y] ? 4 : 3][!y];
             if (K[2] > r[a] && K[4] > r[a] &&
                              // Check XY-Ring Type 2 1st Wing Cell position > Apex Cell position; and 2nd Wing Cell position > Apex Cell position; and
-              B[G[I].g[r[a]]] < 3 && !(G[I].g[K[2]] & G[I].g[K[4]]))
+              Q && !(G[I].g[K[2]] & G[I].g[K[4]]))
                              // Apex Cell values two digits; and 1st and 2nd Wing Cells values four digits
               for (Y = K[6]; Y < K[6] + 3; ++Y)
               {              // Search XY-Ring Type 2 3rd Wing Cell position 1st and 2nd Wing Cells common Cell positions wise
@@ -5426,16 +5417,16 @@ XYWT1Tf:
                              // Skip for either Apex Cell and Wing Cells values > three digits; or
             B[K[5] = G[I].g[K[2]] & G[I].g[K[4]]] != 1 ||
                              // Wing Cells common value not one digit; or
-            ((G[I].g[r[a]] & K[5]) && B[G[I].g[r[a]]] < 3))
-              continue;      // Wing Cells common value in Apex Cell values; and Apex Cell values not three digits
+            ((G[I].g[r[a]] & K[5]) && Q))
+              continue;      // Wing Cells common value in Apex Cell values; and Apex Cell values < three digits
             if ((G[I].g[w[r[a]][W[3][y]]] | G[I].g[w[r[a]][W[4][y]]] |
-              (B[G[I].g[r[a]]] < 3 ? G[I].g[w[K[4]][K[6]]] |
-              G[I].g[w[K[4]][K[6] + 1]] | G[I].g[w[K[4]][K[6] + 2]] : 0)) & K[5])
+              (Q ? G[I].g[w[K[4]][K[6]]] | G[I].g[w[K[4]][K[6] + 1]] |
+              G[I].g[w[K[4]][K[6] + 2]] : 0)) & K[5])
             {                // Check Wing Cells common value in XY-Wing Type 2 and XYZ-Wing removal Cells values
                              // Drop Wing Cells common value from XY-Wing Type 2 and XYZ-Wing removal Cell positions
               G[I].g[w[r[a]][W[3][y]]] &= ~K[5];
               G[I].g[w[r[a]][W[4][y]]] &= ~K[5];
-              if (B[G[I].g[r[a]]] < 3)
+              if (Q)
               {              // Drop Wing Cells common value from XY-Wing Type 2 more removal Cell positions
                 G[I].g[w[K[4]][K[6]]] &= ~K[5];
                 G[I].g[w[K[4]][K[6] + 1]] &= ~K[5];
@@ -5443,12 +5434,12 @@ XYWT1Tf:
               }
 #if RJ > 2
               printf ("%d) XY%s: %d @ r%dc%d %s => -%d @ r%dc%d",
-                G[I].p, B[G[I].g[r[a]]] < 3 ? "-Wing Type 2" : "Z-Wing",
+                G[I].p, Q ? "-Wing Type 2" : "Z-Wing",
                 b[G[I].g[K[2]] | G[I].g[K[4]]], ROW (w[r[a]][20] | w[K[2]][20]),
                 COL (w[r[a]][20] | w[K[2]][20]), S[K[4]], b[K[5]],
                 ROW (w[w[r[a]][W[3][y]]][20] | w[w[r[a]][W[4][y]]][20]),
                 COL (w[w[r[a]][W[3][y]]][20] | w[w[r[a]][W[4][y]]][20]));
-              if (B[G[I].g[r[a]]] < 3)
+              if (Q)
                 printf (" r%dc%d",
                   ROW (w[w[K[4]][K[6]]][20] | w[w[K[4]][K[6] + 1]][20] |
                     w[w[K[4]][K[6] + 2]][20]),
@@ -5458,130 +5449,246 @@ XYWT1Tf:
 #endif
               goto START;
             }
-            {                // Search XY-Wing Type 2 Transport and XYZ-Wing Transport
-              int A,
-                  L,
-                  M,
-                  N = W[r[a] == w[K[4]][W[6][y]] || r[a] == w[K[4]][W[7][y]] ||
-                      r[a] == w[K[4]][W[8][y]] ? 4 : 3][!y],
-                  k[3] = {0};
+            int A,           // Search XY-Wing Type 2 Transport and XYZ-Wing Transport
+                L,
+                M,
+                N = W[r[a] == w[K[4]][W[6][y]] || r[a] == w[K[4]][W[7][y]] ||
+                    r[a] == w[K[4]][W[8][y]] ? 4 : 3][!y],
+                k[3] = {0};
 
-              if (((k[0] = LB3 (M = w[K[4]][N], w[X][K[1]], w[X][K[7]], y) & K[5]) ||
-                (LB3 (w[r[a]][K[7]], w[K[4]][K[7]], w[X][K[8]], y) & K[5])) &&
-                (((G[I].g[w[K[2]][W[3][y]]] | G[I].g[w[K[2]][W[4][y]]] |
-                G[I].g[w[K[4]][W[3][y]]] | G[I].g[w[K[4]][W[4][y]]] |
-                (B[G[I].g[r[a]]] < 3 ? 0 : G[I].g[A = w[K[4]][K[1]]] |
-                G[I].g[w[A][W[3][y]]] | G[I].g[w[A][W[4][y]]]) |
-                (k[0] && (B[G[I].g[r[a]]] < 3 || w[r[a]][K[8]] == M) &&
-                (~(G[I].g[w[X][W[3][y]]] | G[I].g[w[X][W[4][y]]]) & K[5]) ?
-                G[I].g[w[X][W[1][!y]]] | G[I].g[w[X][W[18][!y]]] | G[I].g[w[X][W[19][!y]]] |
-                G[I].g[w[X][W[20][!y]]] | G[I].g[w[X][W[21][!y]]] |
-                G[I].g[w[X][W[22][!y]]] : 0) | (k[0] && (~(G[I].g[w[Z][W[3][y]]] |
-                G[I].g[w[Z][W[4][y]]]) & K[5]) ? G[I].g[w[Z][W[1][!y]]] |
-                G[I].g[w[Z][W[18][!y]]] | G[I].g[w[Z][W[19][!y]]] |
-                G[I].g[w[Z][W[20][!y]]] | G[I].g[w[Z][W[21][!y]]] |
-                G[I].g[w[Z][W[22][!y]]] : 0)) & K[5]) ||
+            if (((k[0] = LB3 (M = w[K[4]][N], w[X][K[1]], w[X][K[7]], y) & K[5]) ||
+              (LB3 (w[r[a]][K[7]], w[K[4]][K[7]], w[X][K[8]], y) & K[5])) &&
+              (((G[I].g[w[K[2]][W[3][y]]] | G[I].g[w[K[2]][W[4][y]]] |
+              G[I].g[w[K[4]][W[3][y]]] | G[I].g[w[K[4]][W[4][y]]] |
+              (Q ? 0 : G[I].g[A = w[K[4]][K[1]]] |
+              G[I].g[w[A][W[3][y]]] | G[I].g[w[A][W[4][y]]]) |
+              (k[0] && (Q || w[r[a]][K[8]] == M) &&
+              (~(G[I].g[w[X][W[3][y]]] | G[I].g[w[X][W[4][y]]]) & K[5]) ?
+              G[I].g[w[X][W[1][!y]]] | G[I].g[w[X][W[18][!y]]] | G[I].g[w[X][W[19][!y]]] |
+              G[I].g[w[X][W[20][!y]]] | G[I].g[w[X][W[21][!y]]] |
+              G[I].g[w[X][W[22][!y]]] : 0) | (k[0] && (~(G[I].g[w[Z][W[3][y]]] |
+              G[I].g[w[Z][W[4][y]]]) & K[5]) ? G[I].g[w[Z][W[1][!y]]] |
+              G[I].g[w[Z][W[18][!y]]] | G[I].g[w[Z][W[19][!y]]] |
+              G[I].g[w[Z][W[20][!y]]] | G[I].g[w[Z][W[21][!y]]] |
+              G[I].g[w[Z][W[22][!y]]] : 0)) & K[5]) ||
+              ((G[I].g[w[r[a]][W[3][y]]] | G[I].g[w[r[a]][W[4][y]]] |
+              G[I].g[L = w[r[a]][K[7]]] | G[I].g[w[L][W[3][y]]] |
+              G[I].g[w[L][W[4][y]]] | G[I].g[w[K[2]][W[3][y]]] |
+              G[I].g[w[K[2]][W[4][y]]]) & (G[I].g[K[2]] ^ K[5])) ||
+              ((G[I].g[w[r[a]][W[3][y]]] | G[I].g[w[r[a]][W[4][y]]] | G[I].g[M] |
+              G[I].g[w[M][W[3][y]]] | G[I].g[w[M][W[4][y]]] |
+              G[I].g[w[K[4]][W[3][y]]] | G[I].g[w[K[4]][W[4][y]]] |
+              (w[r[a]][K[8]] == M ? G[I].g[w[K[4]][W[1][!y]]] |
+              G[I].g[w[K[4]][W[18][!y]]] | G[I].g[w[K[4]][W[19][!y]]] |
+              G[I].g[w[K[4]][W[20][!y]]] | G[I].g[w[K[4]][W[21][!y]]] |
+              G[I].g[w[K[4]][W[22][!y]]] : 0)) & (G[I].g[K[4]] ^ K[5]))))
+            {                // Line Ring 05, 07, Box Ring 06, 08, Reduced Line Ring 09, 10, 11, 12
+              if (!Q)
+              {
+                G[I].g[A] &= ~K[5];
+                G[I].g[w[A][W[3][y]]] &= ~K[5];
+                G[I].g[w[A][W[4][y]]] &= ~K[5];
+              }
+              G[I].g[w[r[a]][W[3][y]]] &= ~G[I].g[r[a]];
+              G[I].g[w[r[a]][W[4][y]]] &= ~G[I].g[r[a]];
+              G[I].g[w[K[2]][W[3][y]]] &= ~G[I].g[K[2]];
+              G[I].g[w[K[2]][W[4][y]]] &= ~G[I].g[K[2]];
+              G[I].g[L = w[r[a]][K[7]]] &= (Y = ~(G[I].g[K[2]] ^ K[5]));
+              G[I].g[w[L][W[3][y]]] &= Y;
+              G[I].g[w[L][W[4][y]]] &= Y;
+              G[I].g[w[K[4]][W[3][y]]] &= ~G[I].g[K[4]];
+              G[I].g[w[K[4]][W[4][y]]] &= ~G[I].g[K[4]];
+              G[I].g[M] &= (Y = ~(G[I].g[K[4]] ^ K[5]));
+              G[I].g[w[M][W[3][y]]] &= Y;
+              G[I].g[w[M][W[4][y]]] &= Y;
+              if (w[r[a]][K[8]] == M)
+              {
+                G[I].g[w[K[4]][W[1][!y]]] &= Y;
+                G[I].g[w[K[4]][W[18][!y]]] &= Y;
+                G[I].g[w[K[4]][W[19][!y]]] &= Y;
+                G[I].g[w[K[4]][W[20][!y]]] &= Y;
+                G[I].g[w[K[4]][W[21][!y]]] &= Y;
+                G[I].g[w[K[4]][W[22][!y]]] &= Y;
+              }
+              if (k[0] && (Q || w[r[a]][K[8]] == M) &&
+                ~(G[I].g[w[M][W[3][y]]] | G[I].g[w[M][W[4][y]]]) & K[5])
+              {              // Reduced Line Ring 09, 12
+                G[I].g[w[K[4]][W[1][!y]]] &= ~K[5];
+                G[I].g[w[K[4]][W[18][!y]]] &= ~K[5];
+                G[I].g[w[K[4]][W[19][!y]]] &= ~K[5];
+                G[I].g[w[K[4]][W[20][!y]]] &= ~K[5];
+                G[I].g[w[K[4]][W[21][!y]]] &= ~K[5];
+                G[I].g[w[K[4]][W[22][!y]]] &= ~K[5];
+#if RJ > 2
+                k[1] = 1;
+#endif
+              }
+              if (k[0] && ~(G[I].g[w[Y = w[K[2]][K[8]]][W[3][y]]] | G[I].g[w[Y][W[4][y]]]) & K[5])
+              {              // Reduced Line Ring 10, 11, 12
+                G[I].g[w[K[2]][W[1][!y]]] &= ~K[5];
+                G[I].g[w[K[2]][W[18][!y]]] &= ~K[5];
+                G[I].g[w[K[2]][W[19][!y]]] &= ~K[5];
+                G[I].g[w[K[2]][W[20][!y]]] &= ~K[5];
+                G[I].g[w[K[2]][W[21][!y]]] &= ~K[5];
+                G[I].g[w[K[2]][W[22][!y]]] &= ~K[5];
+#if RJ > 2
+                k[2] = 1;
+#endif
+              }
+#if RJ > 2
+              printf ("%d) XY%s Transport:%s%s Ring %d @ r%dc%d %s SL %d @ %s %d\n=> -%d @ r%dc%d r%dc%d",
+                G[I].p, Q ? "-Wing Type 2" : "Z-Wing",
+                (k[1] | k[2]) ? " Reduced " : " ", k[0] ? R_C : "Box", b[G[I].g[K[2]] | G[I].g[K[4]]],
+                ROW (w[r[a]][20] | w[K[2]][20]), COL (w[r[a]][20] | w[K[2]][20]),
+                S[K[4]], b[K[5]], k[0] ? R_C : "Box", k[0] ? RCN (M) : BOX (M), b[K[5]],
+                ROW (w[w[K[2]][W[3][y]]][20] | w[w[K[2]][W[4][y]]][20]),
+                COL (w[w[K[2]][W[3][y]]][20] | w[w[K[2]][W[4][y]]][20]),
+                ROW (w[w[K[4]][W[3][y]]][20] | w[w[K[4]][W[4][y]]][20]),
+                COL (w[w[K[4]][W[3][y]]][20] | w[w[K[4]][W[4][y]]][20]));
+              if (!Q)
+                printf (" r%dc%d",
+                  ROW (w[A][20] | w[w[A][W[3][y]]][20] | w[w[A][W[4][y]]][20]),
+                  COL (w[A][20] | w[w[A][W[3][y]]][20] | w[w[A][W[4][y]]][20]));
+              if (k[1])
+                printf (" r%dc%d",
+                  ROW (w[w[K[4]][W[1][!y]]][20] | w[w[K[4]][W[18][!y]]][20] |
+                    w[w[K[4]][W[19][!y]]][20] | w[w[K[4]][W[20][!y]]][20] |
+                    w[w[K[4]][W[21][!y]]][20] | w[w[K[4]][W[22][!y]]][20]),
+                  COL (w[w[K[4]][W[1][!y]]][20] | w[w[K[4]][W[18][!y]]][20] |
+                    w[w[K[4]][W[19][!y]]][20] | w[w[K[4]][W[20][!y]]][20] |
+                    w[w[K[4]][W[21][!y]]][20] | w[w[K[4]][W[22][!y]]][20]));
+              if (k[2])
+                printf (" r%dc%d",
+                  ROW (w[w[K[2]][W[1][!y]]][20] | w[w[K[2]][W[18][!y]]][20] |
+                    w[w[K[2]][W[19][!y]]][20] | w[w[K[2]][W[20][!y]]][20] |
+                    w[w[K[2]][W[21][!y]]][20] | w[w[K[2]][W[22][!y]]][20]),
+                  COL (w[w[K[2]][W[1][!y]]][20] | w[w[K[2]][W[18][!y]]][20] |
+                    w[w[K[2]][W[19][!y]]][20] | w[w[K[2]][W[20][!y]]][20] |
+                    w[w[K[2]][W[21][!y]]][20] | w[w[K[2]][W[22][!y]]][20]));
+              printf (" => -%d @ r%dc%d => -%d @ r%dc%d r%dc%d r%dc%d", b[G[I].g[K[2]] ^ K[5]],
+                ROW (w[w[r[a]][W[3][y]]][20] | w[w[r[a]][W[4][y]]][20] |
+                  w[w[K[2]][W[3][y]]][20] | w[w[K[2]][W[4][y]]][20] |
+                  w[L][20] | w[w[L][W[3][y]]][20] | w[w[L][W[4][y]]][20]),
+                COL (w[w[r[a]][W[3][y]]][20] | w[w[r[a]][W[4][y]]][20] |
+                  w[w[K[2]][W[3][y]]][20] | w[w[K[2]][W[4][y]]][20] | w[L][20] |
+                  w[w[L][W[3][y]]][20] | w[w[L][W[4][y]]][20]), b[G[I].g[K[4]] ^ K[5]],
+                ROW (w[w[r[a]][W[3][y]]][20] | w[w[r[a]][W[4][y]]][20]),
+                COL (w[w[r[a]][W[3][y]]][20] | w[w[r[a]][W[4][y]]][20]),
+                ROW (w[w[K[4]][W[3][y]]][20] | w[w[K[4]][W[4][y]]][20]),
+                COL (w[w[K[4]][W[3][y]]][20] | w[w[K[4]][W[4][y]]][20]),
+                ROW (w[M][20] | w[w[M][W[3][y]]][20] | w[w[M][W[4][y]]][20]),
+                COL (w[M][20] | w[w[M][W[3][y]]][20] | w[w[M][W[4][y]]][20]));
+              if (w[r[a]][K[8]] == M)
+                printf (" r%dc%d",
+                  ROW (w[w[K[4]][W[1][!y]]][20] | w[w[K[4]][W[18][!y]]][20] |
+                    w[w[K[4]][W[19][!y]]][20] | w[w[K[4]][W[20][!y]]][20] |
+                    w[w[K[4]][W[21][!y]]][20] | w[w[K[4]][W[22][!y]]][20]),
+                  COL (w[w[K[4]][W[1][!y]]][20] | w[w[K[4]][W[18][!y]]][20] |
+                    w[w[K[4]][W[19][!y]]][20] | w[w[K[4]][W[20][!y]]][20] |
+                    w[w[K[4]][W[21][!y]]][20] | w[w[K[4]][W[22][!y]]][20]));
+              printf ("\n");
+#endif
+              goto START;
+            }
+            for (Y = W[1][!y]; Y < W[2][!y]; ++Y)
+            {
+              A = W[Y < W[5][!y] ? 5 : 1][!y];
+              if (((k[0] = LN1 (w[K[2]][Y], w[K[4]][Y], w[Z][K[7]], y) & K[5]) ||
+                (ERI (X) & ERI (Z) & K[5])) &&
+                (((G[I].g[M = w[K[4]][N]] | (Q || w[r[a]][K[8]] == M ?
+                (k[0] ? G[I].g[w[X][W[3][!y]]] | G[I].g[w[X][W[4][!y]]] |
+                G[I].g[w[Z][W[3][!y]]] | G[I].g[w[Z][W[4][!y]]] : G[I].g[X] | G[I].g[Z] |
+                G[I].g[w[Z][K[7]]] | G[I].g[w[Z][K[7] + 1]] | G[I].g[w[Z][K[7] + 2]]) |
+                G[I].g[w[K[4]][K[1]]] | G[I].g[w[K[2]][K[8]]] | G[I].g[L = w[K[2]][A]] |
+                G[I].g[w[L][W[3][!y]]] | G[I].g[w[L][W[4][!y]]] | G[I].g[L = w[K[4]][A]] |
+                G[I].g[w[L][W[3][!y]]] | G[I].g[w[L][W[4][!y]]] : 0)) & K[5]) ||
                 ((G[I].g[w[r[a]][W[3][y]]] | G[I].g[w[r[a]][W[4][y]]] |
-                G[I].g[L = w[r[a]][K[7]]] | G[I].g[w[L][W[3][y]]] |
-                G[I].g[w[L][W[4][y]]] | G[I].g[w[K[2]][W[3][y]]] |
+                G[I].g[w[r[a]][K[7]]] | G[I].g[w[r[a]][K[7] + 1]] |
+                G[I].g[w[r[a]][K[7] + 2]] | G[I].g[w[K[2]][W[3][y]]] |
                 G[I].g[w[K[2]][W[4][y]]]) & (G[I].g[K[2]] ^ K[5])) ||
-                ((G[I].g[w[r[a]][W[3][y]]] | G[I].g[w[r[a]][W[4][y]]] | G[I].g[M] |
-                G[I].g[w[M][W[3][y]]] | G[I].g[w[M][W[4][y]]] |
+                ((G[I].g[w[r[a]][W[3][y]]] | G[I].g[w[r[a]][W[4][y]]] |
+                G[I].g[M] | G[I].g[w[M][W[3][y]]] | G[I].g[w[M][W[4][y]]] |
                 G[I].g[w[K[4]][W[3][y]]] | G[I].g[w[K[4]][W[4][y]]] |
-                (w[r[a]][K[8]] == M ? G[I].g[w[K[4]][W[1][!y]]] |
-                G[I].g[w[K[4]][W[18][!y]]] | G[I].g[w[K[4]][W[19][!y]]] |
-                G[I].g[w[K[4]][W[20][!y]]] | G[I].g[w[K[4]][W[21][!y]]] |
-                G[I].g[w[K[4]][W[22][!y]]] : 0)) & (G[I].g[K[4]] ^ K[5]))))
-              {              // Line Ring 05, 07, Box Ring 06, 08, Reduced Line Ring 09, 10, 11, 12
-                if (B[G[I].g[r[a]]] > 2)
-                {
-                  G[I].g[A] &= ~K[5];
-                  G[I].g[w[A][W[3][y]]] &= ~K[5];
-                  G[I].g[w[A][W[4][y]]] &= ~K[5];
-                }
+                (w[r[a]][K[8]] == M ? (k[0] ? G[I].g[w[Z][W[3][!y]]] |
+                G[I].g[w[Z][W[4][!y]]] : G[I].g[Z]) | G[I].g[w[K[4]][A]] |
+                G[I].g[w[K[4]][A + 1]] | G[I].g[w[K[4]][A + 2]] : 0)) &
+                (G[I].g[K[4]] ^ K[5]))))
+              {              // Line Ring 13, 14, ERI Ring 15, 16
                 G[I].g[w[r[a]][W[3][y]]] &= ~G[I].g[r[a]];
                 G[I].g[w[r[a]][W[4][y]]] &= ~G[I].g[r[a]];
-                G[I].g[w[K[2]][W[3][y]]] &= ~G[I].g[K[2]];
-                G[I].g[w[K[2]][W[4][y]]] &= ~G[I].g[K[2]];
-                G[I].g[L = w[r[a]][K[7]]] &= (Y = ~(G[I].g[K[2]] ^ K[5]));
-                G[I].g[w[L][W[3][y]]] &= Y;
-                G[I].g[w[L][W[4][y]]] &= Y;
-                G[I].g[w[K[4]][W[3][y]]] &= ~G[I].g[K[4]];
-                G[I].g[w[K[4]][W[4][y]]] &= ~G[I].g[K[4]];
-                G[I].g[M] &= (Y = ~(G[I].g[K[4]] ^ K[5]));
-                G[I].g[w[M][W[3][y]]] &= Y;
-                G[I].g[w[M][W[4][y]]] &= Y;
-                if (w[r[a]][K[8]] == M)
+                G[I].g[w[K[2]][W[3][y]]] &= ~(G[I].g[K[2]] ^ K[5]);
+                G[I].g[w[K[2]][W[4][y]]] &= ~(G[I].g[K[2]] ^ K[5]);
+                G[I].g[w[r[a]][K[7]]] &= ~(G[I].g[K[2]] ^ K[5]);
+                G[I].g[w[r[a]][K[7] + 1]] &= ~(G[I].g[K[2]] ^ K[5]);
+                G[I].g[w[r[a]][K[7] + 2]] &= ~(G[I].g[K[2]] ^ K[5]);
+                G[I].g[w[K[4]][W[3][y]]] &= ~(G[I].g[K[4]] ^ K[5]);
+                G[I].g[w[K[4]][W[4][y]]] &= ~(G[I].g[K[4]] ^ K[5]);
+                G[I].g[M] &= ~G[I].g[K[4]];
+                G[I].g[w[M][W[3][y]]] &= ~(G[I].g[K[4]] ^ K[5]);
+                G[I].g[w[M][W[4][y]]] &= ~(G[I].g[K[4]] ^ K[5]);
+                if (Q || w[r[a]][K[8]] == M)
+                {            // Line Ring 14, ERI Ring 16
+                  k[1] = ~(w[r[a]][K[8]] == M ? G[I].g[K[4]] : K[5]);
+                  if (k[0])
+                  {          // Line Ring 14
+                    G[I].g[w[X][W[3][!y]]] &= ~K[5];
+                    G[I].g[w[X][W[4][!y]]] &= ~K[5];
+                    G[I].g[w[Z][W[3][!y]]] &= k[1];
+                    G[I].g[w[Z][W[4][!y]]] &= k[1];
+                  }
+                  else
+                  {          // ERI Ring 16
+                    G[I].g[X] &= ~K[5];
+                    G[I].g[Z] &= k[1];
+                    G[I].g[w[Z][K[7]]] &= ~K[5];
+                    G[I].g[w[Z][K[7] + 1]] &= ~K[5];
+                    G[I].g[w[Z][K[7] + 2]] &= ~K[5];
+                  }
+                  G[I].g[w[K[4]][K[1]]] &= ~K[5];
+                  G[I].g[w[K[2]][K[8]]] &= ~K[5];
+                  G[I].g[L = w[K[2]][A]] &= ~K[5];
+                  G[I].g[w[L][W[3][!y]]] &= ~K[5];
+                  G[I].g[w[L][W[4][!y]]] &= ~K[5];
+                  G[I].g[L = w[K[4]][A]] &= k[1];
+                  G[I].g[w[L][W[3][!y]]] &= k[1];
+                  G[I].g[w[L][W[4][!y]]] &= k[1];
+                }
+#if RJ > 2
+                printf ("%d) XY%s Transport: %s Ring %d @ r%dc%d %s SL %s %d between %d @ %s and %d @ %s\n=> -%d @ %s",
+                  G[I].p, Q ? "-Wing Type 2" : "Z-Wing", k[0] ? R_C : "ERI",
+                  b[G[I].g[K[2]] | G[I].g[K[4]]], ROW (w[r[a]][20] | w[K[2]][20]),
+                  COL (w[r[a]][20] | w[K[2]][20]), S[K[4]], k[0] ? R_C : "ERI",
+                  k[0] ? RCN (X) : BOX (X), b[K[5]], S[X], b[K[5]], S[Z], b[K[5]], S[M]);
+                if (Q || w[r[a]][K[8]] == M)
                 {
-                  G[I].g[w[K[4]][W[1][!y]]] &= Y;
-                  G[I].g[w[K[4]][W[18][!y]]] &= Y;
-                  G[I].g[w[K[4]][W[19][!y]]] &= Y;
-                  G[I].g[w[K[4]][W[20][!y]]] &= Y;
-                  G[I].g[w[K[4]][W[21][!y]]] &= Y;
-                  G[I].g[w[K[4]][W[22][!y]]] &= Y;
+                  if (k[0])
+                    printf (" r%dc%d r%dc%d",
+                      ROW (w[w[X][W[3][!y]]][20] | w[w[X][W[4][!y]]][20]),
+                      COL (w[w[X][W[3][!y]]][20] | w[w[X][W[4][!y]]][20]),
+                      ROW (w[w[Z][W[3][!y]]][20] | w[w[Z][W[4][!y]]][20]),
+                      COL (w[w[Z][W[3][!y]]][20] | w[w[Z][W[4][!y]]][20]));
+                  else
+                    printf (" %s r%dc%d", S[X],
+                      ROW (w[Z][20] | w[w[Z][K[7]]][20] |
+                        w[w[Z][K[7] + 1]][20] | w[w[Z][K[7] + 2]][20]),
+                      COL (w[Z][20] | w[w[Z][K[7]]][20] |
+                        w[w[Z][K[7] + 1]][20] | w[w[Z][K[7] + 2]][20]));
+                  if (!Q)
+                    printf (" %s", S[w[K[4]][K[1]]]);
+                  printf (" %s %s %s %s %s %s %s", S[w[K[2]][K[8]]],
+                    S[w[K[2]][A]], S[w[w[K[2]][A]][W[3][!y]]], S[w[w[K[2]][A]][W[4][!y]]],
+                    S[w[K[4]][A]], S[w[w[K[4]][A]][W[3][!y]]], S[w[w[K[4]][A]][W[4][!y]]]);
                 }
-                if (k[0] && (B[G[I].g[r[a]]] < 3 || w[r[a]][K[8]] == M) &&
-                  ~(G[I].g[w[M][W[3][y]]] | G[I].g[w[M][W[4][y]]]) & K[5])
-                {            // Reduced Line Ring 09, 12
-                  G[I].g[w[K[4]][W[1][!y]]] &= ~K[5];
-                  G[I].g[w[K[4]][W[18][!y]]] &= ~K[5];
-                  G[I].g[w[K[4]][W[19][!y]]] &= ~K[5];
-                  G[I].g[w[K[4]][W[20][!y]]] &= ~K[5];
-                  G[I].g[w[K[4]][W[21][!y]]] &= ~K[5];
-                  G[I].g[w[K[4]][W[22][!y]]] &= ~K[5];
-#if RJ > 2
-                  k[1] = 1;
-#endif
-                }
-                if (k[0] && ~(G[I].g[w[Y = w[K[2]][K[8]]][W[3][y]]] | G[I].g[w[Y][W[4][y]]]) & K[5])
-                {            // Reduced Line Ring 10, 11, 12
-                  G[I].g[w[K[2]][W[1][!y]]] &= ~K[5];
-                  G[I].g[w[K[2]][W[18][!y]]] &= ~K[5];
-                  G[I].g[w[K[2]][W[19][!y]]] &= ~K[5];
-                  G[I].g[w[K[2]][W[20][!y]]] &= ~K[5];
-                  G[I].g[w[K[2]][W[21][!y]]] &= ~K[5];
-                  G[I].g[w[K[2]][W[22][!y]]] &= ~K[5];
-#if RJ > 2
-                  k[2] = 1;
-#endif
-                }
-#if RJ > 2
-                printf ("%d) XY%s Transport:%s%s Ring %d @ r%dc%d %s SL %d @ %s %d\n=> -%d @ r%dc%d r%dc%d",
-                  G[I].p, B[G[I].g[r[a]]] < 3 ? "-Wing Type 2" : "Z-Wing",
-                  (k[1] | k[2]) ? " Reduced " : " ", k[0] ? R_C : "Box", b[G[I].g[K[2]] | G[I].g[K[4]]],
-                  ROW (w[r[a]][20] | w[K[2]][20]), COL (w[r[a]][20] | w[K[2]][20]),
-                  S[K[4]], b[K[5]], k[0] ? R_C : "Box", k[0] ? RCN (M) : BOX (M), b[K[5]],
-                  ROW (w[w[K[2]][W[3][y]]][20] | w[w[K[2]][W[4][y]]][20]),
-                  COL (w[w[K[2]][W[3][y]]][20] | w[w[K[2]][W[4][y]]][20]),
-                  ROW (w[w[K[4]][W[3][y]]][20] | w[w[K[4]][W[4][y]]][20]),
-                  COL (w[w[K[4]][W[3][y]]][20] | w[w[K[4]][W[4][y]]][20]));
-                if (B[G[I].g[r[a]]] > 2)
-                  printf (" r%dc%d",
-                    ROW (w[A][20] | w[w[A][W[3][y]]][20] | w[w[A][W[4][y]]][20]),
-                    COL (w[A][20] | w[w[A][W[3][y]]][20] | w[w[A][W[4][y]]][20]));
-                if (k[1])
-                  printf (" r%dc%d",
-                    ROW (w[w[K[4]][W[1][!y]]][20] | w[w[K[4]][W[18][!y]]][20] |
-                      w[w[K[4]][W[19][!y]]][20] | w[w[K[4]][W[20][!y]]][20] |
-                      w[w[K[4]][W[21][!y]]][20] | w[w[K[4]][W[22][!y]]][20]),
-                    COL (w[w[K[4]][W[1][!y]]][20] | w[w[K[4]][W[18][!y]]][20] |
-                      w[w[K[4]][W[19][!y]]][20] | w[w[K[4]][W[20][!y]]][20] |
-                      w[w[K[4]][W[21][!y]]][20] | w[w[K[4]][W[22][!y]]][20]));
-                if (k[2])
-                  printf (" r%dc%d",
-                    ROW (w[w[K[2]][W[1][!y]]][20] | w[w[K[2]][W[18][!y]]][20] |
-                      w[w[K[2]][W[19][!y]]][20] | w[w[K[2]][W[20][!y]]][20] |
-                      w[w[K[2]][W[21][!y]]][20] | w[w[K[2]][W[22][!y]]][20]),
-                    COL (w[w[K[2]][W[1][!y]]][20] | w[w[K[2]][W[18][!y]]][20] |
-                      w[w[K[2]][W[19][!y]]][20] | w[w[K[2]][W[20][!y]]][20] |
-                      w[w[K[2]][W[21][!y]]][20] | w[w[K[2]][W[22][!y]]][20]));
-                printf (" => -%d @ r%dc%d => -%d @ r%dc%d r%dc%d r%dc%d", b[G[I].g[K[2]] ^ K[5]],
+                printf ("\n=> -%d @ r%dc%d => -%d @ r%dc%d r%dc%d r%dc%d",
+                  b[G[I].g[K[2]] ^ K[5]],
                   ROW (w[w[r[a]][W[3][y]]][20] | w[w[r[a]][W[4][y]]][20] |
                     w[w[K[2]][W[3][y]]][20] | w[w[K[2]][W[4][y]]][20] |
-                    w[L][20] | w[w[L][W[3][y]]][20] | w[w[L][W[4][y]]][20]),
+                    w[w[r[a]][K[7]]][20] | w[w[r[a]][K[7] + 1]][20] |
+                    w[w[r[a]][K[7] + 2]][20]),
                   COL (w[w[r[a]][W[3][y]]][20] | w[w[r[a]][W[4][y]]][20] |
-                    w[w[K[2]][W[3][y]]][20] | w[w[K[2]][W[4][y]]][20] | w[L][20] |
-                    w[w[L][W[3][y]]][20] | w[w[L][W[4][y]]][20]), b[G[I].g[K[4]] ^ K[5]],
+                    w[w[K[2]][W[3][y]]][20] | w[w[K[2]][W[4][y]]][20] |
+                    w[w[r[a]][K[7]]][20] | w[w[r[a]][K[7] + 1]][20] |
+                    w[w[r[a]][K[7] + 2]][20]), b[G[I].g[K[4]] ^ K[5]],
                   ROW (w[w[r[a]][W[3][y]]][20] | w[w[r[a]][W[4][y]]][20]),
                   COL (w[w[r[a]][W[3][y]]][20] | w[w[r[a]][W[4][y]]][20]),
                   ROW (w[w[K[4]][W[3][y]]][20] | w[w[K[4]][W[4][y]]][20]),
@@ -5590,248 +5697,126 @@ XYWT1Tf:
                   COL (w[M][20] | w[w[M][W[3][y]]][20] | w[w[M][W[4][y]]][20]));
                 if (w[r[a]][K[8]] == M)
                   printf (" r%dc%d",
-                    ROW (w[w[K[4]][W[1][!y]]][20] | w[w[K[4]][W[18][!y]]][20] |
-                      w[w[K[4]][W[19][!y]]][20] | w[w[K[4]][W[20][!y]]][20] |
-                      w[w[K[4]][W[21][!y]]][20] | w[w[K[4]][W[22][!y]]][20]),
-                    COL (w[w[K[4]][W[1][!y]]][20] | w[w[K[4]][W[18][!y]]][20] |
-                      w[w[K[4]][W[19][!y]]][20] | w[w[K[4]][W[20][!y]]][20] |
-                      w[w[K[4]][W[21][!y]]][20] | w[w[K[4]][W[22][!y]]][20]));
+                    ROW ((k[0] ? w[w[Z][W[3][!y]]][20] |
+                      w[w[Z][W[4][!y]]][20] : w[Z][20]) | w[w[K[4]][A]][20] |
+                      w[w[w[K[4]][A]][W[3][!y]]][20] | w[w[w[K[4]][A]][W[4][!y]]][20]),
+                    COL ((k[0] ? w[w[Z][W[3][!y]]][20] |
+                      w[w[Z][W[4][!y]]][20] : w[Z][20]) | w[w[K[4]][A]][20] |
+                      w[w[w[K[4]][A]][W[3][!y]]][20] | w[w[w[K[4]][A]][W[4][!y]]][20]));
                 printf ("\n");
 #endif
                 goto START;
               }
-              for (Y = W[1][!y]; Y < W[2][!y]; ++Y)
+              if (!Q && w[r[a]][K[8]] != w[K[4]][N])
+                for (A = 3; A < 5; ++A)
+                  if (((k[0] = LN1 (w[L = w[w[K[4]][K[1]]][W[A][y]]][Y],
+                    w[r[a]][Y], w[Z][K[7]], y) & K[5]) ||
+                    (ERI (X) & ERI (Z) & K[5])) && G[I].g[L] & K[5])
+                  {          // Line 17, ERI 18
+                    G[I].g[L] -= K[5];
+#if RJ > 2
+                    printf ("%d) XYZ-Wing Transport: %s %d @ r%dc%d %s SL %s %d between%s%d @ %s and%s%d @ %s\n=> -%d @ %s\n",
+                      G[I].p, k[0] ? R_C : "ERI", b[G[I].g[r[a]]], ROW (w[r[a]][20] | w[K[2]][20]),
+                      COL (w[r[a]][20] | w[K[2]][20]), S[K[4]], k[0] ? R_C : "ERI",
+                      k[0] ? RCN (X) : BOX (X), k[29] ? " " : " ERI ", b[K[5]], S[X],
+                      k[0] ? " " : " ERI ", b[K[5]], S[Z], b[K[5]], S[L]);
+#endif
+                    goto START;
+                  }
+              for (M = 0; M < 2; ++M)
               {
-                A = W[Y < W[5][!y] ? 5 : 1][!y];
-                if (((k[0] = LN1 (w[K[2]][Y], w[K[4]][Y], w[Z][K[7]], y) & K[5]) ||
-                  (ERI (X) & ERI (Z) & K[5])) &&
-                  (((G[I].g[M = w[K[4]][N]] | (B[G[I].g[r[a]]] < 3 || w[r[a]][K[8]] == M ?
-                  (k[0] ? G[I].g[w[X][W[3][!y]]] | G[I].g[w[X][W[4][!y]]] |
-                  G[I].g[w[Z][W[3][!y]]] | G[I].g[w[Z][W[4][!y]]] : G[I].g[X] | G[I].g[Z] |
-                  G[I].g[w[Z][K[7]]] | G[I].g[w[Z][K[7] + 1]] | G[I].g[w[Z][K[7] + 2]]) |
-                  G[I].g[w[K[4]][K[1]]] | G[I].g[w[K[2]][K[8]]] | G[I].g[L = w[K[2]][A]] |
-                  G[I].g[w[L][W[3][!y]]] | G[I].g[w[L][W[4][!y]]] | G[I].g[L = w[K[4]][A]] |
-                  G[I].g[w[L][W[3][!y]]] | G[I].g[w[L][W[4][!y]]] : 0)) & K[5]) ||
-                  ((G[I].g[w[r[a]][W[3][y]]] | G[I].g[w[r[a]][W[4][y]]] |
-                  G[I].g[w[r[a]][K[7]]] | G[I].g[w[r[a]][K[7] + 1]] |
-                  G[I].g[w[r[a]][K[7] + 2]] | G[I].g[w[K[2]][W[3][y]]] |
-                  G[I].g[w[K[2]][W[4][y]]]) & (G[I].g[K[2]] ^ K[5])) ||
-                  ((G[I].g[w[r[a]][W[3][y]]] | G[I].g[w[r[a]][W[4][y]]] |
-                  G[I].g[M] | G[I].g[w[M][W[3][y]]] | G[I].g[w[M][W[4][y]]] |
-                  G[I].g[w[K[4]][W[3][y]]] | G[I].g[w[K[4]][W[4][y]]] |
-                  (w[r[a]][K[8]] == M ? (k[0] ? G[I].g[w[Z][W[3][!y]]] |
-                  G[I].g[w[Z][W[4][!y]]] : G[I].g[Z]) | G[I].g[w[K[4]][A]] |
-                  G[I].g[w[K[4]][A + 1]] | G[I].g[w[K[4]][A + 2]] : 0)) &
-                  (G[I].g[K[4]] ^ K[5]))))
-                {            // Line Ring 13, 14, ERI Ring 15, 16
-                  G[I].g[w[r[a]][W[3][y]]] &= ~G[I].g[r[a]];
-                  G[I].g[w[r[a]][W[4][y]]] &= ~G[I].g[r[a]];
-                  G[I].g[w[K[2]][W[3][y]]] &= ~(G[I].g[K[2]] ^ K[5]);
-                  G[I].g[w[K[2]][W[4][y]]] &= ~(G[I].g[K[2]] ^ K[5]);
-                  G[I].g[w[r[a]][K[7]]] &= ~(G[I].g[K[2]] ^ K[5]);
-                  G[I].g[w[r[a]][K[7] + 1]] &= ~(G[I].g[K[2]] ^ K[5]);
-                  G[I].g[w[r[a]][K[7] + 2]] &= ~(G[I].g[K[2]] ^ K[5]);
-                  G[I].g[w[K[4]][W[3][y]]] &= ~(G[I].g[K[4]] ^ K[5]);
-                  G[I].g[w[K[4]][W[4][y]]] &= ~(G[I].g[K[4]] ^ K[5]);
-                  G[I].g[M] &= ~G[I].g[K[4]];
-                  G[I].g[w[M][W[3][y]]] &= ~(G[I].g[K[4]] ^ K[5]);
-                  G[I].g[w[M][W[4][y]]] &= ~(G[I].g[K[4]] ^ K[5]);
-                  if (B[G[I].g[r[a]]] < 3 || w[r[a]][K[8]] == M)
-                  {          // Line Ring 14, ERI Ring 16
-                    k[1] = ~(w[r[a]][K[8]] == M ? G[I].g[K[4]] : K[5]);
-                    if (k[0])
-                    {        // Line Ring 14
-                      G[I].g[w[X][W[3][!y]]] &= ~K[5];
-                      G[I].g[w[X][W[4][!y]]] &= ~K[5];
-                      G[I].g[w[Z][W[3][!y]]] &= k[1];
-                      G[I].g[w[Z][W[4][!y]]] &= k[1];
-                    }
-                    else
-                    {        // ERI Ring 16
-                      G[I].g[X] &= ~K[5];
-                      G[I].g[Z] &= k[1];
-                      G[I].g[w[Z][K[7]]] &= ~K[5];
-                      G[I].g[w[Z][K[7] + 1]] &= ~K[5];
-                      G[I].g[w[Z][K[7] + 2]] &= ~K[5];
-                    }
-                    G[I].g[w[K[4]][K[1]]] &= ~K[5];
-                    G[I].g[w[K[2]][K[8]]] &= ~K[5];
-                    G[I].g[L = w[K[2]][A]] &= ~K[5];
-                    G[I].g[w[L][W[3][!y]]] &= ~K[5];
-                    G[I].g[w[L][W[4][!y]]] &= ~K[5];
-                    G[I].g[L = w[K[4]][A]] &= k[1];
-                    G[I].g[w[L][W[3][!y]]] &= k[1];
-                    G[I].g[w[L][W[4][!y]]] &= k[1];
-                  }
-#if RJ > 2
-                  printf ("%d) XY%s Transport: %s Ring %d @ r%dc%d %s SL %s %d between %d @ %s and %d @ %s\n=> -%d @ %s",
-                    G[I].p, B[G[I].g[r[a]]] < 3 ? "-Wing Type 2" : "Z-Wing", k[0] ? R_C : "ERI",
-                    b[G[I].g[K[2]] | G[I].g[K[4]]], ROW (w[r[a]][20] | w[K[2]][20]),
-                    COL (w[r[a]][20] | w[K[2]][20]), S[K[4]], k[0] ? R_C : "ERI",
-                    k[0] ? RCN (X) : BOX (X), b[K[5]], S[X], b[K[5]], S[Z], b[K[5]], S[M]);
-                  if (B[G[I].g[r[a]]] < 3 || w[r[a]][K[8]] == M)
-                  {
-                    if (k[0])
-                      printf (" r%dc%d r%dc%d",
-                        ROW (w[w[X][W[3][!y]]][20] | w[w[X][W[4][!y]]][20]),
-                        COL (w[w[X][W[3][!y]]][20] | w[w[X][W[4][!y]]][20]),
-                        ROW (w[w[Z][W[3][!y]]][20] | w[w[Z][W[4][!y]]][20]),
-                        COL (w[w[Z][W[3][!y]]][20] | w[w[Z][W[4][!y]]][20]));
-                    else
-                      printf (" %s r%dc%d", S[X],
-                        ROW (w[Z][20] | w[w[Z][K[7]]][20] |
-                          w[w[Z][K[7] + 1]][20] | w[w[Z][K[7] + 2]][20]),
-                        COL (w[Z][20] | w[w[Z][K[7]]][20] |
-                          w[w[Z][K[7] + 1]][20] | w[w[Z][K[7] + 2]][20]));
-                    if (B[G[I].g[r[a]]] > 2)
-                      printf (" %s", S[w[K[4]][K[1]]]);
-                    printf (" %s %s %s %s %s %s %s", S[w[K[2]][K[8]]],
-                      S[w[K[2]][A]], S[w[w[K[2]][A]][W[3][!y]]], S[w[w[K[2]][A]][W[4][!y]]],
-                      S[w[K[4]][A]], S[w[w[K[4]][A]][W[3][!y]]], S[w[w[K[4]][A]][W[4][!y]]]);
-                  }
-                  printf ("\n=> -%d @ r%dc%d => -%d @ r%dc%d r%dc%d r%dc%d",
-                    b[G[I].g[K[2]] ^ K[5]],
-                    ROW (w[w[r[a]][W[3][y]]][20] | w[w[r[a]][W[4][y]]][20] |
-                      w[w[K[2]][W[3][y]]][20] | w[w[K[2]][W[4][y]]][20] |
-                      w[w[r[a]][K[7]]][20] | w[w[r[a]][K[7] + 1]][20] |
-                      w[w[r[a]][K[7] + 2]][20]),
-                    COL (w[w[r[a]][W[3][y]]][20] | w[w[r[a]][W[4][y]]][20] |
-                      w[w[K[2]][W[3][y]]][20] | w[w[K[2]][W[4][y]]][20] |
-                      w[w[r[a]][K[7]]][20] | w[w[r[a]][K[7] + 1]][20] |
-                      w[w[r[a]][K[7] + 2]][20]), b[G[I].g[K[4]] ^ K[5]],
-                    ROW (w[w[r[a]][W[3][y]]][20] | w[w[r[a]][W[4][y]]][20]),
-                    COL (w[w[r[a]][W[3][y]]][20] | w[w[r[a]][W[4][y]]][20]),
-                    ROW (w[w[K[4]][W[3][y]]][20] | w[w[K[4]][W[4][y]]][20]),
-                    COL (w[w[K[4]][W[3][y]]][20] | w[w[K[4]][W[4][y]]][20]),
-                    ROW (w[M][20] | w[w[M][W[3][y]]][20] | w[w[M][W[4][y]]][20]),
-                    COL (w[M][20] | w[w[M][W[3][y]]][20] | w[w[M][W[4][y]]][20]));
-                  if (w[r[a]][K[8]] == M)
-                    printf (" r%dc%d",
-                      ROW ((k[0] ? w[w[Z][W[3][!y]]][20] |
-                        w[w[Z][W[4][!y]]][20] : w[Z][20]) | w[w[K[4]][A]][20] |
-                        w[w[w[K[4]][A]][W[3][!y]]][20] | w[w[w[K[4]][A]][W[4][!y]]][20]),
-                      COL ((k[0] ? w[w[Z][W[3][!y]]][20] |
-                        w[w[Z][W[4][!y]]][20] : w[Z][20]) | w[w[K[4]][A]][20] |
-                        w[w[w[K[4]][A]][W[3][!y]]][20] | w[w[w[K[4]][A]][W[4][!y]]][20]));
-                  printf ("\n");
-#endif
-                  goto START;
-                }
-                if (B[G[I].g[r[a]]] > 2 && w[r[a]][K[8]] != w[K[4]][N])
-                  for (A = 3; A < 5; ++A)
-                    if (((k[0] = LN1 (w[L = w[w[K[4]][K[1]]][W[A][y]]][Y],
-                      w[r[a]][Y], w[Z][K[7]], y) & K[5]) ||
-                      (ERI (X) & ERI (Z) & K[5])) && G[I].g[L] & K[5])
-                    {        // Line 17, ERI 18
-                      G[I].g[L] -= K[5];
-#if RJ > 2
-                      printf ("%d) XYZ-Wing Transport: %s %d @ r%dc%d %s SL %s %d between%s%d @ %s and%s%d @ %s\n=> -%d @ %s\n",
-                        G[I].p, k[0] ? R_C : "ERI", b[G[I].g[r[a]]], ROW (w[r[a]][20] | w[K[2]][20]),
-                        COL (w[r[a]][20] | w[K[2]][20]), S[K[4]], k[0] ? R_C : "ERI",
-                        k[0] ? RCN (X) : BOX (X), k[29] ? " " : " ERI ", b[K[5]], S[X],
-                        k[0] ? " " : " ERI ", b[K[5]], S[Z], b[K[5]], S[L]);
-#endif
-                      goto START;
-                    }
-                for (M = 0; M < 2; ++M)
-                {
-                  if (!M || B[G[I].g[r[a]]] < 3)
-                    for (A = K[7]; A < K[7] + 3; ++A)
-                      if (((k[0] = LN1 (w[L = w[K[W[16][M]]][A]][Y],
-                        w[K[4 >> M]][Y], w[K[2 << M]][Y], y) & K[5]) ||
-                        (ERI (X) & ERI (Z) & K[5])) && ((G[I].g[L] | (!k[0] &&
-                        (B[G[I].g[r[a]]] < 3 || w[r[a]][K[8]] == w[K[4]][N]) ?
-                        G[I].g[w[K[2 << M]][Y]] : 0)) & K[5]))
-                      {      // Line 19, ERI 20, 21
-                        G[I].g[L] &= ~K[5];
-                        if (!k[0] && (B[G[I].g[r[a]]] < 3 || w[r[a]][K[8]] == w[K[4]][N]))
-                             // ERI 21
-                          G[I].g[w[K[2 << M]][Y]] &= ~K[5];
-#if RJ > 2
-                        printf ("%d) XY%s Transport: %s %d @ r%dc%d %s SL %d @ %s %d => -%d @ %s",
-                          G[I].p, B[G[I].g[r[a]]] < 3 ? "-Wing Type 2" : "Z-Wing", k[0] ? R_C : "ERI",
-                          b[G[I].g[K[2]] | G[I].g[K[4]]], ROW (w[r[a]][20] | w[K[2]][20]),
-                          COL (w[r[a]][20] | w[K[2]][20]), S[K[4]], b[K[5]],
-                          k[0] ? R_C : "ERI Box", k[0] ? RCN (X) : BOX (X), b[K[5]], S[L]);
-                        if (!k[0] && (B[G[I].g[r[a]]] < 3 || w[r[a]][K[8]] == w[K[4]][N]))
-                          printf (" %s", S[w[K[2 << M]][Y]]);
-                        printf ("\n");
-#endif
-                        goto START;
-                      }
-                  for (A = 3; A < 5; ++A)
-                    if (((k[0] = LN1 (w[L = w[K[2 << M]][W[A][y]]][Y],
-                      w[K[4 >> M]][Y], w[M ? X : Z][K[7]], y) & K[5]) ||
-                      (ERI (X) & ERI (Z) & K[5])) &&
-                      ((G[I].g[L] | (B[G[I].g[r[a]]] < 3 || w[r[a]][K[8]] == w[K[4]][N] ?
-                      (M ? G[I].g[w[L][N]] : G[I].g[w[L][W[3][!y]]] | G[I].g[w[L][W[4][!y]]]) |
-                      (k[0] ? G[I].g[w[w[K[2 << M]][Y]][W[3][!y]]] |
-                      G[I].g[w[w[K[2 << M]][Y]][W[4][!y]]] : G[I].g[w[K[2 << M]][Y]]) : 0)) & K[5]))
-                    {        // Line 22, 24, 26, 28, 30 ERI 23, 25, 27, 29, 31
+                if (!M || Q)
+                  for (A = K[7]; A < K[7] + 3; ++A)
+                    if (((k[0] = LN1 (w[L = w[K[W[16][M]]][A]][Y],
+                      w[K[4 >> M]][Y], w[K[2 << M]][Y], y) & K[5]) ||
+                      (ERI (X) & ERI (Z) & K[5])) && ((G[I].g[L] | (!k[0] &&
+                      (Q || w[r[a]][K[8]] == w[K[4]][N]) ?
+                      G[I].g[w[K[2 << M]][Y]] : 0)) & K[5]))
+                    {        // Line 19, ERI 20, 21
                       G[I].g[L] &= ~K[5];
-                      if (B[G[I].g[r[a]]] < 3 || w[r[a]][K[8]] == w[K[4]][N])
-                      {      // Line 22, 24 ERI 23, 25
-                        if (M)
-                        {    // Line 22, ERI 23
-                          G[I].g[w[L][N]] &= ~K[5];
-                        }
-                        else
-                        {    // Line 24, ERI 25
-                          if (B[G[I].g[r[a]]] < 3)
-                          {
-                            G[I].g[w[L][K[8]]] &= ~K[5];
-                          }
-                          else
-                          {
-                            G[I].g[w[L][W[3][!y]]] &= ~K[5];
-                            G[I].g[w[L][W[4][!y]]] &= ~K[5];
-                          }
-                        }
-                        if (k[0])
-                        {    // Line 26, 28, 30
-                          G[I].g[w[w[K[2 << M]][Y]][W[3][!y]]] &= ~K[5];
-                          G[I].g[w[w[K[2 << M]][Y]][W[4][!y]]] &= ~K[5];
-                        }
-                        else // ERI 27, 29, 31
-                          G[I].g[w[K[2 << M]][Y]] &= ~K[5];
-                      }
+                      if (!k[0] && (Q || w[r[a]][K[8]] == w[K[4]][N]))
+                             // ERI 21
+                        G[I].g[w[K[2 << M]][Y]] &= ~K[5];
 #if RJ > 2
-                      printf ("%d) XY%s Transport: %s %d @ r%dc%d %s SL %s %d between %d @ %s and %d @ %s\n=> -%d @ %s",
-                        G[I].p, B[G[I].g[r[a]]] < 3 ? "-Wing Type 2" : "Z-Wing", k[0] ? R_C : "ERI",
+                      printf ("%d) XY%s Transport: %s %d @ r%dc%d %s SL %d @ %s %d => -%d @ %s",
+                        G[I].p, Q ? "-Wing Type 2" : "Z-Wing", k[0] ? R_C : "ERI",
                         b[G[I].g[K[2]] | G[I].g[K[4]]], ROW (w[r[a]][20] | w[K[2]][20]),
-                        COL (w[r[a]][20] | w[K[2]][20]), S[K[4]], k[0] ? R_C : "ERI",
-                        k[0] ? RCN (X) : BOX (X), b[K[5]], S[X], b[K[5]], S[Z], b[K[5]], S[L]);
-                      if (B[G[I].g[r[a]]] < 3 || w[r[a]][K[8]] == w[K[4]][N])
-                      {
-                        printf (" %s", S[w[L][M ? N : (B[G[I].g[r[a]]] < 3 ? K[8] : W[3][!y])]]);
-                        if (!M && B[G[I].g[r[a]]] > 2)
-                          printf (" %s", S[w[L][W[4][!y]]]);
-                      }
-                      printf (" %s", S[k[0] ? w[w[K[2 << M]][Y]][W[3][!y]] : w[K[2 << M]][Y]]);
-                      if (k[0])
-                        printf (" %s", S[w[w[K[2 << M]][Y]][W[4][!y]]]);
+                        COL (w[r[a]][20] | w[K[2]][20]), S[K[4]], b[K[5]],
+                        k[0] ? R_C : "ERI Box", k[0] ? RCN (X) : BOX (X), b[K[5]], S[L]);
+                      if (!k[0] && (Q || w[r[a]][K[8]] == w[K[4]][N]))
+                        printf (" %s", S[w[K[2 << M]][Y]]);
                       printf ("\n");
 #endif
                       goto START;
                     }
-                  if ((B[G[I].g[r[a]]] < 3 || w[r[a]][K[8]] == w[K[4]][N]) &&
-                    (G[I].g[w[K[4 >> M]][Y]] & ERI (w[K[2 << M]][Y]) & K[5]))
-                  {          // ERI 32, 33
-                    G[I].g[w[K[4 >> M]][Y]] -= K[5];
+                for (A = 3; A < 5; ++A)
+                  if (((k[0] = LN1 (w[L = w[K[2 << M]][W[A][y]]][Y],
+                    w[K[4 >> M]][Y], w[M ? X : Z][K[7]], y) & K[5]) ||
+                    (ERI (X) & ERI (Z) & K[5])) &&
+                    ((G[I].g[L] | (Q || w[r[a]][K[8]] == w[K[4]][N] ?
+                    (M ? G[I].g[w[L][N]] : G[I].g[w[L][W[3][!y]]] |
+                    G[I].g[w[L][W[4][!y]]]) | (k[0] ? G[I].g[w[w[K[2 << M]][Y]][W[3][!y]]] |
+                    G[I].g[w[w[K[2 << M]][Y]][W[4][!y]]] : G[I].g[w[K[2 << M]][Y]]) : 0)) & K[5]))
+                  {          // Line 22, 24, 26, 28, 30 ERI 23, 25, 27, 29, 31
+                    G[I].g[L] &= ~K[5];
+                    if (Q || w[r[a]][K[8]] == w[K[4]][N])
+                    {        // Line 22, 24 ERI 23, 25
+                      if (M) // Line 22, ERI 23
+                        G[I].g[w[L][N]] &= ~K[5];
+                      else
+                      {      // Line 24, ERI 25
+                        if (Q)
+                          G[I].g[w[L][K[8]]] &= ~K[5];
+                        else
+                        {
+                          G[I].g[w[L][W[3][!y]]] &= ~K[5];
+                          G[I].g[w[L][W[4][!y]]] &= ~K[5];
+                        }
+                      }
+                      if (k[0])
+                      {      // Line 26, 28, 30
+                        G[I].g[w[w[K[2 << M]][Y]][W[3][!y]]] &= ~K[5];
+                        G[I].g[w[w[K[2 << M]][Y]][W[4][!y]]] &= ~K[5];
+                      }
+                      else   // ERI 27, 29, 31
+                        G[I].g[w[K[2 << M]][Y]] &= ~K[5];
+                    }
 #if RJ > 2
-                    printf ("%d) XY%s Transport: ERI %d @ r%dc%d %s SL ERI %d @ b%d%s => -%d @ %s\n",
-                      G[I].p, B[G[I].g[r[a]]] < 3 ? "-Wing Type 2" : "Z-Wing", b[G[I].g[K[2]] | G[I].g[K[4]]],
-                      ROW (w[r[a]][20] | w[K[2]][20]), COL (w[r[a]][20] | w[K[2]][20]),
-                      S[K[4]], b[K[5]], BOX (w[K[2 << M]][Y]), S[w[K[2 << M]][Y]],
-                      b[K[5]], S[w[K[4 >> M]][Y]]);
+                    printf ("%d) XY%s Transport: %s %d @ r%dc%d %s SL %s %d between %d @ %s and %d @ %s\n=> -%d @ %s",
+                      G[I].p, Q ? "-Wing Type 2" : "Z-Wing", k[0] ? R_C : "ERI",
+                      b[G[I].g[K[2]] | G[I].g[K[4]]], ROW (w[r[a]][20] | w[K[2]][20]),
+                      COL (w[r[a]][20] | w[K[2]][20]), S[K[4]], k[0] ? R_C : "ERI",
+                      k[0] ? RCN (X) : BOX (X), b[K[5]], S[X], b[K[5]], S[Z], b[K[5]], S[L]);
+                    if (Q || w[r[a]][K[8]] == w[K[4]][N])
+                    {
+                      printf (" %s", S[w[L][M ? N : (Q ? K[8] : W[3][!y])]]);
+                      if (!M && !Q)
+                        printf (" %s", S[w[L][W[4][!y]]]);
+                    }
+                    printf (" %s", S[k[0] ? w[w[K[2 << M]][Y]][W[3][!y]] : w[K[2 << M]][Y]]);
+                    if (k[0])
+                      printf (" %s", S[w[w[K[2 << M]][Y]][W[4][!y]]]);
+                    printf ("\n");
 #endif
                     goto START;
                   }
+                if ((Q || w[r[a]][K[8]] == w[K[4]][N]) &&
+                  (G[I].g[w[K[4 >> M]][Y]] & ERI (w[K[2 << M]][Y]) & K[5]))
+                {            // ERI 32, 33
+                  G[I].g[w[K[4 >> M]][Y]] -= K[5];
+#if RJ > 2
+                  printf ("%d) XY%s Transport: ERI %d @ r%dc%d %s SL ERI %d @ b%d%s => -%d @ %s\n",
+                    G[I].p, Q ? "-Wing Type 2" : "Z-Wing", b[G[I].g[K[2]] | G[I].g[K[4]]],
+                    ROW (w[r[a]][20] | w[K[2]][20]), COL (w[r[a]][20] | w[K[2]][20]),
+                    S[K[4]], b[K[5]], BOX (w[K[2 << M]][Y]), S[w[K[2 << M]][Y]],
+                    b[K[5]], S[w[K[4 >> M]][Y]]);
+#endif
+                  goto START;
                 }
               }
             }
-            if (B[G[I].g[r[a]]] > 2 && (G[I].g[w[K[4]][K[6]]] |
-              G[I].g[w[K[4]][K[6] + 1]] | G[I].g[w[K[4]][K[6] + 2]]) & K[5])
+            if (!Q && (G[I].g[w[K[4]][K[6]]] |
+                G[I].g[w[K[4]][K[6] + 1]] | G[I].g[w[K[4]][K[6] + 2]]) & K[5])
             {                // Check XYZ-Wing Hybrid for Apex Cell values > two digits; and Wing Cells common value found in XYZ-Wing Hybrid Cells values
               int k[3] = {0};
 
