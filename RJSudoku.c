@@ -5312,6 +5312,9 @@ XYWT1Tf:
             X += T[1][Z];
             continue;
           }
+                             // Increment Template Cell positions count
+          for (++k[a], ++y, Z = 0; Z < 8; ++Z)
+            ++k[R[a][Z][(P[X] >> T[0][Z]) & 7]];
 #if RJ > 5
 #if POM
           for (Z = 0; Z < 9; ++Z)
@@ -5331,9 +5334,6 @@ XYWT1Tf:
 #endif
           printf ("# %4d, %d - %d\n", X, a, y);
 #endif
-                             // Increment Template Cell positions count
-          for (++k[a], ++y, Z = 0; Z < 8; ++Z)
-            ++k[R[a][Z][(P[X] >> T[0][Z]) & 7]];
         }
       }
       if (!y)
@@ -5409,9 +5409,6 @@ XYWT1Tf:
     {                        // Search Double-digit Pattern Overlay Method (or Templating) first-digit wise
       int L,
           M,
-#if RJ > 2
-          N,
-#endif
           Q;
 
       for (a = 1; a < 257; a <<= 1)
@@ -5452,45 +5449,63 @@ XYWT1Tf:
                   break;     // Found second-digit in Template all Cell positions
                 Q += T[1][Z];
               }
-#if RJ > 5
-#if POM
-              for (N = 0; N < 9; ++N)
-                if (L == N)
-                  printf ("%d", b[Y]);
-                else if (Z > 7 && M == N)
-                  printf ("%d", b[a]);
-                else
-                  printf (".");
-              for (; N < 81; ++N)
-                if (R[L][N / 9 - 1][(P[X] >> T[0][N / 9 - 1]) & 7] == N)
-                  printf ("%d", b[Y]);
-                else if (Z > 7 && R[M][N / 9 - 1][(P[Q] >> T[0][N / 9 - 1]) & 7] == N)
-                  printf ("%d", b[a]);
-                else
-                  printf (".");
-              printf ("# %d @ %4d, %d", b[Y], X, L);
-              if (Z > 7)
-                printf (" - %d @ %4d, %d - %d", b[a], Q, M, y);
-#else
-              printf ("%d @ (%d, %d) %s", b[Y], X, L, S[L]);
-              for (N = 0; N < 8; ++N)
-                printf (" %s", S[R[L][N][(P[X] >> T[0][N]) & 7]]);
-              if (Z > 7)
-              {
-                printf (" %d @ (%d - %d %d) %s", b[a], y, Q, M, S[M]);
-                for (N = 0; N < 8; ++N)
-                  printf (" %s", S[R[M][N][(P[Q] >> T[0][N]) & 7]]);
-              }
-#endif
-              printf ("\n");
-#endif
               if (Z > 7)     // Increment first-digit Template Cell position count
               {
                 for (++k[L], ++y, Z = 0; Z < 8; ++Z)
                   ++k[R[L][Z][(P[X] >> T[0][Z]) & 7]];
+#if RJ > 5
+#if POM
+                for (Z = 0; Z < 9; ++Z)
+                  if (L == Z)
+                    printf ("%d", b[Y]);
+                  else if (M == Z)
+                    printf ("%d", b[a]);
+                  else
+                    printf (".");
+                for (; Z < 81; ++Z)
+                  if (R[L][Z / 9 - 1][(P[X] >> T[0][Z / 9 - 1]) & 7] == Z)
+                    printf ("%d", b[Y]);
+                  else if (R[M][Z / 9 - 1][(P[Q] >> T[0][Z / 9 - 1]) & 7] == Z)
+                    printf ("%d", b[a]);
+                  else
+                    printf (".");
+                printf ("# %d @ %4d, %d - %d @ %4d, %d - %d", b[Y], X, L, b[a], Q, M, y);
+#else
+                printf ("%d @ %4d, %d %s", b[Y], X, L, S[L]);
+                for (Z = 0; Z < 8; ++Z)
+                  printf (" %s", S[R[L][Z][(P[X] >> T[0][Z]) & 7]]);
+                printf (" %d @ %4d %d - %d %s", b[a], Q, M, y, S[M]);
+                for (Z = 0; Z < 8; ++Z)
+                  printf (" %s", S[R[M][Z][(P[Q] >> T[0][Z]) & 7]]);
+#endif
+                printf ("\n");
+#endif
                 break;       // Found second-digit Template all Cell positions Row wise
               }
             }
+#if RJ > 5
+            if (Z < 8)
+            {
+#if POM
+              for (Z = 0; Z < 9; ++Z)
+                if (L == Z)
+                  printf ("%d", b[Y]);
+                else
+                  printf (".");
+              for (; Z < 81; ++Z)
+                if (R[L][Z / 9 - 1][(P[X] >> T[0][Z / 9 - 1]) & 7] == Z)
+                  printf ("%d", b[Y]);
+                else
+                  printf (".");
+              printf ("# %d @ %4d, %d", b[Y], X, L);
+#else
+              printf ("%d @ %4d, %d %s", b[Y], X, L, S[L]);
+              for (Z = 0; Z < 8; ++Z)
+                printf (" %s", S[R[L][Z][(P[X] >> T[0][Z]) & 7]]);
+#endif
+              printf ("\n");
+            }
+#endif
           }
         }
         if (!y)
@@ -5506,40 +5521,40 @@ XYWT1Tf:
 #if RJ > 2
 #if POM
           printf ("%d) Double-digit POM: ", G[I].p);
-          for (N = 0; N < 81; ++N)
-            if ((G[I].s[N] | G[I].g[N]) & Y)
+          for (Q = 0; Q < 81; ++Q)
+            if ((G[I].s[Q] | G[I].g[Q]) & Y)
               printf ("%d", b[Y]);
             else
               printf (".");
           printf ("\nand POM: ");
-          for (N = 0; N < 81; ++N)
-            if ((G[I].s[N] | G[I].g[N]) & a)
+          for (Q = 0; Q < 81; ++Q)
+            if ((G[I].s[Q] | G[I].g[Q]) & a)
               printf ("%d", b[a]);
             else
               printf (".");
 #else
           printf ("%d) Double-digit POM: %d @", G[I].p, b[Y]);
-          for (N = 0; N < 81; N += 9)
-            printf (" r%dc%d", ROW (w[N][20]), b[((G[I].s[N] | G[I].g[N]) & Y ? 1 : 0) |
-              ((G[I].s[N + 1] | G[I].g[N + 1]) & Y ? 2 : 0) |
-              ((G[I].s[N + 2] | G[I].g[N + 2]) & Y ? 4 : 0) |
-              ((G[I].s[N + 3] | G[I].g[N + 3]) & Y ? 8 : 0) |
-              ((G[I].s[N + 4] | G[I].g[N + 4]) & Y ? 16 : 0) |
-              ((G[I].s[N + 5] | G[I].g[N + 5]) & Y ? 32 : 0) |
-              ((G[I].s[N + 6] | G[I].g[N + 6]) & Y ? 64 : 0) |
-              ((G[I].s[N + 7] | G[I].g[N + 7]) & Y ? 128 : 0) |
-              ((G[I].s[N + 8] | G[I].g[N + 8]) & Y ? 256 : 0)]);
+          for (Q = 0; Q < 81; Q += 9)
+            printf (" r%dc%d", ROW (w[Q][20]), b[((G[I].s[Q] | G[I].g[Q]) & Y ? 1 : 0) |
+              ((G[I].s[Q + 1] | G[I].g[Q + 1]) & Y ? 2 : 0) |
+              ((G[I].s[Q + 2] | G[I].g[Q + 2]) & Y ? 4 : 0) |
+              ((G[I].s[Q + 3] | G[I].g[Q + 3]) & Y ? 8 : 0) |
+              ((G[I].s[Q + 4] | G[I].g[Q + 4]) & Y ? 16 : 0) |
+              ((G[I].s[Q + 5] | G[I].g[Q + 5]) & Y ? 32 : 0) |
+              ((G[I].s[Q + 6] | G[I].g[Q + 6]) & Y ? 64 : 0) |
+              ((G[I].s[Q + 7] | G[I].g[Q + 7]) & Y ? 128 : 0) |
+              ((G[I].s[Q + 8] | G[I].g[Q + 8]) & Y ? 256 : 0)]);
           printf ("\nand POM: %d @", b[a]);
-          for (N = 0; N < 81; N += 9)
-            printf (" r%dc%d", ROW (w[N][20]), b[((G[I].s[N] | G[I].g[N]) & a ? 1 : 0) |
-              ((G[I].s[N + 1] | G[I].g[N + 1]) & a ? 2 : 0) |
-              ((G[I].s[N + 2] | G[I].g[N + 2]) & a ? 4 : 0) |
-              ((G[I].s[N + 3] | G[I].g[N + 3]) & a ? 8 : 0) |
-              ((G[I].s[N + 4] | G[I].g[N + 4]) & a ? 16 : 0) |
-              ((G[I].s[N + 5] | G[I].g[N + 5]) & a ? 32 : 0) |
-              ((G[I].s[N + 6] | G[I].g[N + 6]) & a ? 64 : 0) |
-              ((G[I].s[N + 7] | G[I].g[N + 7]) & a ? 128 : 0) |
-              ((G[I].s[N + 8] | G[I].g[N + 8]) & a ? 256 : 0)]);
+          for (Q = 0; Q < 81; Q += 9)
+            printf (" r%dc%d", ROW (w[Q][20]), b[((G[I].s[Q] | G[I].g[Q]) & a ? 1 : 0) |
+              ((G[I].s[Q + 1] | G[I].g[Q + 1]) & a ? 2 : 0) |
+              ((G[I].s[Q + 2] | G[I].g[Q + 2]) & a ? 4 : 0) |
+              ((G[I].s[Q + 3] | G[I].g[Q + 3]) & a ? 8 : 0) |
+              ((G[I].s[Q + 4] | G[I].g[Q + 4]) & a ? 16 : 0) |
+              ((G[I].s[Q + 5] | G[I].g[Q + 5]) & a ? 32 : 0) |
+              ((G[I].s[Q + 6] | G[I].g[Q + 6]) & a ? 64 : 0) |
+              ((G[I].s[Q + 7] | G[I].g[Q + 7]) & a ? 128 : 0) |
+              ((G[I].s[Q + 8] | G[I].g[Q + 8]) & a ? 256 : 0)]);
 #endif
 #endif
           if (X < 81)
