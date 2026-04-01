@@ -5453,58 +5453,40 @@ XYWT1Tf:
               {
                 for (++k[L], ++y, Z = 0; Z < 8; ++Z)
                   ++k[R[L][Z][(P[X] >> T[0][Z]) & 7]];
-#if RJ > 5
-#if POM
-                for (Z = 0; Z < 9; ++Z)
-                  if (L == Z)
-                    printf ("%d", b[Y]);
-                  else if (M == Z)
-                    printf ("%d", b[a]);
-                  else
-                    printf (".");
-                for (; Z < 81; ++Z)
-                  if (R[L][Z / 9 - 1][(P[X] >> T[0][Z / 9 - 1]) & 7] == Z)
-                    printf ("%d", b[Y]);
-                  else if (R[M][Z / 9 - 1][(P[Q] >> T[0][Z / 9 - 1]) & 7] == Z)
-                    printf ("%d", b[a]);
-                  else
-                    printf (".");
-                printf ("# %d @ %4d, %d - %d @ %4d, %d - %d", b[Y], X, L, b[a], Q, M, y);
-#else
-                printf ("%d @ %4d, %d %s", b[Y], X, L, S[L]);
-                for (Z = 0; Z < 8; ++Z)
-                  printf (" %s", S[R[L][Z][(P[X] >> T[0][Z]) & 7]]);
-                printf (" %d @ %4d %d - %d %s", b[a], Q, M, y, S[M]);
-                for (Z = 0; Z < 8; ++Z)
-                  printf (" %s", S[R[M][Z][(P[Q] >> T[0][Z]) & 7]]);
-#endif
-                printf ("\n");
-#endif
                 break;       // Found second-digit Template all Cell positions Row wise
               }
             }
 #if RJ > 5
-            if (Z < 8)
-            {
 #if POM
-              for (Z = 0; Z < 9; ++Z)
-                if (L == Z)
-                  printf ("%d", b[Y]);
-                else
-                  printf (".");
-              for (; Z < 81; ++Z)
-                if (R[L][Z / 9 - 1][(P[X] >> T[0][Z / 9 - 1]) & 7] == Z)
-                  printf ("%d", b[Y]);
-                else
-                  printf (".");
-              printf ("# %d @ %4d, %d", b[Y], X, L);
+            for (Z = 0; Z < 9; ++Z)
+              if (L == Z)
+                printf ("%d", b[Y]);
+              else if (M == Z)
+                printf ("%d", b[a]);
+              else
+                printf (".");
+            for (; Z < 81; ++Z)
+              if (R[L][Z / 9 - 1][(P[X] >> T[0][Z / 9 - 1]) & 7] == Z)
+                printf ("%d", b[Y]);
+              else if (M < 9 && R[M][Z / 9 - 1][(P[Q] >> T[0][Z / 9 - 1]) & 7] == Z)
+                printf ("%d", b[a]);
+              else
+                printf (".");
+            printf ("# %d @ %4d, %d", b[Y], X, L);
+            if (M < 9)
+              printf(" - %d @ %4d, %d - %d", b[a], Q, M, y);
 #else
-              printf ("%d @ %4d, %d %s", b[Y], X, L, S[L]);
+            printf ("%d @ %4d, %d %s", b[Y], X, L, S[L]);
+            for (Z = 0; Z < 8; ++Z)
+              printf (" %s", S[R[L][Z][(P[X] >> T[0][Z]) & 7]]);
+            if (M < 9)
+            {
+              printf (" %d @ %4d %d - %d %s", b[a], Q, M, y, S[M]);
               for (Z = 0; Z < 8; ++Z)
-                printf (" %s", S[R[L][Z][(P[X] >> T[0][Z]) & 7]]);
-#endif
-              printf ("\n");
+                printf (" %s", S[R[M][Z][(P[Q] >> T[0][Z]) & 7]]);
             }
+#endif
+            printf ("\n");
 #endif
           }
         }
@@ -5631,11 +5613,6 @@ XYWT1Tf:
                 K += T[1][Z];
                 continue;    // Skip for first-digit not found in Template Cell values
               }
-#if RJ > 5
-              printf ("%d @ (%4d, %d) %s", b[Y], K, L, S[L]);
-              for (Z = 0; Z < 8; ++Z)
-                printf (" %s", S[R[L][Z][(P[K] >> T[0][Z]) & 7]]);
-#endif
               for (M = 0; M < 9; ++M)
               {              // Search second-digit 1st Row Cell positions wise
                 if (L == M || (~(G[I].s[M] | G[I].g[M]) & a))
@@ -5653,11 +5630,6 @@ XYWT1Tf:
                     Q += T[1][Z];
                     continue;// Skip for either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in Template Cell values
                   }
-#if RJ > 5
-                  printf (" %d @ (%d, %d) %s", b[a], Q, M, S[M]);
-                  for (Z = 0; Z < 8; ++Z)
-                    printf (" %s", S[R[M][Z][(P[Q] >> T[0][Z]) & 7]]);
-#endif
                   for (N = 0; N < 9; ++N)
                   {          // Search third-digit 1st Row Cell positions wise
                     if (L == N || M == N || (~(G[I].s[N] | G[I].g[N]) & X))
@@ -5682,11 +5654,6 @@ XYWT1Tf:
                     {        // Increment first-digit Template Cell position count
                       for (++k[L], ++y, Z = 0; Z < 8; ++Z)
                         ++k[R[L][Z][(P[K] >> T[0][Z]) & 7]];
-#if RJ > 5
-                      printf (" %d @ (%d - %4d, %d) %s", b[X], y, D, N, S[N]);
-                      for (Z = 0; Z < 8; ++Z)
-                        printf (" %s", S[R[N][Z][(P[D] >> T[0][Z]) & 7]]);
-#endif
                       break; // Found third-digit in Template all Cell positions Row wise
                     }
                   }
@@ -5697,6 +5664,49 @@ XYWT1Tf:
                   break;     // Found second-digit in Template all Cell positions Row wise
               }
 #if RJ > 5
+#if POM
+              for (Z = 0; Z < 9; ++Z)
+                if (L == Z)
+                  printf ("%d", b[Y]);
+                else if (M == Z)
+                  printf ("%d", b[a]);
+                else if (N == Z)
+                  printf ("%d", b[X]);
+                else
+                  printf (".");
+              for (; Z < 81; ++Z)
+                if (R[L][Z / 9 - 1][(P[X] >> T[0][Z / 9 - 1]) & 7] == Z)
+                  printf ("%d", b[Y]);
+                else if (M < 9 && R[M][Z / 9 - 1][(P[Q] >> T[0][Z / 9 - 1]) & 7] == Z)
+                  printf ("%d", b[a]);
+                else if (N < 9 && R[N][Z / 9 - 1][(P[D] >> T[0][Z / 9 - 1]) & 7] == Z)
+                  printf ("%d", b[X]);
+                else
+                  printf (".");
+              printf ("# %d @ %4d, %d", b[Y], K, L);
+              if (M < 9)
+              {
+                printf (" - %d @ %4d, %d", b[a], Q, M);
+                if (N < 9)
+                  printf(" - %d @ %4d, %d - %d", b[X], D, N, y);
+              }
+#else
+              printf ("%d @ (%4d, %d) %s", b[Y], K, L, S[L]);
+              for (Z = 0; Z < 8; ++Z)
+                printf (" %s", S[R[L][Z][(P[K] >> T[0][Z]) & 7]]);
+              if (M < 9)
+              {
+                printf (" %d @ (%4d, %d) %s", b[a], Q, M, S[M]);
+                for (Z = 0; Z < 8; ++Z)
+                  printf (" %s", S[R[M][Z][(P[Q] >> T[0][Z]) & 7]]);
+                if (N < 9)
+                {
+                  printf (" %d @ (%d - %4d, %d) %s", b[X], y, D, N, S[N]);
+                  for (Z = 0; Z < 8; ++Z)
+                    printf (" %s", S[R[N][Z][(P[D] >> T[0][Z]) & 7]]);
+                }
+              }
+#endif
               printf ("\n");
 #endif
             }
