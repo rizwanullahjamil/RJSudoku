@@ -5481,7 +5481,7 @@ XYWT1Tf:
               printf (" %s", S[R[L][Z][(P[X] >> T[0][Z]) & 7]]);
             if (M < 9)
             {
-              printf (" %d @ %4d %d - %d %s", b[a], Q, M, y, S[M]);
+              printf (" %d @ %4d, %d - %d %s", b[a], Q, M, y, S[M]);
               for (Z = 0; Z < 8; ++Z)
                 printf (" %s", S[R[M][Z][(P[Q] >> T[0][Z]) & 7]]);
             }
@@ -5577,7 +5577,7 @@ XYWT1Tf:
     }
     if (!z)
       goto START;
-/**
+/**/
     for (Y = 1; Y < 257; Y <<= 1)
     {                        // Search Triple-digit Pattern Overlay Method (or Templating) first-digit wise
       int D,
@@ -5691,17 +5691,17 @@ XYWT1Tf:
                   printf(" - %d @ %4d, %d - %d", b[X], D, N, y);
               }
 #else
-              printf ("%d @ (%4d, %d) %s", b[Y], K, L, S[L]);
+              printf ("%d @ %4d, %d %s", b[Y], K, L, S[L]);
               for (Z = 0; Z < 8; ++Z)
                 printf (" %s", S[R[L][Z][(P[K] >> T[0][Z]) & 7]]);
               if (M < 9)
               {
-                printf (" %d @ (%4d, %d) %s", b[a], Q, M, S[M]);
+                printf (" %d @ %4d, %d %s", b[a], Q, M, S[M]);
                 for (Z = 0; Z < 8; ++Z)
                   printf (" %s", S[R[M][Z][(P[Q] >> T[0][Z]) & 7]]);
                 if (N < 9)
                 {
-                  printf (" %d @ (%d - %4d, %d) %s", b[X], y, D, N, S[N]);
+                  printf (" %d @ %4d, %d - %d %s", b[X], D, N, y, S[N]);
                   for (Z = 0; Z < 8; ++Z)
                     printf (" %s", S[R[N][Z][(P[D] >> T[0][Z]) & 7]]);
                 }
