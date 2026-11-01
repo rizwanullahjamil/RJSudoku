@@ -4,8 +4,10 @@
 #define RJ 6                 // 0 no debugging, 1 print solutions, 2 print puzzles, 3 print steps, 4 print steps possibilities in grid, 5 print puzzles in grid, 6 print POM Templates
 #define POM 1                // 0 print POM Templates in 9 disjoint cell positions, else print 81 character string
 
-#define ERI(A)          (G[I].g[w[A][6]] | G[I].g[w[A][7]]) & (G[I].g[w[A][12]] | G[I].g[w[A][13]]) & \
-                        ~(G[I].g[w[A][8]] | G[I].g[w[A][9]] | G[I].g[w[A][10]] | G[I].g[w[A][11]])
+#define ERI(A)          (G[I].g[w[A][6]] | G[I].g[w[A][7]]) & \
+                        (G[I].g[w[A][12]] | G[I].g[w[A][13]]) & \
+                        ~(G[I].g[w[A][8]] | G[I].g[w[A][9]] | \
+                        G[I].g[w[A][10]] | G[I].g[w[A][11]])
 #define LN1(A, B, C, D) G[I].g[X = A] & G[I].g[Z = B] & \
                         ~(G[I].g[w[X][W[3][D]]] | G[I].g[w[X][W[4][D]]] | \
                         G[I].g[w[Z][W[3][D]]] | G[I].g[w[Z][W[4][D]]] | \
@@ -4031,13 +4033,13 @@ XYWT1Tf:
           }
           if (K[0] || !(G[I].g[K[6]] & K[5]))
             continue;        // Skip XYZ-Hybrid for either Apex Cell values < three digits; or Wing Cells common value not found in Hybrid Cell values
-          if (k[0] = (G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]] | G[I].g[w[K[2]][6]] |
-            G[I].g[w[K[2]][7]] | G[I].g[w[r[a]][K[7]]] | G[I].g[w[r[a]][K[7] + 1]] |
-            G[I].g[w[r[a]][K[7] + 2]]) &
+          if (k[0] = (G[I].g[w[r[a]][6]] | G[I].g[w[r[a]][7]] |
+            G[I].g[w[K[2]][6]] | G[I].g[w[K[2]][7]] | G[I].g[w[r[a]][K[7]]] |
+            G[I].g[w[r[a]][K[7] + 1]] | G[I].g[w[r[a]][K[7] + 2]]) &
                              // Check Wing Cells common value in Apex and 1st Wing Cells Row removal Cells values; and
-            ~(G[I].g[w[K[2]][12]] | G[I].g[w[K[2]][13]] | G[I].g[w[K[6]][12]] |
-            G[I].g[w[K[6]][13]] | G[I].g[w[K[2]][K[8]]] | G[I].g[w[K[2]][K[8] + 1]] |
-            G[I].g[w[K[2]][K[8] + 2]]) & K[5])
+            ~(G[I].g[w[K[2]][12]] | G[I].g[w[K[2]][13]] |
+            G[I].g[w[K[6]][12]] | G[I].g[w[K[6]][13]] | G[I].g[w[K[2]][K[8]]] |
+            G[I].g[w[K[2]][K[8] + 1]] | G[I].g[w[K[2]][K[8] + 2]]) & K[5])
           {                  // Wing Cells common value not found in 1st Wing and Hybrid Cells Column other Cells values
                              // Drop Wing Cells common value from XYZ-Hybrid Row wise removal Cells values
             G[I].g[w[r[a]][6]] &= ~K[5];
@@ -4048,13 +4050,13 @@ XYWT1Tf:
             G[I].g[w[r[a]][K[7] + 1]] &= ~K[5];
             G[I].g[w[r[a]][K[7] + 2]] &= ~K[5];
           }
-          if (k[1] = (G[I].g[w[r[a]][12]] | G[I].g[w[r[a]][13]] | G[I].g[w[K[4]][12]] |
-            G[I].g[w[K[4]][13]] | G[I].g[w[r[a]][K[8]]] | G[I].g[w[r[a]][K[8] + 1]] |
-            G[I].g[w[r[a]][K[8] + 2]]) &
+          if (k[1] = (G[I].g[w[r[a]][12]] | G[I].g[w[r[a]][13]] |
+            G[I].g[w[K[4]][12]] | G[I].g[w[K[4]][13]] | G[I].g[w[r[a]][K[8]]] |
+            G[I].g[w[r[a]][K[8] + 1]] | G[I].g[w[r[a]][K[8] + 2]]) &
                              // Check Wing Cells common value in Apex and 2nd Wing Cells Column removal Cells values; and
-            ~(G[I].g[w[K[4]][6]] | G[I].g[w[K[4]][7]] | G[I].g[w[K[6]][6]] |
-            G[I].g[w[K[6]][7]] | G[I].g[w[K[4]][K[7]]] | G[I].g[w[K[4]][K[7] + 1]] |
-            G[I].g[w[K[4]][K[7] + 2]]) & K[5])
+            ~(G[I].g[w[K[4]][6]] | G[I].g[w[K[4]][7]] |
+            G[I].g[w[K[6]][6]] | G[I].g[w[K[6]][7]] | G[I].g[w[K[4]][K[7]]] |
+            G[I].g[w[K[4]][K[7] + 1]] | G[I].g[w[K[4]][K[7] + 2]]) & K[5])
           {                  // Wing Cells common value not found in 2nd Wing and Hybrid Cells Row other Cells values
                              // Drop Wing Cells common value from XYZ-Hybrid Column wise removal Cells values
             G[I].g[w[r[a]][12]] &= ~K[5];
@@ -4065,7 +4067,7 @@ XYWT1Tf:
             G[I].g[w[r[a]][K[8] + 1]] &= ~K[5];
             G[I].g[w[r[a]][K[8] + 2]] &= ~K[5];
           }
-          if (!k[0] && !k[1])
+          if (!(k[0] | k[1]))
             continue;        // Skip for XYZ-Hybrid not found
 #if RJ > 2
           printf ("%d)%sXYZ-Hybrid: %d @ r%dc%d %s %s Hybrid %d @ %s => -%d @",
@@ -4074,10 +4076,7 @@ XYWT1Tf:
             S[K[4]], k[0] && k[1] ? "Dual" : (k[0] ? "Column wise" : "Row wise"),
             b[K[5]], S[K[6]], b[K[5]]);
           if (k[0])
-            printf (" r%dc%d",
-              ROW (w[w[r[a]][6]][20] | w[w[r[a]][7]][20] |
-                w[w[K[2]][6]][20] | w[w[K[2]][7]][20] | w[w[r[a]][K[7]]][20] |
-                w[w[r[a]][K[7] + 1]][20] | w[w[r[a]][K[7] + 2]][20]),
+            printf (" r%dc%d", ROW (w[w[r[a]][6]][20]),
               COL (w[w[r[a]][6]][20] | w[w[r[a]][7]][20] |
                 w[w[K[2]][6]][20] | w[w[K[2]][7]][20] | w[w[r[a]][K[7]]][20] |
                 w[w[r[a]][K[7] + 1]][20] | w[w[r[a]][K[7] + 2]][20]));
@@ -4086,9 +4085,7 @@ XYWT1Tf:
               ROW (w[w[r[a]][12]][20] | w[w[r[a]][13]][20] |
                 w[w[K[4]][12]][20] | w[w[K[4]][13]][20] | w[w[r[a]][K[8]]][20] |
                 w[w[r[a]][K[8] + 1]][20] | w[w[r[a]][K[8] + 2]][20]),
-              COL (w[w[r[a]][12]][20] | w[w[r[a]][13]][20] |
-                w[w[K[4]][12]][20] | w[w[K[4]][13]][20] | w[w[r[a]][K[8]]][20] |
-                w[w[r[a]][K[8] + 1]][20] | w[w[r[a]][K[8] + 2]][20]));
+              COL (w[w[r[a]][12]][20]));
           printf ("\n");
 #endif
           goto START;
@@ -5306,7 +5303,7 @@ XYWT1Tf:
                              // Search Template Cell positions Row wise
             if (~(G[I].s[R[a][Z][(P[X] >> T[0][Z]) & 7]] |
               G[I].g[R[a][Z][(P[X] >> T[0][Z]) & 7]]) & Y)
-              break;         // Digit not found in Template Cell values Row wise
+              break;         // Break for digit not found in Template Cell values Row wise
           if (Z < 8)
           {                  // Skip for digit not found in Template all Cell positions
             X += T[1][Z];
@@ -5340,10 +5337,10 @@ XYWT1Tf:
         continue;            // Skip for Template not found
       for (X = 0; X < 81; ++X)
         if (!k[X] && G[I].g[X] & Y)
-          break;             // Found unsolved Cell position not in Templates
+          break;             // Break for unsolved Cell position not found in Templates
       for (Z = 0; Z < 81; ++Z)
         if (k[Z] == y && G[I].g[Z] & Y)
-          break;             // Found unsolved Cell position in all Templates
+          break;             // Break for unsolved Cell position found in all Templates
       if (X < 81 || Z < 81)
       {
 #if RJ > 2
@@ -5371,7 +5368,7 @@ XYWT1Tf:
         if (X < 81)
         {
 #if RJ > 2
-          printf ("\nDigit %d not in %d Template%s=> -%d @",
+          printf ("\nDigit %d not found in %d Template%s=> -%d @",
             b[Y], y, y > 1 ? "s " : " ", b[Y]);
 #endif
           for (z = 0; X < 81; ++X)
@@ -5386,7 +5383,7 @@ XYWT1Tf:
         if (Z < 81)
         {
 #if RJ > 2
-          printf ("\nDigit %d in all %d Template%s=> %d @",
+          printf ("\nDigit %d found in all %d Template%s=> %d @",
             b[Y], y, y > 1 ? "s " : " ", b[Y]);
 #endif
           for (z = 0; Z < 81; ++Z)
@@ -5418,7 +5415,7 @@ XYWT1Tf:
         if (Y == a)
           continue;          // Skip for first-digit = second-digit
         for (y = L = 0; L < 9; ++L)
-        {                    // Search first-digit 1st Row Cell positions wise
+        {                    // Search first-digit in 1st Row Cell positions wise
           if (~(G[I].s[L] | G[I].g[L]) & Y)
             continue;        // Skip for first-digit not found in 1st Row Cell values
           for (X = 0; X < 5184; ++X)
@@ -5427,14 +5424,14 @@ XYWT1Tf:
                              // Search first-digit in Template Cell positions Row wise
               if (~(G[I].s[R[L][Z][(P[X] >> T[0][Z]) & 7]] |
                 G[I].g[R[L][Z][(P[X] >> T[0][Z]) & 7]]) & Y)
-                break;       // First-digit not found in Template Cell values Row wise
+                break;       // Break for first-digit not found in Template Cell values Row wise
             if (Z < 8)
             {
               X += T[1][Z];
               continue;      // Skip for first-digit not found in Template Cell values
             }
             for (M = 0; M < 9; ++M)
-            {                // Search second-digit 1st Row Cell positions wise
+            {                // Search second-digit in 1st Row Cell positions wise
               if (L == M || (~(G[I].s[M] | G[I].g[M]) & a))
                 continue;    // Skip for either first-digit Template 1st Cell position = second-digit Template 1st Cell position or second-digit not found in 1st Row Cell values
               for (Q = 0; Q < 5184; ++Q)
@@ -5444,16 +5441,16 @@ XYWT1Tf:
                   if (R[L][Z][(P[X] >> T[0][Z]) & 7] == R[M][Z][(P[Q] >> T[0][Z]) & 7] ||
                     (~(G[I].s[R[M][Z][(P[Q] >> T[0][Z]) & 7]] |
                     G[I].g[R[M][Z][(P[Q] >> T[0][Z]) & 7]]) & a))
-                    break;   // Either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in Template Cell values Row wise
+                    break;   // Break for either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in Template Cell values Row wise
                 if (Z > 7)
-                  break;     // Found second-digit in Template all Cell positions
+                  break;     // Break for second-digit found in Template all Cell positions
                 Q += T[1][Z];
               }
-              if (Z > 7)     // Increment first-digit Template Cell position count
-              {
+              if (Z > 7)     // Found second-digit in Template all Cell positions Row wise
+              {              // Increment first-digit Template Cell position count
                 for (++k[L], ++y, Z = 0; Z < 8; ++Z)
                   ++k[R[L][Z][(P[X] >> T[0][Z]) & 7]];
-                break;       // Found second-digit Template all Cell positions Row wise
+                break;
               }
             }
 #if RJ > 5
@@ -5494,10 +5491,10 @@ XYWT1Tf:
           continue;          // Skip for first-digit Template not found
         for (X = 0; X < 81; ++X)
           if (!k[X] && G[I].g[X] & Y)
-            break;           // Found unsolved Cell position not in Templates
+            break;           // Break for unsolved Cell position not found in Templates
         for (Z = 0; Z < 81; ++Z)
           if (k[Z] == y && B[G[I].g[Z]] > 1 && G[I].g[Z] & Y)
-            break;           // Found unsolved Cell position in all Templates
+            break;           // Break for unsolved Cell position found in all Templates
         if (X < 81 || Z < 81)
         {
 #if RJ > 2
@@ -5542,7 +5539,7 @@ XYWT1Tf:
           if (X < 81)
           {
 #if RJ > 2
-            printf ("\nDigit %d not in %d Template%s=> -%d @",
+            printf ("\nDigit %d not found in %d Template%s=> -%d @",
               b[Y], y, y > 1 ? "s " : " ", b[Y]);
 #endif
             for (z = 0; X < 81; ++X)
@@ -5557,7 +5554,7 @@ XYWT1Tf:
           if (Z < 81)
           {
 #if RJ > 2
-            printf ("\nDigit %d in all %d Template%s=> %d @",
+            printf ("\nDigit %d found in all %d Template%s=> %d @",
               b[Y], y, y > 1 ? "s " : " ", b[Y]);
 #endif
             for (z = 0; Z < 81; ++Z)
@@ -5577,7 +5574,6 @@ XYWT1Tf:
     }
     if (!z)
       goto START;
-/**/
     for (Y = 1; Y < 257; Y <<= 1)
     {                        // Search Triple-digit Pattern Overlay Method (or Templating) first-digit wise
       int D,
@@ -5598,7 +5594,7 @@ XYWT1Tf:
           if (Y == X)
             continue;        // Skip for first-digit = third-digit
           for (y = L = 0; L < 9; ++L)
-          {                  // Search first-digit 1st Row Cell positions wise
+          {                  // Search first-digit in 1st Row Cell positions wise
             if (~(G[I].s[L] | G[I].g[L]) & Y)
               continue;      // Skip for first-digit not found in 1st Row Cell values
             for (K = 0; K < 5184; ++K)
@@ -5607,14 +5603,14 @@ XYWT1Tf:
                              // Search first-digit in Template Cell positions Row wise
                 if (~(G[I].s[R[L][Z][(P[K] >> T[0][Z]) & 7]] |
                   G[I].g[R[L][Z][(P[K] >> T[0][Z]) & 7]]) & Y)
-                  break;     // First-digit not found in Template Cell values Row wise
+                  break;     // Break for first-digit not found in Template Cell values Row wise
               if (Z < 8)
               {
                 K += T[1][Z];
                 continue;    // Skip for first-digit not found in Template Cell values
               }
               for (M = 0; M < 9; ++M)
-              {              // Search second-digit 1st Row Cell positions wise
+              {              // Search second-digit in 1st Row Cell positions wise
                 if (L == M || (~(G[I].s[M] | G[I].g[M]) & a))
                   continue;  // Skip for either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in 1st Row Cell values
                 for (Q = 0; Q < 5184; ++Q)
@@ -5624,29 +5620,29 @@ XYWT1Tf:
                     if (R[L][Z][(P[K] >> T[0][Z]) & 7] == R[M][Z][(P[Q] >> T[0][Z]) & 7] ||
                       (~(G[I].s[R[M][Z][(P[Q] >> T[0][Z]) & 7]] |
                       G[I].g[R[M][Z][(P[Q] >> T[0][Z]) & 7]]) & a))
-                      break; // Either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in Template Cell values Row wise
+                      break; // Break for either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in Template Cell values Row wise
                   if (Z < 8)
                   {
                     Q += T[1][Z];
                     continue;// Skip for either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in Template Cell values
                   }
-                  for (N = 0; N < 9; ++N)
-                  {          // Search third-digit 1st Row Cell positions wise
+                  for (Z = N = 0; N < 9; ++N)
+                  {          // Search third-digit in 1st Row Cell positions wise
                     if (L == N || M == N || (~(G[I].s[N] | G[I].g[N]) & X))
                              // Skip for either first-digit Template Cell position = third-digit Template Cell position or second-digit Template Cell position = third-digit Template Cell position or third-digit not found in 1st Row Cell values
                       continue;
                     for (D = 0; D < 5184; ++D)
                     {        // Search third-digit Pattern Overlay Method Template wise
                       for (Z = 0; Z < 8; ++Z)
-                             // Search third-digit Template Cell positions Row wise
+                             // Search third-digit in Template Cell positions Row wise
                         if (R[L][Z][(P[K] >> T[0][Z]) & 7] == R[N][Z][(P[D] >> T[0][Z]) & 7] ||
                           R[M][Z][(P[Q] >> T[0][Z]) & 7] == R[N][Z][(P[D] >> T[0][Z]) & 7] ||
                           (~(G[I].s[R[N][Z][(P[D] >> T[0][Z]) & 7]] |
                           G[I].g[R[N][Z][(P[D] >> T[0][Z]) & 7]]) & X))
-                             // Either first-digit Template Cell position = third-digit Template Cell position or second-digit Template Cell position = third-digit Template Cell position or third-digit not found in Template Cell values Row wise
+                             // Break for either first-digit Template Cell position = third-digit Template Cell position or second-digit Template Cell position = third-digit Template Cell position or third-digit not found in Template Cell values Row wise
                           break;
                       if (Z > 7)
-                             // Found third-digit in Template all Cell positions Row wise
+                             // Break for third-digit found in Template all Cell positions Row wise
                         break;
                       D += T[1][Z];
                     }
@@ -5654,14 +5650,14 @@ XYWT1Tf:
                     {        // Increment first-digit Template Cell position count
                       for (++k[L], ++y, Z = 0; Z < 8; ++Z)
                         ++k[R[L][Z][(P[K] >> T[0][Z]) & 7]];
-                      break; // Found third-digit in Template all Cell positions Row wise
+                      break; // Break for third-digit found in Template all Cell positions Row wise
                     }
                   }
                   if (Z > 7)
-                    break;   // Found second-digit in Template all Cell positions Row wise
+                    break;   // Break for second-digit found in Template all Cell positions Row wise
                 }
                 if (Z > 7)
-                  break;     // Found second-digit in Template all Cell positions Row wise
+                  break;     // Break for second-digit found in Template all Cell positions Row wise
               }
 #if RJ > 5
 #if POM
@@ -5670,12 +5666,12 @@ XYWT1Tf:
                   printf ("%d", b[Y]);
                 else if (M == Z)
                   printf ("%d", b[a]);
-                else if (N == Z)
+                else if (M < 9 && N == Z)
                   printf ("%d", b[X]);
                 else
                   printf (".");
               for (; Z < 81; ++Z)
-                if (R[L][Z / 9 - 1][(P[X] >> T[0][Z / 9 - 1]) & 7] == Z)
+                if (R[L][Z / 9 - 1][(P[K] >> T[0][Z / 9 - 1]) & 7] == Z)
                   printf ("%d", b[Y]);
                 else if (M < 9 && R[M][Z / 9 - 1][(P[Q] >> T[0][Z / 9 - 1]) & 7] == Z)
                   printf ("%d", b[a]);
@@ -5715,10 +5711,10 @@ XYWT1Tf:
             continue;        // Skip for first-digit Template not found
           for (N = 0; N < 81; ++N)
             if (!k[N] && G[I].g[N] & Y)
-              break;         // Found unsolved Cell position not in Templates
+              break;         // Break for unsolved Cell position not found in Templates
           for (D = 0; D < 81; ++D)
             if (k[D] == y && B[G[I].g[D]] > 1 && G[I].g[D] & Y)
-              break;         // Found unsolved Cell position in all Templates
+              break;         // Break for unsolved Cell position found in all Templates
           if (N < 81 || D < 81)
           {
 #if RJ > 2
@@ -5780,7 +5776,7 @@ XYWT1Tf:
             if (N < 81)
             {
 #if RJ > 2
-               printf ("\nDigit %d not in %d Template%s=> -%d @",
+               printf ("\nDigit %d not found in %d Template%s=> -%d @",
                  b[Y], y, y > 1 ? "s " : " ", b[Y]);
 #endif
                for (z = 0; N < 81; ++N)
@@ -5795,7 +5791,7 @@ XYWT1Tf:
             if (D < 81)
             {
 #if RJ > 2
-              printf ("\nDigit %d in all %d Template%s=> %d @",
+              printf ("\nDigit %d found in all %d Template%s=> %d @",
                 b[Y], y, y > 1 ? "s " : " ", b[Y]);
 #endif
               for (z = 0; D < 81; ++D)
@@ -5816,7 +5812,253 @@ XYWT1Tf:
     }
     if (!z)
       goto START;
-/**/
+    for (Y = 1; Y < 257; Y <<= 1)
+    {                        // Search Quad-digit Pattern Overlay Method (or Templating) first-digit wise
+      int D,
+          E,
+          J,
+          K,
+          L,
+          M,
+          N,
+          Q,
+          W;
+
+      for (a = 1; a < 65; a <<= 1)
+      {                      // Search Quad-digit Pattern Overlay Method (or Templating) second-digit wise
+        if (Y == a)
+          continue;          // Skip for first-digit = second-digit
+        for (X = a << 1; X < 129; X <<= 1)
+        {                    // Search Quad-digit Pattern Overlay Method (or Templating) third-digit wise
+          if (Y == X)
+            continue;        // Skip for first-digit = third-digit
+          for (W = X << 1; W < 257; W <<= 1)
+          {                  // Search Quad-digit Pattern Overlay Method (or Templating) fourth-digit wise
+            int k[81] = {0}; // Count Template Cell positions first-digit wise
+
+            if (Y == W)
+              continue;      // Skip for first-digit = fourth-digit
+            for (y = L = 0; L < 9; ++L)
+            {                // Search first-digit in 1st Row Cell positions wise
+              if (~(G[I].s[L] | G[I].g[L]) & Y)
+                continue;    // Skip for first-digit not found in 1st Row Cell values
+              for (K = 0; K < 5184; ++K)
+              {              // Search first-digit Pattern Overlay Method Template wise
+                for (Z = 0; Z < 8; ++Z)
+                             // Search first-digit in Template Cell positions Row wise
+                  if (~(G[I].s[R[L][Z][(P[K] >> T[0][Z]) & 7]] |
+                    G[I].g[R[L][Z][(P[K] >> T[0][Z]) & 7]]) & Y)
+                    break;   // Break for first-digit not found in Template Cell values Row wise
+                if (Z < 8)
+                {
+                  K += T[1][Z];
+                  continue;  // Skip for first-digit not found in Template Cell values
+                }
+                for (M = 0; M < 9; ++M)
+                {            // Search second-digit in 1st Row Cell positions wise
+                  if (L == M || (~(G[I].s[M] | G[I].g[M]) & a))
+                    continue;// Skip for either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in 1st Row Cell values
+                  for (Q = 0; Q < 5184; ++Q)
+                  {          // Search second-digit Pattern Overlay Method Template wise
+                    for (Z = 0; Z < 8; ++Z)
+                             // Search second-digit in Template Cell positions Row wise
+                      if (R[L][Z][(P[K] >> T[0][Z]) & 7] == R[M][Z][(P[Q] >> T[0][Z]) & 7] ||
+                        (~(G[I].s[R[M][Z][(P[Q] >> T[0][Z]) & 7]] |
+                        G[I].g[R[M][Z][(P[Q] >> T[0][Z]) & 7]]) & a))
+                             // Break for either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in Template Cell values Row wise
+                        break;
+                    if (Z < 8)
+                    {
+                      Q += T[1][Z];
+                      continue;
+                    }        // Skip for either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in Template Cell values
+                    for (Z = N = 0; N < 9; ++N)
+                    {        // Search third-digit in 1st Row Cell positions wise
+                      if (L == N || M == N || (~(G[I].s[N] | G[I].g[N]) & X))
+                             // Skip for either first-digit Template Cell position = third-digit Template Cell position or second-digit Template Cell position = third-digit Template Cell position or third-digit not found in 1st Row Cell values
+                        continue;
+                      for (D = 0; D < 5184; ++D)
+                      {      // Search third-digit Pattern Overlay Method Template wise
+                        for (Z = 0; Z < 8; ++Z)
+                             // Search third-digit Template Cell positions Row wise
+                          if (R[L][Z][(P[K] >> T[0][Z]) & 7] == R[N][Z][(P[D] >> T[0][Z]) & 7] ||
+                            R[M][Z][(P[Q] >> T[0][Z]) & 7] == R[N][Z][(P[D] >> T[0][Z]) & 7] ||
+                            (~(G[I].s[R[N][Z][(P[D] >> T[0][Z]) & 7]] |
+                            G[I].g[R[N][Z][(P[D] >> T[0][Z]) & 7]]) & X))
+                             // Break for either first-digit or second-digit Template Cell position = third-digit Template Cell position or third-digit not found in Template Cell values Row wise
+                            break;
+                        if (Z < 8)
+                        {
+                          D += T[1][Z];
+                          continue;
+                        }    // Skip for either first-digit or second-digit Template Cell position = third-digit Template Cell position or third-digit not found in Template Cell values
+                        for (Z = J = 0; J < 9; ++J)
+                        {    // Search fourth-digit in 1st Row Cell positions wise
+                          if (L == J || M == J || N == J || (~(G[I].s[J] | G[I].g[J]) & W))
+                             // Skip for either first-digit, second-digit or third-digit Template Cell position = fourth-digit Template Cell position or fourth-digit not found in 1st Row Cell values
+                            continue;
+                          for (E = 0; E < 5184; ++E)
+                          {  // Search fourth-digit Pattern Overlay Method Template wise
+                            for (Z = 0; Z < 8; ++Z)
+                             // Search fourth-digit in Template Cell positions Row wise
+                              if (R[L][Z][(P[K] >> T[0][Z]) & 7] == R[J][Z][(P[E] >> T[0][Z]) & 7] ||
+                                R[M][Z][(P[Q] >> T[0][Z]) & 7] == R[J][Z][(P[E] >> T[0][Z]) & 7] ||
+                                R[N][Z][(P[D] >> T[0][Z]) & 7] == R[J][Z][(P[E] >> T[0][Z]) & 7] ||
+                                (~(G[I].s[R[J][Z][(P[E] >> T[0][Z]) & 7]] |
+                                G[I].g[R[J][Z][(P[E] >> T[0][Z]) & 7]]) & W))
+                             // Break for either first-digit, second-digit or third-digit Template Cell position = fourth-digit Template Cell position or fourth-digit not found in Template Cell values Row wise
+                                break;
+                            if (Z > 7)
+                             // Found fourth-digit in Template all Cell positions Row wise
+                              break;
+                            E += T[1][Z];
+                          }
+                          if (Z > 7)
+                             // Found fourth-digit in Template all Cell positions Row wise
+                            break;
+                        }
+                        if (Z > 7)
+                             // Found fourth-digit in Template all Cell positions Row wise
+                          break;
+                      }
+                      if (Z > 7)
+                      {      // Increment first-digit Template Cell position count
+                        for (++k[L], ++y, Z = 0; Z < 8; ++Z)
+                          ++k[R[L][Z][(P[K] >> T[0][Z]) & 7]];
+                        break;
+                      }      // Found third-digit in Template all Cell positions Row wise
+                    }
+                    if (Z > 7)
+                      break; // Found second-digit in Template all Cell positions Row wise
+                  }
+                  if (Z > 7)
+                    break;   // Found second-digit in Template all Cell positions Row wise
+                }
+#if RJ > 5
+#if POM
+                for (Z = 0; Z < 9; ++Z)
+                  if (L == Z)
+                    printf ("%d", b[Y]);
+                  else if (M < 9 && M == Z)
+                    printf ("%d", b[a]);
+                  else if (M < 9 && N == Z)
+                    printf ("%d", b[X]);
+                  else if (M < 9 && J == Z)
+                    printf ("%d", b[W]);
+                  else
+                    printf (".");
+                for (; Z < 81; ++Z)
+                  if (R[L][Z / 9 - 1][(P[K] >> T[0][Z / 9 - 1]) & 7] == Z)
+                    printf ("%d", b[Y]);
+                  else if (M < 9 && R[M][Z / 9 - 1][(P[Q] >> T[0][Z / 9 - 1]) & 7] == Z)
+                    printf ("%d", b[a]);
+                  else if (M < 9 && R[N][Z / 9 - 1][(P[D] >> T[0][Z / 9 - 1]) & 7] == Z)
+                    printf ("%d", b[X]);
+                  else if (M < 9 && R[J][Z / 9 - 1][(P[E] >> T[0][Z / 9 - 1]) & 7] == Z)
+                    printf ("%d", b[W]);
+                  else
+                    printf (".");
+                printf ("# %d @ %4d, %d", b[Y], K, L);
+                if (M < 9)
+                  printf (" - %d @ %4d, %d - %d @ %4d, %d - %d @ %4d, %d - %d",
+                    b[a], Q, M, b[X], D, N, b[W], E, J, y);
+#else
+                printf ("%d @ %4d, %d %s", b[Y], K, L, S[L]);
+                for (Z = 0; Z < 8; ++Z)
+                  printf (" %s", S[R[L][Z][(P[K] >> T[0][Z]) & 7]]);
+                if (M < 9)
+                {
+                  printf (" %d @ %4d, %d %s", b[a], Q, M, S[M]);
+                  for (Z = 0; Z < 8; ++Z)
+                    printf (" %s", S[R[M][Z][(P[Q] >> T[0][Z]) & 7]]);
+                  printf (" %d @ %4d, %d %s", b[X], D, N, S[N]);
+                  for (Z = 0; Z < 8; ++Z)
+                    printf (" %s", S[R[N][Z][(P[D] >> T[0][Z]) & 7]]);
+                  printf (" %d @ %4d, %d - %d %s", b[W], E, J, y, S[J]);
+                  for (Z = 0; Z < 8; ++Z)
+                    printf (" %s", S[R[J][Z][(P[E] >> T[0][Z]) & 7]]);
+                }
+#endif
+                printf ("\n");
+#endif
+              }
+            }
+            if (!y)
+              continue;      // Skip for first-digit Template not found
+            for (N = 0; N < 81; ++N)
+              if (!k[N] && G[I].g[N] & Y)
+                break;       // Found unsolved Cell position not in Templates
+            for (D = 0; D < 81; ++D)
+              if (k[D] == y && B[G[I].g[D]] > 1 && G[I].g[D] & Y)
+                break;       // Found unsolved Cell position in all Templates
+            if (N < 81 || D < 81)
+            {
+#if RJ > 2
+              printf ("%d) Quad-digit POM: ", G[I].p);
+              for (Z = 0; Z < 81; ++Z)
+                if ((G[I].s[Z] | G[I].g[Z]) & Y)
+                  printf ("%d", b[Y]);
+                else
+                  printf (".");
+              printf ("\nand POM: ");
+              for (Z = 0; Z < 81; ++Z)
+                if ((G[I].s[Z] | G[I].g[Z]) & a)
+                  printf ("%d", b[a]);
+                else
+                  printf (".");
+              printf ("\nand POM: ");
+              for (Z = 0; Z < 81; ++Z)
+                if ((G[I].s[Z] | G[I].g[Z]) & X)
+                  printf ("%d", b[X]);
+                else
+                  printf (".");
+              printf ("\nand POM: ");
+              for (Z = 0; Z < 81; ++Z)
+                if ((G[I].s[Z] | G[I].g[Z]) & W)
+                  printf ("%d", b[W]);
+                else
+                  printf (".");
+#endif
+              if (N < 81)
+              {
+#if RJ > 2
+                printf ("\nDigit %d not found in %d Template%s=> -%d @",
+                  b[Y], y, y > 1 ? "s " : " ", b[Y]);
+#endif
+                for (z = 0; N < 81; ++N)
+                  if ((G[I].g[N] & Y) && !k[N])
+                  {
+                    G[I].g[N] &= ~Y;
+#if RJ > 2
+                    printf (" %s", S[N]);
+#endif
+                  }
+              }
+              if (D < 81)
+              {
+#if RJ > 2
+                printf ("\nDigit %d found in all %d Template%s=> %d @",
+                  b[Y], y, y > 1 ? "s " : " ", b[Y]);
+#endif
+                for (z = 0; D < 81; ++D)
+                  if (k[D] == y && B[G[I].g[D]] > 1 && G[I].g[D] & Y)
+                  {
+                    G[I].g[D] = Y;
+#if RJ > 2
+                    printf (" %s", S[D]);
+#endif
+                  }
+              }
+#if RJ > 2
+              printf ("\n");
+#endif
+            }
+          }
+        }
+      }
+    }
+    if (!z)
+      goto START;
     y = 2;                   // 2 Represent Guess
     if (++n[3] > n[4])
       ++n[4];
