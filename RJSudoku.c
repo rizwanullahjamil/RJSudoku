@@ -1673,7 +1673,7 @@ START:
       for (Y = 1; Y < 257; Y <<= 1)
       {                      // Search Basic Fishes digit wise
         int k[9],            // Backup Basic Fish value Line Cell positions wise
-            K[4];
+            K[5];
 
         for (a = y; a < y + 9; ++a)
           k[a - y] = (G[I].g[l[a][0]] & Y ? 1 : 0) | (G[I].g[l[a][1]] & Y ? 2 : 0) |
@@ -4553,7 +4553,7 @@ XYWT1Tf:
                     printf ("%d) XYZ-Wing Transport: %s %d @ r%dc%d %s SL %s %d between%s%d @ %s and%s%d @ %s\n=> -%d @ %s\n",
                       G[I].p, k[0] ? R_C : "ERI", b[G[I].g[r[a]]], ROW (w[r[a]][20] | w[K[2]][20]),
                       COL (w[r[a]][20] | w[K[2]][20]), S[K[4]], k[0] ? R_C : "ERI",
-                      k[0] ? RCN (X) : BOX (X), k[29] ? " " : " ERI ", b[K[5]], S[X],
+                      k[0] ? RCN (X) : BOX (X), k[0] ? " " : " ERI ", b[K[5]], S[X],
                       k[0] ? " " : " ERI ", b[K[5]], S[Z], b[K[5]], S[L]);
 #endif
                     goto START;
@@ -4811,8 +4811,8 @@ XYWT1Tf:
                     COL (w[w[r[a]][W[3][k[5]]]][20] | w[w[r[a]][W[4][k[5]]]][20]));
                   if (~G[I].g[r[a]] & K[7])
                     printf (" r%dc%d",
-                      ROW (w[K[8]][20] | w[w[K[8]][W[3][k[5]]]][20] | S[w[K[8]][W[4][k[5]]]][20]),
-                      COL (w[K[8]][20] | w[w[K[8]][W[3][k[5]]]][20] | S[w[K[8]][W[4][k[5]]]][20]));
+                      ROW (w[K[8]][20] | w[w[K[8]][W[3][k[5]]]][20] | w[w[K[8]][W[4][k[5]]]][20]),
+                      COL (w[K[8]][20] | w[w[K[8]][W[3][k[5]]]][20] | w[w[K[8]][W[4][k[5]]]][20]));
                   printf ("\n");
                 }
                 else
