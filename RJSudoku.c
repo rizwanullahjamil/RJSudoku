@@ -5578,7 +5578,7 @@ XYWT1Tf:
     {                        // Search Triple-digit Pattern Overlay Method (or Templating) first-digit wise
       int D,
 #if RJ > 5
-          k[2],
+          A[2],
 #endif
           K,
           L,
@@ -5613,7 +5613,7 @@ XYWT1Tf:
                 continue;    // Skip for first-digit not found in Template Cell values
               }
 #if RJ > 5
-              k[0] = -1;
+              A[0] = -1;
 #endif
               for (M = 0; M < 9; ++M)
               {              // Search second-digit in 1st Row Cell positions wise
@@ -5633,10 +5633,10 @@ XYWT1Tf:
                     continue;// Skip for either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in Template Cell values
                   }
 #if RJ > 5
-                  if (~k[0]) // Remember first Template found for second digit
+                  if (~A[0]) // Remember first Template found for second digit
                   {
-                    k[0] = M;
-                    k[1] = Q;
+                    A[0] = M;
+                    A[1] = Q;
                   }
 #endif
                   for (Z = N = 0; N < 9; ++N)
@@ -5708,10 +5708,10 @@ XYWT1Tf:
                   printf (" %s", S[R[N][Z][(P[D] >> T[0][Z]) & 7]]);
 #endif
               }
-              else if (~k[0])
+              else if (~A[0])
               {             // Print 2-digit Templates found, but not all 3 digits
-                M = k[0];
-                Q = k[1];
+                M = A[0];
+                Q = A[1];
 #if POM
                 for (Z = 0; Z < 9; ++Z)
                   if (L == Z)
@@ -5869,15 +5869,15 @@ XYWT1Tf:
     for (Y = 1; Y < 257; Y <<= 1)
     {                        // Search Quad-digit Pattern Overlay Method (or Templating) first-digit wise
       int D,
+#if RJ > 5
+          A[4],
+#endif
           E,
           J,
           K,
           L,
           M,
           N,
-#if RJ > 5
-          k[4],
-#endif
           Q,
           W;
 
@@ -5912,7 +5912,7 @@ XYWT1Tf:
                   continue;  // Skip for first-digit not found in Template Cell values
                 }
 #if RJ > 5
-                k[0] = k[2] = -1;
+                A[0] = A[2] = -1;
 #endif
                 for (M = 0; M < 9; ++M)
                 {            // Search second-digit in 1st Row Cell positions wise
@@ -5933,10 +5933,10 @@ XYWT1Tf:
                       continue;
                     }        // Skip for either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in Template Cell values
 #if RJ > 5
-                    if (k[0] < 0)
+                    if (A[0] < 0)
                     {        // Remember first Template found for second digit
-                      k[0] = M;
-                      k[1] = Q;
+                      A[0] = M;
+                      A[1] = Q;
                     }
 #endif
                     for (Z = N = 0; N < 9; ++N)
@@ -5960,12 +5960,12 @@ XYWT1Tf:
                           continue;
                         }    // Skip for either first-digit or second-digit Template Cell position = third-digit Template Cell position or third-digit not found in Template Cell values
 #if RJ > 5
-                        if (k[2] < 0)
+                        if (A[2] < 0)
                         {    // Remember first Templates found for second and third digit
-                          k[0] = M;
-                          k[1] = Q;
-                          k[2] = N;
-                          k[3] = D;
+                          A[0] = M;
+                          A[1] = Q;
+                          A[2] = N;
+                          A[3] = D;
                         }
 #endif
                         for (Z = J = 0; J < 9; ++J)
@@ -6014,15 +6014,15 @@ XYWT1Tf:
                 if (M > 8)
                 {            // Print 1-digit, 2-digit or 3-digit Templates found, but not all 4 digits
                   M = N = J = 9;
-                  if (~k[0]) // Second-digit Template found
+                  if (~A[0]) // Second-digit Template found
                   {
-                    M = k[0];
-                    Q = k[1];
+                    M = A[0];
+                    Q = A[1];
                   }
-                  if (~k[2]) // Third-digit Template found
+                  if (~A[2]) // Third-digit Template found
                   {
-                    N = k[2];
-                    D = k[3];
+                    N = A[2];
+                    D = A[3];
                   }
                 }             // Otherwise print 1-digit Template found, but not second digit (M = 9)
 #if POM
