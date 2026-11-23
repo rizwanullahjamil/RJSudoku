@@ -5633,8 +5633,8 @@ XYWT1Tf:
                     continue;// Skip for either first-digit Template Cell position = second-digit Template Cell position or second-digit not found in Template Cell values
                   }
 #if RJ > 5
-                  if (~A[0]) // Remember first Template found for second digit
-                  {
+                  if (A[0] < 0)
+                  {          // Remember first Template found for second digit
                     A[0] = M;
                     A[1] = Q;
                   }
